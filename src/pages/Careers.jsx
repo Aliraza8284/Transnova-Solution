@@ -217,46 +217,46 @@ const Careers = () => {
   // ==========================================
   const jobList = [
     {
-      title: 'Senior Software Engineer (MERN)',
+      title: 'Operation Executive (Trucking & Logistics)',
       type: 'Contract',
       location: 'Global',
       inhouse: 'Remote',
-      desc: 'Lead the development of scalable web applications using MERN stack with best practices.',
+      desc: 'Industry: Trucking & Logistics. Manage daily fleet operations, route planning, and ensure timely delivery of goods.',
     },
     {
-      title: 'VoIP / Telecom Engineer',
+      title: 'Sales Executive (Trucking & Logistics)',
       type: 'Contract',
       location: 'Global',
       inhouse: 'Remote',
-      desc: 'Design and maintain high-performance VoIP and telecommunication infrastructure.',
+      desc: 'Industry: Trucking & Logistics. Drive new sales opportunities, build client relationships, and expand logistics market share.',
     },
     {
-      title: 'E-Commerce Shopify Developer',
+      title: 'VoIP / Telecom & Dialers Manager (Telecommunication)',
       type: 'Contract',
       location: 'Global',
       inhouse: 'Remote',
-      desc: 'Build and optimize custom Shopify themes, apps, and integrations for global clients.',
+      desc: 'Industry: Telecommunication. Oversee VoIP systems and dialer operations, ensuring high-quality call connectivity and performance.',
     },
     {
-      title: 'Business Development Lead (US Market)',
+      title: 'Accounts Lead (Finance & Banking)',
       type: 'Contract',
       location: 'Global',
       inhouse: 'Inhouse (Pakistan)',
-      desc: 'Drive revenue growth by acquiring new clients and building strong partnerships in the US market.',
+      desc: 'Industry: Finance & Banking. Manage financial accounts, oversee auditing, and ensure compliance with banking regulations.',
     },
     {
-      title: 'UI/UX Designer (Web & Mobile)',
+      title: 'License Agents (Medical & Healthcare)',
       type: 'Contract',
       location: 'Global',
       inhouse: 'Remote',
-      desc: 'Design modern, responsive, and user-friendly interfaces for mobile and web platforms.',
+      desc: 'Industry: Medical & Healthcare. Handle medical licensing processes, verify credentials, and assist with compliance documentation.',
     },
     {
-      title: 'Digital Marketing & SEO Specialist',
+      title: 'Verifiers & Closers (Medical & Healthcare)',
       type: 'Contract',
       location: 'Global',
       inhouse: 'Remote',
-      desc: 'Create and execute data-driven SEO and digital marketing strategies to boost online presence.',
+      desc: 'Industry: Medical & Healthcare. Verify patient and insurance information and efficiently close medical service cases.',
     },
   ];
 
