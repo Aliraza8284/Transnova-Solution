@@ -1,13 +1,52 @@
 // ==========================================
 // 1. IMPORTS
 // ==========================================
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaBriefcase, FaUsers, FaChartLine, FaTrophy } from 'react-icons/fa';
+import { FaArrowRight, FaBriefcase, FaUsers, FaChartLine, FaTrophy, FaTimes, FaCheckCircle } from 'react-icons/fa';
 
 const Careers = () => {
   // ==========================================
-  // 2. DATA: Job Openings ki list
+  // 2. STATES
+  // ==========================================
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState('');
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false); // Success popup ke liye
+
+  // Open Apply Modal
+  const openApplyModal = (jobTitle) => {
+    setSelectedJob(jobTitle);
+    setIsModalOpen(true);
+  };
+
+  // Close Apply Modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedJob('');
+  };
+
+  // ==========================================
+  // 3. HANDLE SUBMIT (Jab user form submit kare)
+  // ==========================================
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Page refresh hone se rokna
+    
+    // Close the form modal first
+    setIsModalOpen(false);
+    
+    // Show the success popup after a tiny delay
+    setTimeout(() => {
+      setIsSuccessOpen(true);
+    }, 300);
+  };
+
+  // Close Success Popup
+  const closeSuccess = () => {
+    setIsSuccessOpen(false);
+  };
+
+  // ==========================================
+  // 4. DATA: Job Openings
   // ==========================================
   const jobList = [
     {
@@ -49,7 +88,7 @@ const Careers = () => {
   ];
 
   // ==========================================
-  // 3. DATA: Benefits ki list
+  // 5. DATA: Benefits
   // ==========================================
   const benefitsList = [
     { icon: <FaTrophy className="text-[#FF6B35] text-2xl" />, title: 'Competitive Salary', desc: 'We offer market-leading compensation packages.' },
@@ -61,43 +100,32 @@ const Careers = () => {
     <div className="bg-[#FAF9F6] min-h-screen font-manrope pb-16">
       
       {/* ==========================================
-          SECTION 1: HERO SECTION
+          SECTION 1: HERO
          ========================================== */}
       <section className="pt-16 lg:pt-24 px-6 lg:px-12 max-w-7xl mx-auto">
         <div className="bg-[#111111] text-white rounded-3xl p-10 lg:p-16 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center shadow-xl shadow-black/20">
-          
-          {/* Left: Text */}
           <div className="w-full lg:w-3/5 space-y-5">
             <p className="text-[#FF6B35] font-medium text-sm tracking-[3px] uppercase">Join Our Team</p>
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
               Build Your Career With <span className="text-[#FF6B35]">TransNova</span>
             </h1>
             <p className="text-[#9B9B8A] text-base leading-relaxed max-w-lg">
-              We are looking for passionate, talented individuals to join our growing family. 
-              If you are ready to make an impact, we want to hear from you.
+              We are looking for passionate, talented individuals to join our growing family. If you are ready to make an impact, we want to hear from you.
             </p>
-            
             <div className="pt-2">
               <a href="#jobs" className="inline-flex items-center gap-2 bg-[#FF6B35] text-white px-6 py-3 rounded-full font-medium hover:bg-[#E85C2D] transition-colors shadow-lg shadow-orange-500/30">
                 View Open Positions <FaArrowRight className="text-xs" />
               </a>
             </div>
           </div>
-
-          {/* Right: Image */}
           <div className="w-full lg:w-2/5">
-            <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" 
-              alt="Team working" 
-              className="w-full h-56 lg:h-64 object-cover rounded-xl shadow-lg"
-            />
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Team working" className="w-full h-56 lg:h-64 object-cover rounded-xl shadow-lg" />
           </div>
         </div>
       </section>
 
-
       {/* ==========================================
-          SECTION 2: WHY JOIN US (Benefits)
+          SECTION 2: BENEFITS
          ========================================== */}
       <section className="py-16 px-6 lg:px-12 max-w-7xl mx-auto">
         <div className="text-center mb-12">
@@ -105,7 +133,6 @@ const Careers = () => {
           <div className="w-12 h-[3px] bg-[#FF6B35] mx-auto mt-3 rounded-full"></div>
           <p className="text-[#666666] mt-4 max-w-xl mx-auto">We invest in our people, providing the tools and environment to thrive.</p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {benefitsList.map((item, index) => (
             <div key={index} className="bg-white p-8 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 text-center border border-[#EDEAE4] hover:border-transparent">
@@ -119,9 +146,8 @@ const Careers = () => {
         </div>
       </section>
 
-
       {/* ==========================================
-          SECTION 3: OPEN POSITIONS (Job List)
+          SECTION 3: JOB LIST
          ========================================== */}
       <section id="jobs" className="px-6 lg:px-12 max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
@@ -129,36 +155,128 @@ const Careers = () => {
             <h2 className="text-3xl lg:text-4xl font-bold text-[#111111]">Open Positions</h2>
             <div className="w-10 h-[3px] bg-[#FF6B35] mt-2 rounded-full"></div>
           </div>
-          <p className="text-[#777777] text-sm bg-white px-4 py-2 rounded-full border border-[#EDEAE4]">
-            {jobList.length} Jobs Available
-          </p>
+          <p className="text-[#777777] text-sm bg-white px-4 py-2 rounded-full border border-[#EDEAE4]">{jobList.length} Jobs Available</p>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {jobList.map((job, index) => (
-            <div 
-              key={index} 
-              className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-[#EDEAE4] group"
-            >
+            <div key={index} className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-[#EDEAE4] group">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#FAF9F6] flex items-center justify-center text-[#FF6B35]">
-                    <FaBriefcase className="text-lg" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-[#111111]">{job.title}</h3>
-                    <p className="text-[#777777] text-xs">{job.type} • {job.location}</p>
-                  </div>
+                  <div className="w-10 h-10 rounded-full bg-[#FAF9F6] flex items-center justify-center text-[#FF6B35]"><FaBriefcase className="text-lg" /></div>
+                  <div><h3 className="text-lg font-bold text-[#111111]">{job.title}</h3><p className="text-[#777777] text-xs">{job.type} • {job.location}</p></div>
                 </div>
               </div>
               <p className="text-[#555555] text-sm leading-relaxed mb-4">{job.desc}</p>
-              <button className="w-full py-2.5 bg-[#FAF9F6] text-[#111111] font-medium rounded-lg hover:bg-[#FF6B35] hover:text-white transition-all duration-300 border border-[#EDEAE4] group-hover:border-transparent text-sm">
-                Apply Now
-              </button>
+              <button onClick={() => openApplyModal(job.title)} className="w-full py-2.5 bg-[#FAF9F6] text-[#111111] font-medium rounded-lg hover:bg-[#FF6B35] hover:text-white transition-all duration-300 border border-[#EDEAE4] group-hover:border-transparent text-sm cursor-pointer">Apply Now</button>
             </div>
           ))}
         </div>
       </section>
+
+      {/* ==========================================
+          SECTION 4: APPLICATION FORM MODAL
+         ========================================== */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative animate-fadeIn">
+            <div className="sticky top-0 bg-white z-10 p-6 border-b border-[#EDEAE4] flex justify-between items-center rounded-t-2xl">
+              <div>
+                <h3 className="text-2xl font-bold text-[#111111]">Apply for <span className="text-[#FF6B35]">{selectedJob}</span></h3>
+                <p className="text-[#777777] text-sm mt-1">Fill out the form below to submit your application.</p>
+              </div>
+              <button onClick={closeModal} className="w-10 h-10 rounded-full hover:bg-[#FAF9F6] flex items-center justify-center text-[#111111] transition-colors"><FaTimes className="text-xl" /></button>
+            </div>
+            <div className="p-6">
+              <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Full Name <span className="text-[#FF6B35]">*</span></label>
+                  <input type="text" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6]" placeholder="John Doe" />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Email Address <span className="text-[#FF6B35]">*</span></label>
+                  <input type="email" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6]" placeholder="john@example.com" />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Phone / WhatsApp <span className="text-[#FF6B35]">*</span></label>
+                  <input type="tel" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6]" placeholder="+1 (888) 123-4567" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#111111] mb-1">City <span className="text-[#FF6B35]">*</span></label>
+                  <input type="text" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6]" placeholder="Houston" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Experience <span className="text-[#FF6B35]">*</span></label>
+                  <select required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6] text-[#111111]">
+                    <option value="">Select experience</option>
+                    <option value="0-1">0-1 Years</option>
+                    <option value="2-3">2-3 Years</option>
+                    <option value="4-6">4-6 Years</option>
+                    <option value="7-10">7-10 Years</option>
+                    <option value="10+">10+ Years</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Language Expertise <span className="text-[#FF6B35]">*</span></label>
+                  <select required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6] text-[#111111]">
+                    <option value="">Select language</option>
+                    <option value="English">English</option>
+                    <option value="Spanish">Spanish</option>
+                    <option value="French">French</option>
+                    <option value="Arabic">Arabic</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Expected Salary <span className="text-[#FF6B35]">*</span></label>
+                  <input type="text" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6]" placeholder="$60,000 - $80,000" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Available Start Date <span className="text-[#FF6B35]">*</span></label>
+                  <input type="date" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6] text-[#111111]" />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-[#111111] mb-1">Upload CV/Resume (PDF) <span className="text-[#FF6B35]">*</span></label>
+                  <input type="file" accept=".pdf" required className="w-full border border-[#EDEAE4] rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-[#FF6B35] transition-colors bg-[#FAF9F6] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#FF6B35] file:text-white hover:file:bg-[#E85C2D]" />
+                </div>
+                <div className="md:col-span-2 pt-2">
+                  <button type="submit" className="w-full bg-[#FF6B35] text-white font-medium py-3.5 rounded-lg hover:bg-[#E85C2D] transition-colors shadow-md shadow-orange-200 flex justify-center items-center gap-2">
+                    Submit Application <FaArrowRight className="text-xs" />
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ==========================================
+          SECTION 5: SUCCESS POPUP (Thank You Message)
+         ========================================== */}
+      {isSuccessOpen && (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-10 text-center relative animate-fadeIn">
+            
+            {/* Success Icon */}
+            <div className="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center mb-6">
+              <FaCheckCircle className="text-green-500 text-5xl" />
+            </div>
+
+            <h3 className="text-2xl font-bold text-[#111111] mb-2">Application Submitted!</h3>
+            <p className="text-[#777777] text-base mb-8 leading-relaxed">
+              Thank you for applying to <span className="text-[#FF6B35] font-medium">{selectedJob}</span>.<br />
+              <span className="block mt-2 text-[#111111] font-medium text-lg">
+                We will get back to you within 24 hours.
+              </span>
+            </p>
+
+            <button 
+              onClick={closeSuccess}
+              className="w-full bg-[#FF6B35] text-white font-medium py-3 rounded-lg hover:bg-[#E85C2D] transition-colors"
+            >
+              Got it, Thanks!
+            </button>
+          </div>
+        </div>
+      )}
 
     </div>
   );
