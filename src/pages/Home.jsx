@@ -44,16 +44,19 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ==========================================
-          SECTION 2: ABOUT STRIP (Hero ke neeche)
-         ========================================== */}
-      {/* 👇 YAHAN RENDER KARTE WAQT BHI NAAM CHANGE KIYA HAI */}
-      <AboutStrip />
+     
+      
 
       {/* ==========================================
           SECTION 3: SERVICES SECTION (About ke neeche)
          ========================================== */}
       <ServicesSection />
+
+       {/* ==========================================
+          SECTION 2: ABOUT STRIP (Hero ke neeche)
+         ========================================== */}
+      {/* 👇 YAHAN RENDER KARTE WAQT BHI NAAM CHANGE KIYA HAI */}
+      <AboutStrip />
     </>
   );
 };
