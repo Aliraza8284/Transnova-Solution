@@ -275,14 +275,19 @@ const Careers = () => {
   return (
     <div className="bg-[#FAF9F6] min-h-screen font-manrope pb-16">
       
-      {/* SECTION 1: HERO */}
+      {/* SECTION 1: HERO (Updated Text: TRANS White + NOVA Orange + Gap) */}
       <section className="pt-16 lg:pt-24 px-6 lg:px-12 max-w-7xl mx-auto">
         <div className="bg-[#111111] text-white rounded-3xl p-10 lg:p-16 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center shadow-xl shadow-black/20">
           <div className="w-full lg:w-3/5 space-y-5">
             <p className="text-[#FF6B35] font-medium text-sm tracking-[3px] uppercase">Join Our Team</p>
-            <h1 className="text-4xl lg:text-5xl font-bold leading-tight">
-              Build Your Career With <span className="text-[#FF6B35]">TransNova</span>
+            
+            {/* 👇 UPDATED HEADING (TRANS White, NOVA Orange, Space ke saath) */}
+            <h1 className="text-4xl lg:text-5xl font-bold leading-tight flex flex-wrap items-center gap-2">
+              <span className="text-white">Build Your Career With</span>
+              <span className="text-white">TRANS</span>
+              <span className="text-[#FF6B35]">NOVA</span>
             </h1>
+            
             <p className="text-[#9B9B8A] text-base leading-relaxed max-w-lg">
               We are looking for passionate, talented individuals to join our growing family. If you are ready to make an impact, we want to hear from you.
             </p>
