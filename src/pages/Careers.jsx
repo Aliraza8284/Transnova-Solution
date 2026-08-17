@@ -213,50 +213,50 @@ const Careers = () => {
   ];
 
   // ==========================================
-  // 4. UPDATED JOBS DATA (Contract based + Global + Inhouse)
+  // 4. UPDATED JOBS DATA (Industry below, Contract before)
   // ==========================================
   const jobList = [
     {
-      title: 'Operation Executive (Trucking & Logistics)',
-      type: 'Contract',
-      location: 'Global',
+      title: 'Operation Executive',
+      industry: 'Trucking & Logistics',
+      type: 'Contract based',
       inhouse: 'Remote',
-      desc: 'Industry: Trucking & Logistics. Manage daily fleet operations, route planning, and ensure timely delivery of goods.',
+      desc: 'Manage daily fleet operations, route planning, and ensure timely delivery of goods.',
     },
     {
-      title: 'Sales Executive (Trucking & Logistics)',
-      type: 'Contract',
-      location: 'Global',
+      title: 'Sales Executive',
+      industry: 'Trucking & Logistics',
+      type: 'Contract based',
       inhouse: 'Remote',
-      desc: 'Industry: Trucking & Logistics. Drive new sales opportunities, build client relationships, and expand logistics market share.',
+      desc: 'Drive new sales opportunities, build client relationships, and expand logistics market share.',
     },
     {
-      title: 'VoIP / Telecom & Dialers Manager (Telecommunication)',
-      type: 'Contract',
-      location: 'Global',
+      title: 'VoIP / Telecom & Dialers Manager',
+      industry: 'Telecommunication',
+      type: 'Contract based',
       inhouse: 'Remote',
-      desc: 'Industry: Telecommunication. Oversee VoIP systems and dialer operations, ensuring high-quality call connectivity and performance.',
+      desc: 'Oversee VoIP systems and dialer operations, ensuring high-quality call connectivity and performance.',
     },
     {
-      title: 'Accounts Lead (Finance & Banking)',
-      type: 'Contract',
-      location: 'Global',
+      title: 'Accounts Lead',
+      industry: 'Finance & Banking',
+      type: 'Contract based',
       inhouse: 'Inhouse (Pakistan)',
-      desc: 'Industry: Finance & Banking. Manage financial accounts, oversee auditing, and ensure compliance with banking regulations.',
+      desc: 'Manage financial accounts, oversee auditing, and ensure compliance with banking regulations.',
     },
     {
-      title: 'License Agents (Medical & Healthcare)',
-      type: 'Contract',
-      location: 'Global',
+      title: 'License Agents',
+      industry: 'Medical & Healthcare',
+      type: 'Contract based',
       inhouse: 'Remote',
-      desc: 'Industry: Medical & Healthcare. Handle medical licensing processes, verify credentials, and assist with compliance documentation.',
+      desc: 'Handle medical licensing processes, verify credentials, and assist with compliance documentation.',
     },
     {
-      title: 'Verifiers & Closers (Medical & Healthcare)',
-      type: 'Contract',
-      location: 'Global',
+      title: 'Verifiers & Closers',
+      industry: 'Medical & Healthcare',
+      type: 'Contract based',
       inhouse: 'Remote',
-      desc: 'Industry: Medical & Healthcare. Verify patient and insurance information and efficiently close medical service cases.',
+      desc: 'Verify patient and insurance information and efficiently close medical service cases.',
     },
   ];
 
@@ -334,11 +334,22 @@ const Careers = () => {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-[#FAF9F6] flex items-center justify-center text-[#FF6B35]"><FaBriefcase className="text-lg" /></div>
                   <div>
-                    <h3 className="text-lg font-bold text-[#111111]">{job.title}</h3>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      <span className="text-[#FF6B35] text-xs font-medium bg-[#FAF9F6] px-2 py-0.5 rounded-full border border-[#FF6B35]/20">{job.type}</span>
-                      <span className="text-[#777777] text-xs">• {job.location}</span>
-                      <span className="text-[#777777] text-xs">• {job.inhouse}</span>
+                    <div className="flex items-center gap-3">
+                      {/* 1. Job Title */}
+                      <h3 className="text-lg font-bold text-[#111111]">
+                        {job.title}
+                      </h3>
+                      {/* 2. Contract Badge (Title ke AAGE) */}
+                      <span className="bg-[#FF6B35]/10 text-[#FF6B35] text-[10px] font-bold px-3 py-1 rounded-full border border-[#FF6B35]/20 uppercase tracking-wide">
+                        {job.type}
+                      </span>
+                    </div>
+                    
+                    {/* 3. Industry + Inhouse (Title ke NECHE) - Global HATAYA */}
+                    <div className="flex flex-wrap gap-2 mt-1.5 text-xs text-[#777777]">
+                      <span className="font-medium text-[#111111]">{job.industry}</span>
+                      <span>•</span>
+                      <span>{job.inhouse}</span>
                     </div>
                   </div>
                 </div>
