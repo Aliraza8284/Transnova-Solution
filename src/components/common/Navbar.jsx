@@ -71,7 +71,7 @@ const Navbar = () => {
             className="relative flex h-full items-center"
           >
             <img
-              src="/transnova-logo-transparent.png"
+              src="/clogo.png"
               alt="Transnova logo"
               className="pointer-events-none relative h-[35px] w-auto object-contain mt-2.5 mr-3"
             />
