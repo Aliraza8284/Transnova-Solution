@@ -2,284 +2,255 @@
 // 1. IMPORTS
 // ==========================================
 import React from 'react';
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaClock, FaArrowRight, FaChartLine, FaHeadphones, FaUserTie } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-
-// ==========================================
-// 2. ANIMATION VARIANTS
-// ==========================================
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-};
-
-const fadeInLeft = {
-  hidden: { opacity: 0, x: -30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
-};
-
-const fadeInRight = {
-  hidden: { opacity: 0, x: 30 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
-};
-
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15
-    }
-  }
-};
-
-// ==========================================
-// 3. GOOGLE MAPS IFRAME (Shorkot Head Office)
-// ==========================================
-const MAP_EMBED_URL = "https://maps.google.com/maps?q=Shorkot+City+Jhang+Punjab+Pakistan&t=&z=13&ie=UTF8&iwloc=&output=embed";
+import { 
+  FaEnvelope, 
+  FaPhoneAlt, 
+  FaMapMarkerAlt, 
+  FaArrowRight, 
+  FaLinkedin, 
+  FaFacebookF, 
+  FaTwitter, 
+  FaYoutube,
+  FaHeadphones,    // 👈 YEH MISSING THA
+  FaUsers,          // 👈 YEH MISSING THA
+  FaBriefcase       // 👈 YEH MISSING THA
+} from 'react-icons/fa';
 
 const Contact = () => {
   return (
-    <div className="bg-[#FAF9F6] min-h-screen font-manrope pb-16 overflow-hidden">
+    <div className="bg-[#FAF9F6] min-h-screen font-manrope">
       
       {/* ==========================================
-          SECTION 1: TOP (Info + Form) with Animations
+          SECTION 1: TOP SPLIT SECTION (Light + Dark)
          ========================================== */}
-      <motion.section 
-        initial="hidden"
-        animate="visible"
-        variants={staggerContainer}
-        className="pt-16 lg:pt-24 px-6 lg:px-12 max-w-7xl mx-auto pb-12"
-      >
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+      <section className="relative w-full flex flex-col lg:flex-row overflow-hidden">
+        
+        {/* 🔹 LEFT SIDE: Get In Touch (White/Light) */}
+        <div className="w-full lg:w-[50%] bg-[#FAF9F6] px-8 py-16 lg:px-16 lg:py-24 flex flex-col justify-center relative z-10">
+          <h2 className="text-[#FF6B35] font-bold text-3xl lg:text-4xl tracking-tight mb-2">
+            GET IN TOUCH
+          </h2>
+          <p className="text-[#666666] text-sm max-w-md mb-10">
+            We're here to answer your questions and help you find the right solution.
+          </p>
+
+          {/* Contact List */}
+          <div className="space-y-6 border-b border-[#E0E0E0] pb-8 mb-8">
+            {/* Email */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#111111] text-white flex items-center justify-center text-lg shadow-md">
+                <FaEnvelope className="text-[#FF6B35]" />
+              </div>
+              <div>
+                <p className="font-bold text-xs uppercase text-[#111111] tracking-wider">Email Us</p>
+                <p className="text-[#555555] text-xs mt-0.5">hello@transnovasolutions.com</p>
+              </div>
+            </div>
+
+            {/* Call Us */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#111111] text-white flex items-center justify-center text-lg shadow-md">
+                <FaPhoneAlt className="text-[#FF6B35]" />
+              </div>
+              <div>
+                <p className="font-bold text-xs uppercase text-[#111111] tracking-wider">Call Us</p>
+                <p className="text-[#555555] text-xs mt-0.5">+92 21 1234 5678</p>
+              </div>
+            </div>
+
+            {/* Business Development */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#111111] text-white flex items-center justify-center text-lg shadow-md">
+                <FaHeadphones className="text-[#FF6B35]" />
+              </div>
+              <div>
+                <p className="font-bold text-xs uppercase text-[#111111] tracking-wider">Business Development</p>
+                <p className="text-[#555555] text-xs mt-0.5">business@transnovasolutions.com</p>
+              </div>
+            </div>
+
+            {/* Partnerships */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#111111] text-white flex items-center justify-center text-lg shadow-md">
+                <FaUsers className="text-[#FF6B35]" />
+              </div>
+              <div>
+                <p className="font-bold text-xs uppercase text-[#111111] tracking-wider">Partnerships</p>
+                <p className="text-[#555555] text-xs mt-0.5">partnerships@transnovasolutions.com</p>
+              </div>
+            </div>
+
+            {/* Careers */}
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-[#111111] text-white flex items-center justify-center text-lg shadow-md">
+                <FaBriefcase className="text-[#FF6B35]" />
+              </div>
+              <div>
+                <p className="font-bold text-xs uppercase text-[#111111] tracking-wider">Careers</p>
+                <p className="text-[#555555] text-xs mt-0.5">careers@transnovasolutions.com</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Media */}
+          <div>
+            <p className="font-bold text-xs uppercase text-[#111111] tracking-wider mb-3">Follow Us</p>
+            <div className="flex gap-3">
+              <a href="#" className="w-9 h-9 rounded-full bg-[#111111] text-white flex items-center justify-center hover:bg-[#FF6B35] transition-colors"><FaLinkedin /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-[#111111] text-white flex items-center justify-center hover:bg-[#FF6B35] transition-colors"><FaFacebookF /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-[#111111] text-white flex items-center justify-center hover:bg-[#FF6B35] transition-colors"><FaTwitter /></a>
+              <a href="#" className="w-9 h-9 rounded-full bg-[#111111] text-white flex items-center justify-center hover:bg-[#FF6B35] transition-colors"><FaYoutube /></a>
+            </div>
+          </div>
+        </div>
+
+        {/* 🔹 RIGHT SIDE: Dark Form Area */}
+        <div className="w-full lg:w-[50%] relative bg-[#111111] px-8 py-16 lg:px-16 lg:py-24 flex flex-col justify-center">
           
-          {/* LEFT: Contact Information */}
-          <motion.div 
-            variants={fadeInLeft}
-            className="w-full lg:w-1/2 space-y-6"
-          >
-            {/* Breadcrumb */}
-            <p className="text-[#9B9B8A] text-sm">Home / Contact Us</p>
-            
-            {/* 👇 HEADING: Contact BLACK, Us ORANGE */}
-            <h2 className="text-4xl lg:text-5xl font-bold leading-tight">
-              <span className="text-[#111111]">Contact</span>{' '}
-              <span className="text-[#FF6B35]">Us</span>
+          {/* Orange Diagonal Shape (Top Right & Bottom Left) */}
+          <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#FF6B35] pointer-events-none" style={{ clipPath: 'polygon(100% 0, 0% 0%, 100% 100%)' }}></div>
+          <div className="absolute bottom-0 left-0 w-[150px] h-[150px] bg-[#FF6B35] pointer-events-none" style={{ clipPath: 'polygon(0 100%, 0% 0%, 100% 100%)' }}></div>
+
+          <div className="relative z-10 w-full max-w-lg">
+            <h2 className="text-[#FF6B35] font-bold text-3xl lg:text-4xl tracking-tight mb-2">
+              SEND US A MESSAGE
             </h2>
-            {/* Orange line */}
-            <div className="w-10 h-[3px] bg-[#FF6B35] mt-2 mb-4 rounded-full"></div>
-            
-            <p className="text-[#555555] text-base leading-relaxed max-w-md">
-              We'd love to hear from you. Get in touch with us and let's build something great together.
+            <p className="text-[#9B9B8A] text-sm mb-8">
+              Fill out the form below and our team will get back to you soon.
             </p>
 
-            {/* Contact Details List */}
-            <div className="space-y-5 mt-4">
-              {/* Email */}
-              <motion.div 
-                variants={fadeInUp}
-                className="flex items-start gap-4 hover:translate-x-2 transition-transform duration-300"
-              >
-                <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-[#EDEAE4] flex items-center justify-center text-[#FF6B35] text-lg">
-                  <FaEnvelope />
+            <form className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <input type="text" placeholder="Full Name *" className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-[#777777]" />
                 </div>
                 <div>
-                  <p className="font-medium text-[#111111]">Email Us</p>
-                  <p className="text-[#777777] text-sm">info@transnovasolutions.com</p>
+                  <input type="email" placeholder="Work Email *" className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-[#777777]" />
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Phone */}
-              <motion.div 
-                variants={fadeInUp}
-                className="flex items-start gap-4 hover:translate-x-2 transition-transform duration-300"
-              >
-                <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-[#EDEAE4] flex items-center justify-center text-[#FF6B35] text-lg">
-                  <FaPhoneAlt />
-                </div>
-                <div>
-                  <p className="font-medium text-[#111111]">Call Us</p>
-                  <p className="text-[#777777] text-sm">+1 (888) 123-4567</p>
-                </div>
-              </motion.div>
+              <div>
+                <input type="text" placeholder="Company / Organization *" className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-[#777777]" />
+              </div>
 
-              {/* Address (Shorkot, Pakistan) */}
-              <motion.div 
-                variants={fadeInUp}
-                className="flex items-start gap-4 hover:translate-x-2 transition-transform duration-300 cursor-pointer group"
-                onClick={() => {
-                  const mapSection = document.getElementById('map-section');
-                  if (mapSection) mapSection.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-[#EDEAE4] flex items-center justify-center text-[#FF6B35] text-lg group-hover:bg-[#FF6B35] group-hover:text-white transition-colors duration-300">
-                  <FaMapMarkerAlt />
-                </div>
-                <div>
-                  <p className="font-medium text-[#111111] group-hover:text-[#FF6B35] transition-colors duration-300">Head Office</p>
-                  <p className="text-[#777777] text-sm leading-relaxed group-hover:text-[#111111] transition-colors duration-300">
-                    Shorkot City, Jhang District,<br />
-                    Punjab, Pakistan
-                  </p>
-                </div>
-              </motion.div>
+              <div>
+                <select className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors">
+                  <option value="">Service Interested In *</option>
+                  <option value="bpo">BPO Solutions</option>
+                  <option value="voip">VoIP & Telecom</option>
+                  <option value="logistics">Logistics</option>
+                  <option value="digital">Digital Services</option>
+                </select>
+              </div>
 
-              {/* Hours */}
-              <motion.div 
-                variants={fadeInUp}
-                className="flex items-start gap-4 hover:translate-x-2 transition-transform duration-300"
-              >
-                <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-[#EDEAE4] flex items-center justify-center text-[#FF6B35] text-lg">
-                  <FaClock />
-                </div>
-                <div>
-                  <p className="font-medium text-[#111111]">Working Hours</p>
-                  <p className="text-[#777777] text-sm">Mon - Fri: 8:00 AM - 6:00 PM (PKT)</p>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
+              <div>
+                <textarea rows="4" placeholder="Your Message *" className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-[#777777] resize-none"></textarea>
+              </div>
 
-          {/* RIGHT: Contact Form */}
-          <motion.div 
-            variants={fadeInRight}
-            className="w-full lg:w-1/2"
-          >
-            <div className="bg-white p-6 md:p-10 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-[#EDEAE4] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500">
-              <form className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-[#777777] text-sm font-medium block mb-1">Full Name</label>
-                    <input type="text" className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-all duration-300 bg-[#FAF9F6]" placeholder="John Doe" />
-                  </div>
-                  <div>
-                    <label className="text-[#777777] text-sm font-medium block mb-1">Email Address</label>
-                    <input type="email" className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-all duration-300 bg-[#FAF9F6]" placeholder="john@example.com" />
-                  </div>
-                </div>
-                
-                <div>
-                  <label className="text-[#777777] text-sm font-medium block mb-1">Subject</label>
-                  <input type="text" className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-all duration-300 bg-[#FAF9F6]" placeholder="How can we help?" />
-                </div>
-
-                <div>
-                  <label className="text-[#777777] text-sm font-medium block mb-1">Your Message</label>
-                  <textarea rows="4" className="w-full border border-[#EDEAE4] rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#FF6B35] transition-all duration-300 bg-[#FAF9F6] resize-none" placeholder="Write your message here..."></textarea>
-                </div>
-
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="button" 
-                  className="w-full bg-[#FF6B35] text-white font-medium py-3.5 rounded-lg flex justify-center items-center gap-3 hover:bg-[#E85C2D] transition-colors shadow-md shadow-orange-200"
-                >
-                  Send Message <FaArrowRight className="text-xs" />
-                </motion.button>
-              </form>
-            </div>
-          </motion.div>
-
+              <button type="button" className="w-full bg-[#FF6B35] text-white font-bold text-sm py-3.5 rounded-lg hover:bg-[#E85C2D] transition-colors shadow-md shadow-orange-500/30 flex items-center justify-center gap-2">
+                SEND MESSAGE <FaArrowRight className="text-xs" />
+              </button>
+            </form>
+          </div>
         </div>
-      </motion.section>
+      </section>
 
 
       {/* ==========================================
-          SECTION 2: MAP (Inline Google Map - Same Page)
+          SECTION 2: OUR LOCATIONS (3 Cards)
          ========================================== */}
-      <motion.section 
-        id="map-section"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="px-6 lg:px-12 max-w-7xl mx-auto mb-16"
-      >
-        <div className="relative w-full h-64 lg:h-80 rounded-2xl overflow-hidden shadow-md bg-[#1a1a1a] group border border-[#EDEAE4]">
-          
-          <iframe
-            src={MAP_EMBED_URL}
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Shorkot Head Office Map"
-            className="w-full h-full"
-          ></iframe>
+      <section className="bg-[#FAF9F6] px-6 lg:px-12 py-16 max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-[#FF6B35] font-bold text-3xl lg:text-4xl tracking-tight">OUR LOCATIONS</h2>
+          <div className="w-10 h-[3px] bg-[#FF6B35] mx-auto mt-2 mb-4 rounded-full"></div>
+          <p className="text-[#666666] text-sm">Connecting businesses across the globe.</p>
+        </div>
 
-          {/* Orange Location Pin Overlay */}
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center pointer-events-none">
-            <div className="relative">
-              <div className="absolute inset-0 bg-[#FF6B35] blur-xl opacity-40 rounded-full w-14 h-14 animate-pulse"></div>
-              <FaMapMarkerAlt className="text-[#FF6B35] text-4xl relative z-10 drop-shadow-lg animate-bounce" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          
+          {/* Location 1: Pakistan */}
+          <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-[#EDEAE4]">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-20 h-20 rounded-full overflow-hidden shadow-sm shrink-0">
+                <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=200&auto=format&fit=crop" alt="Pakistan" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h3 className="text-[#FF6B35] font-bold text-xs uppercase tracking-wider">Pakistan</h3>
+                <p className="font-bold text-sm text-[#111111]">Head Office</p>
+              </div>
             </div>
-            <div className="mt-3 bg-[#111111] text-white text-xs px-3 py-1.5 rounded-full opacity-90">
-              Shorkot, Pakistan
+            <div className="space-y-2 text-[#777777] text-xs">
+              <div className="flex items-start gap-2">
+                <FaMapMarkerAlt className="text-[#FF6B35] mt-0.5 shrink-0" />
+                <p>Suite 501, 5th Floor,<br />Business Avenue,<br />Karachi, Pakistan.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaPhoneAlt className="text-[#FF6B35] shrink-0" />
+                <p>+92 21 1234 5678</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaEnvelope className="text-[#FF6B35] shrink-0" />
+                <p>hello@transnovasolutions.com</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Location 2: UAE */}
+          <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-[#EDEAE4]">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-20 h-20 rounded-full overflow-hidden shadow-sm shrink-0">
+                <img src="https://images.unsplash.com/photo-1512453979798-5ea932a9f306?q=80&w=200&auto=format&fit=crop" alt="UAE" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h3 className="text-[#FF6B35] font-bold text-xs uppercase tracking-wider">UAE</h3>
+                <p className="font-bold text-sm text-[#111111]">Regional Office</p>
+              </div>
+            </div>
+            <div className="space-y-2 text-[#777777] text-xs">
+              <div className="flex items-start gap-2">
+                <FaMapMarkerAlt className="text-[#FF6B35] mt-0.5 shrink-0" />
+                <p>Office 1203, The One Tower,<br />Tecom, Dubai,<br />United Arab Emirates.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaPhoneAlt className="text-[#FF6B35] shrink-0" />
+                <p>+971 50 123 4567</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaEnvelope className="text-[#FF6B35] shrink-0" />
+                <p>info@transnovasolutions.com</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Location 3: UK */}
+          <div className="bg-white p-6 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-300 border border-[#EDEAE4]">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-20 h-20 rounded-full overflow-hidden shadow-sm shrink-0">
+                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=200&auto=format&fit=crop" alt="UK" className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <h3 className="text-[#FF6B35] font-bold text-xs uppercase tracking-wider">United Kingdom</h3>
+                <p className="font-bold text-sm text-[#111111]">Representative Office</p>
+              </div>
+            </div>
+            <div className="space-y-2 text-[#777777] text-xs">
+              <div className="flex items-start gap-2">
+                <FaMapMarkerAlt className="text-[#FF6B35] mt-0.5 shrink-0" />
+                <p>71-75 Shelton Street,<br />Covent Garden,<br />London, WC2H 9JQ, UK.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaPhoneAlt className="text-[#FF6B35] shrink-0" />
+                <p>+44 20 4578 0780</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <FaEnvelope className="text-[#FF6B35] shrink-0" />
+                <p>uk@transnovasolutions.com</p>
+              </div>
             </div>
           </div>
 
         </div>
-      </motion.section>
-
-
-      {/* ==========================================
-          SECTION 3: BOTTOM FEATURES (3 Icons) with Animations
-         ========================================== */}
-      <motion.section 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={staggerContainer}
-        className="px-6 lg:px-12 max-w-7xl mx-auto"
-      >
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 bg-white p-8 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.04)] border border-[#EDEAE4]">
-          
-          {/* Feature 1 */}
-          <motion.div 
-            variants={fadeInUp}
-            className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left"
-          >
-            <div className="w-12 h-12 min-w-[48px] rounded-full bg-[#FAF9F6] flex items-center justify-center text-[#FF6B35] text-2xl">
-              <FaUserTie />
-            </div>
-            <div>
-              <h4 className="font-bold text-[#111111] text-base">Tailored Solutions</h4>
-              <p className="text-[#777777] text-sm mt-1">Solutions that fit your unique business needs.</p>
-            </div>
-          </motion.div>
-
-          {/* Feature 2 */}
-          <motion.div 
-            variants={fadeInUp}
-            className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left"
-          >
-            <div className="w-12 h-12 min-w-[48px] rounded-full bg-[#FAF9F6] flex items-center justify-center text-[#FF6B35] text-2xl">
-              <FaChartLine />
-            </div>
-            <div>
-              <h4 className="font-bold text-[#111111] text-base">Scalable Services</h4>
-              <p className="text-[#777777] text-sm mt-1">Solutions that grow with your business.</p>
-            </div>
-          </motion.div>
-
-          {/* Feature 3 */}
-          <motion.div 
-            variants={fadeInUp}
-            className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left"
-          >
-            <div className="w-12 h-12 min-w-[48px] rounded-full bg-[#FAF9F6] flex items-center justify-center text-[#FF6B35] text-2xl">
-              <FaHeadphones />
-            </div>
-            <div>
-              <h4 className="font-bold text-[#111111] text-base">24/7 Support</h4>
-              <p className="text-[#777777] text-sm mt-1">Always here when you need us.</p>
-            </div>
-          </motion.div>
-
-        </div>
-      </motion.section>
+      </section>
 
     </div>
   );
