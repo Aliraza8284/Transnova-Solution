@@ -3,11 +3,11 @@
 // ==========================================
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaTruck, FaNetworkWired, FaShoppingCart, FaHeartbeat, FaUniversity, FaIndustry } from 'react-icons/fa';
+import { FaArrowRight, FaTruck, FaNetworkWired, FaHeartbeat, FaUniversity } from 'react-icons/fa';
 
 const Industries = () => {
   // ==========================================
-  // 2. INDUSTRIES DATA (6 Cards ke liye)
+  // 2. INDUSTRIES DATA (Sirf 4 Cards)
   // ==========================================
   const industriesList = [
     { 
@@ -21,11 +21,6 @@ const Industries = () => {
       desc: 'Reliable communication solutions for a connected world.' 
     },
     { 
-      icon: <FaShoppingCart className="text-[#FF6B35] text-2xl" />, 
-      title: 'Retail & E-commerce', 
-      desc: 'Scalable solutions to enhance customer experiences.' 
-    },
-    { 
       icon: <FaHeartbeat className="text-[#FF6B35] text-2xl" />, 
       title: 'Healthcare', 
       desc: 'HIPAA-compliant support and management solutions.' 
@@ -34,11 +29,6 @@ const Industries = () => {
       icon: <FaUniversity className="text-[#FF6B35] text-2xl" />, 
       title: 'Finance & Banking', 
       desc: 'Secure and efficient financial support.' 
-    },
-    { 
-      icon: <FaIndustry className="text-[#FF6B35] text-2xl" />, 
-      title: 'Manufacturing', 
-      desc: 'Optimizing operations and supply chain management.' 
     },
   ];
 
@@ -57,9 +47,12 @@ const Industries = () => {
             {/* Breadcrumb */}
             <p className="text-[#9B9B8A] text-sm mb-4">Home / Industries</p>
             
-            <h2 className="text-4xl lg:text-5xl font-bold text-[#111111] leading-tight">
-              Industries We Serve
+            {/* 👇 HEADING: 'Industries' WHITE, 'We Serve' ORANGE */}
+            <h2 className="text-4xl lg:text-5xl font-bold leading-tight">
+              <span className="text-dark">Industries</span>{' '}
+              <span className="text-[#FF6B35]">We Serve</span>
             </h2>
+            
             {/* Orange line */}
             <div className="w-10 h-[3px] bg-[#FF6B35] mt-3 mb-6 rounded-full"></div>
             
@@ -72,7 +65,7 @@ const Industries = () => {
           <div className="absolute inset-0 opacity-[0.06] pointer-events-none bg-[url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg')] bg-cover bg-center"></div>
         </div>
 
-        {/* --- 2. GRID: 6 Industry Cards --- */}
+        {/* --- 2. GRID: 4 Industry Cards --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {industriesList.map((industry, index) => (
             <div 
