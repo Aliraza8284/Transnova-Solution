@@ -65,7 +65,7 @@ const Footer = () => {
       
       {/* ==========================================
           SECTION 1: TOP STRIP (About TransNova)
-         ========================================== */}
+        ========================================== */}
       <div className="border-b border-[#2a2a2a] py-12 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
           <div className="max-w-md">
@@ -117,16 +117,40 @@ const Footer = () => {
 
       {/* ==========================================
           SECTION 2: MAIN FOOTER
-         ========================================== */}
+        ========================================== */}
       <div className="py-14 px-6 lg:px-12">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           <div className="col-span-1 md:col-span-2 lg:col-span-1 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#FF6B35] text-white flex items-center justify-center font-bold text-lg rounded-sm">T</div>
-              <span className="text-2xl font-bold tracking-tight text-white">
-                TRANS <span className="text-[#FF6B35]">NOVA</span>
-              </span>
-            </div>
+            
+            {/* ==========================================
+                🟢 LOGO IMAGE (T ki jagah)
+              ========================================== */}
+            <Link to="/" className="flex items-center gap-2">
+              <img
+                src="/alogo.png"
+                alt="TransNova Logo"
+                className="h-[40px] w-auto object-contain"
+              />
+              <div className="flex flex-col leading-none">
+                <div className="flex items-baseline">
+                  <span className="text-[18px] font-bold tracking-[-0.5px] text-white">
+                    TRANS
+                  </span>
+                  <span className="ml-[1px] text-[18px] font-bold tracking-[-0.5px] text-[#FF6B35]">
+                    NOVA
+                  </span>
+                </div>
+                <div className="mt-[1px] flex items-baseline">
+                  <span className="text-[9px] font-medium tracking-[0.5px] text-[#9B9B8A]">
+                    SOLUTIONS
+                  </span>
+                  <span className="ml-1.5 text-[7px] font-medium text-[#9B9B8A]/60">
+                    LLC
+                  </span>
+                </div>
+              </div>
+            </Link>
+
             <p className="text-[#9B9B8A] text-sm leading-relaxed">
               Solutions without boundaries. We empower businesses worldwide with innovation, technology, and expertise.
             </p>
@@ -185,7 +209,7 @@ const Footer = () => {
 
       {/* ==========================================
           SECTION 3: COPYRIGHT + BACK TO TOP ARROW (Footer ke END par)
-         ========================================== */}
+        ========================================== */}
       <div className="border-t border-[#2a2a2a] py-8 px-6 lg:px-12 relative">
         
         {/* 🟢 BACK TO TOP ARROW (Sirf End par dikhega, Footer ke andar center mein) */}

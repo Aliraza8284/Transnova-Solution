@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 const menuItems = [
   {
@@ -47,14 +47,69 @@ const serviceItems = [
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  // Get current route
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
+  // ==========================================
+  // BODY SCROLL LOCK FOR MOBILE MENU
+  // ==========================================
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
-
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
+
+  // ==========================================
+  // SCROLL HANDLER
+  // ==========================================
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // ==========================================
+  // HELPER FUNCTIONS FOR DYNAMIC COLORS
+  // ==========================================
+
+  // Determine if navbar should be white (scrolled OR not on home page)
+  const shouldBeWhite = isScrolled || !isHome;
+
+  // Navbar background classes
+  const getNavbarBg = () => {
+    if (shouldBeWhite) {
+      return 'bg-[#FAF9F6]/95 backdrop-blur-md shadow-lg shadow-black/10';
+    } else {
+      return 'bg-transparent';
+    }
+  };
+
+  // Text color for links and logo
+  const getTextColor = () => {
+    return shouldBeWhite ? 'text-[#111111]' : 'text-white';
+  };
+
+  // Logo split colors (TRANS + NOVA)
+  const getLogoTransColor = () => {
+    return shouldBeWhite ? 'text-[#111111]' : 'text-white';
+  };
+
+  // Mobile menu hamburger color
+  const getHamburgerColor = () => {
+    return shouldBeWhite ? 'text-[#111111] hover:bg-[#EDEAE4]' : 'text-white hover:bg-white/10';
+  };
 
   const closeMenu = () => {
     setMobileMenuOpen(false);
@@ -63,8 +118,21 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="relative z-50 w-full bg-[#FAF9F6] shadow-sm">
+      <nav 
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${getNavbarBg()}`}
+        style={{
+          transform: isScrolled ? 'translateY(4px)' : 'translateY(0)',
+          boxShadow: shouldBeWhite 
+            ? '0 8px 30px rgba(0,0,0,0.12), 0 2px 10px rgba(0,0,0,0.05)' 
+            : 'none',
+          transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        }}
+      >
         <div className="mx-auto flex h-[50px] w-full items-center justify-between px-4 sm:px-6 lg:px-8">
+          
+          {/* ==========================================
+              LOGO
+             ========================================== */}
           <NavLink
             to="/"
             onClick={closeMenu}
@@ -78,7 +146,7 @@ const Navbar = () => {
 
             <div className="relative z-10 flex flex-col leading-none ml-0">
               <div className="flex items-baseline">
-                <span className="text-[18px] font-bold tracking-[-0.5px] text-[#111111] sm:text-[20px]">
+                <span className={`text-[18px] font-bold tracking-[-0.5px] sm:text-[20px] ${getLogoTransColor()}`}>
                   TRANS
                 </span>
                 <span className="ml-[1px] text-[18px] font-bold tracking-[-0.5px] text-[#FF6B35] sm:text-[20px]">
@@ -87,16 +155,19 @@ const Navbar = () => {
               </div>
 
               <div className="mt-[1px] flex items-baseline">
-                <span className="text-[9px] font-medium tracking-[0.5px] text-[#9B948A] sm:text-[11px]">
+                <span className={`text-[9px] font-medium tracking-[0.5px] sm:text-[11px] ${shouldBeWhite ? 'text-[#9B948A]' : 'text-white/70'}`}>
                   SOLUTIONS
                 </span>
-                <span className="ml-1.5 text-[7px] font-medium text-[#9B948A] sm:text-[10px]">
+                <span className={`ml-1.5 text-[7px] font-medium sm:text-[10px] ${shouldBeWhite ? 'text-[#9B948A]/60' : 'text-white/50'}`}>
                   LTD
                 </span>
               </div>
             </div>
           </NavLink>
 
+          {/* ==========================================
+              DESKTOP MENU
+             ========================================== */}
           <div className="hidden gap-4 h-full items-center lg:flex lg:flex-1 lg:justify-center">
             {menuItems.map((item) => {
               if (item.dropdown) {
@@ -109,7 +180,9 @@ const Navbar = () => {
                   >
                     <NavLink
                       to={item.path}
-                      className="group relative py-1 text-[13px] font-normal text-[#111111] transition-colors hover:text-[#FF6B35]"
+                      className={`group relative py-1 text-[13px] font-normal transition-colors duration-300 ${
+                        shouldBeWhite ? 'text-[#111111] hover:text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]'
+                      }`}
                     >
                       <span>Services</span>
                       <span
@@ -122,7 +195,9 @@ const Navbar = () => {
                     </NavLink>
 
                     <svg
-                      className={`ml-1 h-3 w-3 text-[#9B948A] transition-transform duration-200 ${
+                      className={`ml-1 h-3 w-3 transition-colors duration-300 ${
+                        shouldBeWhite ? 'text-[#9B948A]' : 'text-white/60'
+                      } transition-transform duration-200 ${
                         servicesOpen ? "rotate-180" : ""
                       }`}
                       viewBox="0 0 24 24"
@@ -159,22 +234,20 @@ const Navbar = () => {
                 <NavLink
                   key={item.path}
                   to={item.path}
-                  className="group relative mx-1 py-1 text-[13px] font-normal text-[#111111] transition-colors hover:text-[#FF6B35]"
+                  className={({ isActive }) =>
+                    `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${
+                      shouldBeWhite 
+                        ? (isActive ? 'text-[#111111]' : 'text-[#111111] hover:text-[#FF6B35]')
+                        : (isActive ? 'text-white' : 'text-white hover:text-[#FF6B35]')
+                    }`
+                  }
                 >
                   {({ isActive }) => (
                     <>
-                      <span
-                        className={
-                          isActive
-                            ? "text-[#111111]"
-                            : "text-[#111111] group-hover:text-[#FF6B35]"
-                        }
-                      >
-                        {item.label}
-                      </span>
+                      <span>{item.label}</span>
                       <span
                         className={`absolute bottom-[-2px] left-0 h-[2px] w-full rounded-full bg-[#FF6B35] transition-transform duration-200 ${
-                          item.label === "Home"
+                          isActive
                             ? "scale-x-100"
                             : "scale-x-0 group-hover:scale-x-100"
                         }`}
@@ -186,6 +259,9 @@ const Navbar = () => {
             })}
           </div>
 
+          {/* ==========================================
+              GET A QUOTE BUTTON
+             ========================================== */}
           <div className="hidden lg:block">
             <NavLink
               to="/quote"
@@ -195,10 +271,13 @@ const Navbar = () => {
             </NavLink>
           </div>
 
+          {/* ==========================================
+              MOBILE HAMBURGER BUTTON
+             ========================================== */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-[#EDEAE4] lg:hidden"
+            className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden ${getHamburgerColor()}`}
             aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={mobileMenuOpen}
           >
@@ -227,6 +306,9 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* ==========================================
+          MOBILE MENU OVERLAY
+         ========================================== */}
       <div
         onClick={closeMenu}
         className={`fixed inset-0 z-40 bg-black/30 transition-opacity duration-300 lg:hidden ${
@@ -236,6 +318,9 @@ const Navbar = () => {
         }`}
       />
 
+      {/* ==========================================
+          MOBILE MENU SIDEBAR
+         ========================================== */}
       <aside
         className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 flex h-[80vh] max-h-[500px] w-[280px] max-w-[80vw] flex-col bg-[#FAF9F6] rounded-2xl shadow-2xl transition-transform duration-300 ease-out lg:hidden ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"

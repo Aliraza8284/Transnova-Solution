@@ -26,49 +26,32 @@ const Services = () => {
 
   const servicesList = [
     {
-      icon: (
-        <FaHeadphones className="text-xl text-[#FF6B35]" />
-      ),
+      icon: <FaHeadphones className="text-xl text-[#FF6B35]" />,
       title: "BPO Solutions",
       desc: "Delivering exceptional customer experiences with tailored support.",
     },
-
     {
-      icon: (
-        <FaPhoneAlt className="text-xl text-[#FF6B35]" />
-      ),
+      icon: <FaPhoneAlt className="text-xl text-[#FF6B35]" />,
       title: "VoIP & Telecom",
       desc: "Connecting businesses with reliable communication solutions.",
     },
-
     {
-      icon: (
-        <FaFileInvoice className="text-xl text-[#FF6B35]" />
-      ),
+      icon: <FaFileInvoice className="text-xl text-[#FF6B35]" />,
       title: "Invoicing Solutions",
       desc: "Automated invoicing for better cash flow.",
     },
-
     {
-      icon: (
-        <FaTruck className="text-xl text-[#FF6B35]" />
-      ),
+      icon: <FaTruck className="text-xl text-[#FF6B35]" />,
       title: "Logistics Solutions",
       desc: "End-to-end logistics management that ensures timely delivery.",
     },
-
     {
-      icon: (
-        <FaTruck className="text-xl text-[#FF6B35]" />
-      ),
+      icon: <FaTruck className="text-xl text-[#FF6B35]" />,
       title: "Trucking Services",
       desc: "Safe and reliable trucking services across North America.",
     },
-
     {
-      icon: (
-        <FaUsers className="text-xl text-[#FF6B35]" />
-      ),
+      icon: <FaUsers className="text-xl text-[#FF6B35]" />,
       title: "Outsourcing Services",
       desc: "Scalable outsourcing solutions to improve business performance.",
     },
@@ -163,8 +146,9 @@ const Services = () => {
 
             <div className="absolute inset-0 block lg:hidden">
 
+              {/* ✅ FIXED: people.jpj → /people.jpg */}
               <img
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+                src="/people.jpg"
                 alt="Tech Services"
                 className="
                   h-full
@@ -215,7 +199,6 @@ const Services = () => {
                 hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)]
               "
             >
-
               {/* ==========================================
                   ICON BOX
                  ========================================== */}
@@ -273,7 +256,6 @@ const Services = () => {
                 "
               >
                 Learn More
-
                 <FaArrowRight className="text-[10px]" />
               </Link>
             </div>
