@@ -23,27 +23,27 @@ const ServicesSection = () => {
           </div>
           
           {/* ==========================================
-              IMAGE SECTION WITH CORRECT PATH
+              IMAGE SECTION - Increased Height & Clean Image
              ========================================== */}
-          <div className="w-full lg:w-[45%] h-64 lg:h-40 relative overflow-hidden lg:rounded-l-none">
+          <div className="w-full lg:w-[45%] h-80 lg:h-56 relative overflow-hidden lg:rounded-l-none">
             <div 
               className="h-full w-full origin-bottom-right bg-cover bg-center lg:skew-x-[-15deg] lg:rounded-l-[50px]" 
               style={{ 
-                backgroundImage: "url('/people.jpg')", 
-                filter: "brightness(0.75)" 
+                backgroundImage: "url('/people.jpg')"
               }}
             >
-              <div className="absolute inset-0 origin-bottom-right bg-gradient-to-l from-[#FF6B35]/80 via-[#FF6B35]/30 to-transparent lg:skew-x-[-15deg]" />
+              {/* Removed dark overlay - clean image */}
+              <div className="absolute inset-0 origin-bottom-right lg:skew-x-[-15deg]" />
             </div>
             
-            {/* Mobile view */}
+            {/* Mobile view - Clean image */}
             <div className="absolute inset-0 block lg:hidden">
               <img 
                 src="/people.jpg" 
                 alt="Tech Services" 
-                className="h-full w-full rounded-xl object-cover brightness-75" 
+                className="h-full w-full rounded-xl object-cover" 
               />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-l from-[#FF6B35]/80 via-[#FF6B35]/30 to-transparent" />
+              {/* Removed overlay */}
             </div>
           </div>
         </div>

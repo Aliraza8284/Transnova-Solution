@@ -54,68 +54,105 @@ const Careers = () => {
     setSelectedJob('');
   };
 
-  // Toast function
+  // Toast function - Fixed position at top with icon
   const showToast = (message, type = 'success', icon = '✅') => {
     setToast({ show: true, message, type, icon });
     setTimeout(() => {
       setToast({ show: false, message: '', type: '', icon: '' });
-    }, 4000);
+    }, 5000);
   };
 
-  // ✅ HANDLE SUBMIT
+   // ✅ HANDLE SUBMIT - With Better Error Handling
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const formData = new FormData(e.target);
-    const applicationData = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: countryCode + formData.get('phone'),
-      city: formData.get('city'),
+    
+    const emailData = {
+      to_email: 'your-email@gmail.com', // 🔴 CHANGE THIS
+      to_name: 'HR Team',
+      job_title: formData.get('selectedJob'),
+      candidate_name: formData.get('name'),
+      candidate_email: formData.get('email'),
+      candidate_phone: countryCode + formData.get('phone'),
+      candidate_city: formData.get('city'),
       experience: formData.get('experience'),
       language: formData.get('language'),
-      level: formData.get('level'),
-      salary: formData.get('salary'),
-      currency: formData.get('currency'),
+      expertise_level: formData.get('level'),
+      expected_salary: formData.get('salary') + ' ' + formData.get('currency'),
       start_date: formData.get('start_date'),
-      selectedJob: formData.get('selectedJob')
+      applied_date: new Date().toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
     };
 
-    try {
-      const saveRes = await fetch('http://localhost:5000/api/save-application', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(applicationData)
-      });
-      await saveRes.json();
+    // 🔴 LOG THE DATA TO CHECK
+    console.log('📧 Sending Email with data:', emailData);
 
+    try {
       const SERVICE_ID = 'service_cqjmmcc';
       const TEMPLATE_ID = 'template_0owkphk';
       const PUBLIC_KEY = 'Sf50Q47C4HaqNIBKx';
 
-      await emailjs.sendForm(
+      const templateParams = {
+        to_email: 'your-email@gmail.com', // 🔴 CHANGE THIS
+        to_name: 'HR Team',
+        job_title: emailData.job_title,
+        candidate_name: emailData.candidate_name,
+        candidate_email: emailData.candidate_email,
+        candidate_phone: emailData.candidate_phone,
+        candidate_city: emailData.candidate_city,
+        experience: emailData.experience,
+        language: emailData.language,
+        expertise_level: emailData.expertise_level,
+        expected_salary: emailData.expected_salary,
+        start_date: emailData.start_date,
+        applied_date: emailData.applied_date
+      };
+
+      console.log('📤 Sending to EmailJS:', templateParams);
+
+      const response = await emailjs.send(
         SERVICE_ID,
         TEMPLATE_ID,
-        e.target,
+        templateParams,
         PUBLIC_KEY
       );
 
+      console.log('✅ EmailJS Response:', response);
+
+      // Backend save
+      try {
+        await fetch('http://localhost:5000/api/save-application', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(emailData)
+        });
+      } catch (backendError) {
+        console.log('Backend save skipped');
+      }
+
       setIsModalOpen(false);
-      showToast('🎉 Application submitted successfully!', 'success', '✅');
-      
+      showToast(`✅ Application submitted successfully for ${selectedJob}!`, 'success', '✅');
+
       setTimeout(() => {
         setIsSuccessOpen(true);
-      }, 500);
-      
+      }, 800);
+
     } catch (error) {
-      console.error('❌ Error:', error);
-      showToast('❌ Submission failed. Please try again.', 'error', '❌');
+      console.error('❌ Full Error:', error);
+      console.error('❌ Error Message:', error.text);
+      showToast('❌ Submission failed: ' + error.message, 'error', '❌');
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const closeSuccess = () => {
     setIsSuccessOpen(false);
   };
@@ -252,15 +289,17 @@ const Careers = () => {
   // ==========================================
   return (
     <div className="bg-[#FAF9F6] min-h-screen font-manrope pb-16 overflow-x-hidden">
-      
-      {/* Custom Toast Notification */}
+
+      {/* Custom Toast Notification - Fixed at Top */}
       {toast.show && (
         <div className={`fixed top-5 left-1/2 transform -translate-x-1/2 z-[999999] px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-slideDown ${
-          toast.type === 'success' ? 'bg-[#111111] border border-[#FF6B35]' : 'bg-[#111111] border border-[#FF4444]'
+          toast.type === 'success' 
+            ? 'bg-[#111111] border-2 border-[#FF6B35] shadow-[0_0_30px_rgba(255,107,53,0.3)]' 
+            : 'bg-[#111111] border-2 border-[#FF4444] shadow-[0_0_30px_rgba(255,68,68,0.3)]'
         }`}>
           <span className="text-2xl">{toast.icon}</span>
           <span className="text-white font-medium text-sm">{toast.message}</span>
-          <button 
+          <button
             onClick={() => setToast({ show: false, message: '', type: '', icon: '' })}
             className="text-white/50 hover:text-white transition-colors ml-2"
           >
@@ -271,7 +310,7 @@ const Careers = () => {
 
       {/* SECTION 1: HERO */}
       <section className="pt-16 lg:pt-24 px-6 lg:px-12 max-w-7xl mx-auto animate-fadeInUp">
-        <div className="bg-[#111111] text-white rounded-3xl p-10 lg:p-16 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center shadow-xl shadow-black/20 hover:shadow-2xl hover:shadow-black/30 transition-all duration-500">
+        <div className="bg-[#111111] text-white rounded-3xl p-10 lg:p-16 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center shadow-md shadow-black/10 hover:shadow-lg hover:shadow-black/20 transition-all duration-500">
           <div className="w-full lg:w-3/5 space-y-5">
             <p className="text-[#FF6B35] font-medium text-sm tracking-[3px] uppercase animate-slideInLeft">Join Our Team</p>
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight flex flex-wrap items-center gap-2 animate-slideInLeft animation-delay-200">
@@ -283,13 +322,17 @@ const Careers = () => {
               We are looking for passionate, talented individuals to join our growing family. If you are ready to make an impact, we want to hear from you.
             </p>
             <div className="pt-2 animate-slideInLeft animation-delay-600">
-              <a href="#jobs" className="inline-flex items-center gap-2 bg-[#FF6B35] text-white px-6 py-3 rounded-full font-medium hover:bg-[#E85C2D] transition-all duration-300 shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:scale-105">
+              <a href="#jobs" className="inline-flex items-center gap-2 bg-[#FF6B35] text-white px-6 py-3 rounded-full font-medium hover:bg-[#E85C2D] transition-all duration-300 shadow-md shadow-orange-500/20 hover:shadow-lg hover:shadow-orange-500/30 hover:scale-105">
                 View Open Positions <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           </div>
           <div className="w-full lg:w-2/5 animate-slideInRight animation-delay-300">
-            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Team working" className="w-full h-56 lg:h-64 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-500" />
+            <img
+              src="/home6.png"
+              alt="Team working"
+              className="w-full h-56 lg:h-64 object-cover rounded-xl shadow-sm hover:shadow-md transition-shadow duration-500"
+            />
           </div>
         </div>
       </section>
@@ -303,8 +346,8 @@ const Careers = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {benefitsList.map((item, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               data-index={index}
               className={`benefit-card bg-white p-8 rounded-2xl shadow-[0_2px_15px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-500 text-center border border-[#EDEAE4] hover:border-transparent hover:scale-105 hover:-translate-y-2 ${
                 animatedBenefits.includes(String(index)) ? 'animate-fadeInUp' : 'opacity-0'
@@ -332,7 +375,7 @@ const Careers = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {jobList.map((job, index) => (
-            <div 
+            <div
               key={index}
               data-index={index}
               className={`job-card bg-white p-6 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] transition-all duration-500 border border-[#EDEAE4] group hover:scale-[1.02] hover:-translate-y-1 ${
@@ -361,8 +404,8 @@ const Careers = () => {
                 </div>
               </div>
               <p className="text-[#555555] text-sm leading-relaxed mb-4">{job.desc}</p>
-              <button 
-                onClick={() => openApplyModal(job.title)} 
+              <button
+                onClick={() => openApplyModal(job.title)}
                 className="w-full py-2.5 bg-[#FAF9F6] text-[#111111] font-medium rounded-lg hover:bg-[#FF6B35] hover:text-white transition-all duration-300 border border-[#EDEAE4] group-hover:border-transparent text-sm cursor-pointer relative overflow-hidden"
               >
                 <span className="relative z-10">Apply Now</span>
@@ -373,12 +416,12 @@ const Careers = () => {
         </div>
       </section>
 
-      {/* SECTION 4: APPLICATION FORM MODAL - CONTACT PAGE STYLE */}
-      {isModalOpen && (
+            {/* SECTION 4: APPLICATION FORM MODAL - UPDATED */}
+     {isModalOpen && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fadeIn">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative animate-slideUp">
-            
-            {/* Modal Header - Dark like Contact page */}
+
+            {/* Modal Header */}
             <div className="sticky top-0 bg-[#111111] z-10 p-6 border-b border-[#333333] flex justify-between items-center rounded-t-2xl">
               <div>
                 <h3 className="text-2xl font-bold text-white">
@@ -388,29 +431,29 @@ const Careers = () => {
                   Fill out the form below and our team will get back to you soon.
                 </p>
               </div>
-              <button 
-                onClick={closeModal} 
+              <button
+                onClick={closeModal}
                 className="w-10 h-10 rounded-full hover:bg-white/10 flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 hover:rotate-90"
               >
                 <FaTimes className="text-xl" />
               </button>
             </div>
 
-            {/* Form Body - Dark like Contact page */}
+            {/* Form Body */}
             <div className="p-6 lg:p-8 bg-[#111111]">
               <form onSubmit={handleSubmit} className="space-y-5">
-                
+
                 {/* Full Name */}
                 <div>
                   <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                     Full Name <span className="text-[#FF6B35]">*</span>
                   </label>
-                  <input 
-                    type="text" 
-                    name="name" 
-                    required 
-                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]" 
-                    placeholder="Enter your full name" 
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]"
+                    placeholder="Enter your full name"
                   />
                 </div>
 
@@ -419,12 +462,12 @@ const Careers = () => {
                   <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                     Work Email <span className="text-[#FF6B35]">*</span>
                   </label>
-                  <input 
-                    type="email" 
-                    name="email" 
-                    required 
-                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]" 
-                    placeholder="john@example.com" 
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]"
+                    placeholder="john@example.com"
                   />
                 </div>
 
@@ -434,8 +477,8 @@ const Careers = () => {
                     Phone / WhatsApp <span className="text-[#FF6B35]">*</span>
                   </label>
                   <div className="flex gap-2">
-                    <select 
-                      className="w-[30%] bg-[#1A1A1A] border border-[#333333] text-white text-sm px-3 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 hover:border-[#555555] cursor-pointer" 
+                    <select
+                      className="w-[30%] bg-[#1A1A1A] border border-[#333333] text-white text-sm px-3 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 hover:border-[#555555] cursor-pointer"
                       onChange={(e) => setCountryCode(e.target.value)}
                       required
                     >
@@ -444,12 +487,12 @@ const Careers = () => {
                         <option key={i} value={c.code}>{c.flag} {c.code}</option>
                       ))}
                     </select>
-                    <input 
-                      type="tel" 
-                      name="phone" 
-                      required 
-                      className="w-[70%] bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]" 
-                      placeholder="1234567890" 
+                    <input
+                      type="tel"
+                      name="phone"
+                      required
+                      className="w-[70%] bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]"
+                      placeholder="1234567890"
                     />
                   </div>
                 </div>
@@ -459,12 +502,12 @@ const Careers = () => {
                   <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                     City and Country <span className="text-[#FF6B35]">*</span>
                   </label>
-                  <input 
-                    type="text" 
-                    name="city" 
-                    required 
-                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]" 
-                    placeholder="Houston, USA / Karachi, Pakistan" 
+                  <input
+                    type="text"
+                    name="city"
+                    required
+                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]"
+                    placeholder="Houston, USA / Karachi, Pakistan"
                   />
                 </div>
 
@@ -474,10 +517,10 @@ const Careers = () => {
                     <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                       Years of Experience <span className="text-[#FF6B35]">*</span>
                     </label>
-                    <select 
-                      name="experience" 
-                      required 
-                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 hover:border-[#555555] cursor-pointer"
+                    <select
+                      name="experience"
+                      required
+                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 hover:border-[#555555] cursor-pointer"
                     >
                       <option value="">Select experience</option>
                       <option value="0-1">0-1 Years</option>
@@ -492,10 +535,10 @@ const Careers = () => {
                     <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                       Language Expertise <span className="text-[#FF6B35]">*</span>
                     </label>
-                    <select 
-                      name="language" 
-                      required 
-                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 hover:border-[#555555] cursor-pointer"
+                    <select
+                      name="language"
+                      required
+                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 hover:border-[#555555] cursor-pointer"
                     >
                       <option value="">Select language</option>
                       <option value="English">English</option>
@@ -512,10 +555,10 @@ const Careers = () => {
                   <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                     Expertise Level <span className="text-[#FF6B35]">*</span>
                   </label>
-                  <select 
-                    name="level" 
-                    required 
-                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 hover:border-[#555555] cursor-pointer"
+                  <select
+                    name="level"
+                    required
+                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 hover:border-[#555555] cursor-pointer"
                   >
                     <option value="">Select level</option>
                     <option value="Beginner">Beginner</option>
@@ -531,24 +574,24 @@ const Careers = () => {
                     <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                       Expected Salary <span className="text-[#FF6B35]">*</span>
                     </label>
-                    <input 
-                      type="number" 
-                      name="salary" 
-                      min="0" 
-                      max="200000" 
-                      required 
-                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]" 
-                      placeholder="e.g. 60000" 
+                    <input
+                      type="number"
+                      name="salary"
+                      min="0"
+                      max="200000"
+                      required
+                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 placeholder-[#777777] hover:border-[#555555]"
+                      placeholder="e.g. 60000"
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                       Currency <span className="text-[#FF6B35]">*</span>
                     </label>
-                    <select 
-                      name="currency" 
-                      required 
-                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 hover:border-[#555555] cursor-pointer"
+                    <select
+                      name="currency"
+                      required
+                      className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 hover:border-[#555555] cursor-pointer"
                     >
                       <option value="">Select</option>
                       <option value="USD">USD ($)</option>
@@ -562,22 +605,35 @@ const Careers = () => {
                   <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
                     Available Start Date <span className="text-[#FF6B35]">*</span>
                   </label>
-                  <input 
-                    type="date" 
-                    name="start_date" 
-                    min="1947-01-01" 
-                    max={new Date().toISOString().split('T')[0]} 
-                    required 
-                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-all duration-300 hover:border-[#555555]" 
+                  <input
+                    type="date"
+                    name="start_date"
+                    min="1947-01-01"
+                    max={new Date().toISOString().split('T')[0]}
+                    required
+                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 hover:border-[#555555]"
                   />
                 </div>
 
                 {/* Hidden Input for selectedJob */}
                 <input type="hidden" name="selectedJob" value={selectedJob} />
 
-                {/* Submit Button - Orange like Contact page */}
-                <button 
-                  type="submit" 
+                {/* Additional Info / Cover Letter */}
+                <div>
+                  <label className="block text-sm font-medium text-[#9B9B8A] mb-1.5">
+                    Additional Info / Cover Letter <span className="text-[#666666]">(Optional)</span>
+                  </label>
+                  <textarea
+                    name="additional_info"
+                    rows="4"
+                    className="w-full bg-[#1A1A1A] border border-[#333333] text-white text-sm px-4 py-3.5 rounded-lg focus:outline-none focus:border-[#FF6B35] focus:shadow-[0_0_20px_rgba(255,107,53,0.1)] transition-all duration-300 placeholder-[#777777] hover:border-[#555555] resize-none"
+                    placeholder="Tell us why you're the perfect fit for this role..."
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
                   disabled={isSubmitting}
                   className="w-full bg-[#FF6B35] text-white font-bold text-sm py-4 rounded-lg hover:bg-[#E85C2D] transition-all duration-300 shadow-md shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed hover:scale-[1.02]"
                 >
@@ -593,13 +649,24 @@ const Careers = () => {
                     </>
                   )}
                 </button>
+
+                {/* Form Footer */}
+                <div className="text-center pt-2">
+                  <p className="text-[#666666] text-xs">
+                    <span className="text-[#FF6B35]">*</span> Required fields
+                  </p>
+                  <p className="text-[#555555] text-xs mt-1">
+                    Your information will be kept confidential and secure.
+                  </p>
+                </div>
+
               </form>
             </div>
           </div>
         </div>
       )}
 
-      {/* SECTION 5: SUCCESS POPUP */}
+      {/* SECTION 5: SUCCESS POPUP - UPDATED */}
       {isSuccessOpen && (
         <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/70 backdrop-blur-md p-4 animate-fadeIn">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-10 text-center relative animate-scaleUp">
@@ -611,14 +678,15 @@ const Careers = () => {
             <p className="text-[#555555] text-base mb-4 leading-relaxed">
               You have successfully applied for:
             </p>
-            <div className="bg-[#FF6B35]/10 border border-[#FF6B35]/20 rounded-xl p-4 mb-6 animate-pulse-slow">
+            <div className="bg-[#FF6B35]/10 border-2 border-[#FF6B35]/30 rounded-xl p-4 mb-6 animate-pulse-slow">
               <span className="text-[#FF6B35] font-bold text-xl block">{selectedJob}</span>
             </div>
-            <p className="text-[#111111] font-medium text-sm mb-6">
-              📧 We will get back to you within 24 hours.
-            </p>
-            <button 
-              onClick={closeSuccess} 
+            <div className="bg-[#111111] text-white rounded-xl p-4 mb-6 text-left space-y-2 animate-fadeInUp animation-delay-200">
+              <p className="text-sm text-[#9B9B8A]">📧 We will get back to you within 24 hours</p>
+              <p className="text-sm text-[#9B9B8A]">📋 Check your email for confirmation</p>
+            </div>
+            <button
+              onClick={closeSuccess}
               className="w-full bg-[#FF6B35] text-white font-semibold py-3 rounded-xl hover:bg-[#E85C2D] transition-all duration-300 shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 hover:scale-[1.02]"
             >
               Got it, Thanks!
@@ -787,6 +855,20 @@ const Careers = () => {
           animation: pulse-slow 2s ease-in-out infinite;
         }
 
+        /* Spinner Animation */
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        
+        .animate-spin {
+          animation: spin 0.8s linear infinite;
+        }
+
         /* Animation Delays */
         .animation-delay-200 { animation-delay: 200ms; }
         .animation-delay-300 { animation-delay: 300ms; }
@@ -796,6 +878,11 @@ const Careers = () => {
         /* Scroll-triggered animation - initial hidden */
         .benefit-card, .job-card {
           opacity: 0;
+        }
+
+        /* Smooth scroll behavior */
+        html {
+          scroll-behavior: smooth;
         }
       `}</style>
 

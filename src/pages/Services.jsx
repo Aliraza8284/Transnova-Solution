@@ -62,7 +62,7 @@ const Services = () => {
   // ==========================================
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] font-manrope">
+    <div className="min-h-screen bg-[#FAF9F6] font-manrope pt-[70px]">
 
       {/* ==========================================
           OUR SERVICES SECTION
@@ -104,49 +104,36 @@ const Services = () => {
           </div>
 
           {/* ==========================================
-              RIGHT SIDE IMAGE
+              RIGHT SIDE IMAGE - Increased Height & Clean
              ========================================== */}
 
           <div className="relative w-full overflow-hidden lg:w-[45%] lg:rounded-l-none">
 
-            {/* Desktop Image */}
+            {/* Desktop Image - Increased Height */}
             <div
               className="
-                h-64
+                h-80
                 w-full
                 origin-bottom-right
                 bg-cover
                 bg-center
+                lg:h-56
                 lg:skew-x-[-15deg]
                 lg:rounded-l-[50px]
               "
               style={{
-                backgroundImage: "url('/Earth.png')",
-                filter: "brightness(0.75)",
+                backgroundImage: "url('/people.jpg')",
+                // Removed: filter: "brightness(0.75)",
               }}
             >
-              {/* Orange Overlay */}
-              <div
-                className="
-                  absolute
-                  inset-0
-                  origin-bottom-right
-                  bg-gradient-to-l
-                  from-[#FF6B35]/80
-                  via-[#FF6B35]/30
-                  to-transparent
-                  lg:skew-x-[-15deg]
-                "
-              />
+              {/* Removed Orange Overlay - Clean Image */}
             </div>
 
             {/* ==========================================
-                MOBILE IMAGE
+                MOBILE IMAGE - Increased Height & Clean
                ========================================== */}
 
             <div className="absolute inset-0 block lg:hidden">
-
-              {/* ✅ FIXED: people.jpj → /people.jpg */}
               <img
                 src="/people.jpg"
                 alt="Tech Services"
@@ -155,22 +142,10 @@ const Services = () => {
                   w-full
                   rounded-xl
                   object-cover
-                  brightness-75
                 "
+                // Removed: brightness-75
               />
-
-              {/* Mobile Orange Overlay */}
-              <div
-                className="
-                  absolute
-                  inset-0
-                  rounded-xl
-                  bg-gradient-to-l
-                  from-[#FF6B35]/80
-                  via-[#FF6B35]/30
-                  to-transparent
-                "
-              />
+              {/* Removed Mobile Orange Overlay */}
             </div>
           </div>
         </div>
