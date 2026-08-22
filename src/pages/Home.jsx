@@ -14,7 +14,7 @@ const Home = () => {
   const services = [
     {
       name: "BPO Solutions",
-      image: "home.jpg"
+      image: "home.png"
     },
     {
       name: "VoIP & Telecom",
@@ -98,32 +98,32 @@ const Home = () => {
       <section className="relative min-h-screen overflow-hidden bg-[#050505] font-manrope text-white flex items-center justify-center">
         {/* Background Image Slider Container */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Current Image - Full image on mobile */}
+          {/* Current Image */}
           <div
-            className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-              isTransitioning ? "opacity-0 translate-x-[-100%]" : "opacity-100 translate-x-0"
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+              isTransitioning 
+                ? "opacity-0 scale-105" 
+                : "opacity-100 scale-100"
             }`}
             style={{
               backgroundImage: `url('${services[currentIndex].image}')`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              transform: isTransitioning ? 'translateX(-100%)' : 'translateX(0)'
             }}
           />
         </div>
         
         {/* 
           ==========================================
-          SUBTLE OVERLAY - Thori si opacity
-          Only 40% dark overlay for better text visibility
+          SUBTLE OVERLAY - 30% opacity
           ==========================================
         */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/35 via-black/35 to-black/35 z-10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/30 via-black/30 to-black/30 z-10" />
         
         {/* Content */}
         <div className="relative z-20 mx-auto w-full max-w-7xl px-6 lg:px-12 text-center">
-          <div className="flex flex-col items-center justify-center space-y-6">
+          <div className="flex flex-col items-center justify-center space-y-4">
             {/* Welcome Badge */}
             <div className="flex items-center justify-center gap-3 text-[10px] font-medium uppercase tracking-[2px] text-[#FF6B35]">
               <span className="h-[1px] w-6 bg-[#FF6B35]" /> 
@@ -131,23 +131,30 @@ const Home = () => {
               <span className="h-[1px] w-6 bg-[#FF6B35]" />
             </div>
 
-            {/* Main Heading */}
+            {/* Main Heading - Trans Nova Solutions with NOVA in orange */}
             <h1 className="text-4xl font-bold leading-[1.15] text-white md:text-5xl lg:text-6xl">
-              One Company. <br /> Endless{" "}
-              <span className="text-[#FF6B35]">Solutions.</span>
+              Trans <span className="text-[#FF6B35]">NOVA</span> Solutions
             </h1>
 
-            {/* Animated Service Name Rotator */}
+            {/* Sub Heading - One Company. Endless Solutions. */}
+            <h2 className="text-2xl font-semibold text-white/90 md:text-3xl lg:text-4xl">
+              One Company. <span className="text-[#FF6B35]">Endless Solutions.</span>
+            </h2>
+
+            {/* Animated Service Name with "Providing" prefix */}
             <div className="h-12 md:h-14 lg:h-16 flex items-center justify-center">
-              <p className="text-2xl font-semibold text-[#FF6B35] md:text-3xl lg:text-4xl">
-                {displayText}
-                <span className="animate-pulse text-white">|</span>
+              <p className="text-xl font-medium text-white/80 md:text-2xl lg:text-3xl">
+                Providing{" "}
+                <span className="text-[#FF6B35] font-semibold">
+                  {displayText}
+                </span>
+                <span className="animate-pulse text-[#FF6B35]">|</span>
               </p>
             </div>
 
             {/* Description */}
-            <p className="max-w-2xl text-base leading-relaxed text-[#9B9B8A] md:text-lg">
-              Trans Nova Solutions  delivers innovative business solutions 
+            <p className="max-w-2xl text-base leading-relaxed text-white  md:text-lg">
+              Trans Nova Solutions delivers innovative business solutions 
               across BPO, Telecom, Logistics, and Digital Services.
             </p>
 

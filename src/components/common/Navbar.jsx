@@ -249,13 +249,13 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* GET A QUOTE BUTTON */}
+          {/* APPLY NOW BUTTON - Desktop */}
           <div className="hidden lg:block">
             <NavLink
-              to="/quote"
+              to="/careers"
               className="rounded-full bg-[#FF6B35] px-5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#E85C2D]"
             >
-              Get a Quote
+              Apply Now
             </NavLink>
           </div>
 
@@ -357,12 +357,13 @@ const Navbar = () => {
             </NavLink>
           ))}
 
+          {/* APPLY NOW BUTTON - Mobile */}
           <NavLink
-            to="/quote"
+            to="/careers"
             onClick={closeMenu}
             className="mt-6 block w-full rounded-full bg-[#FF6B35] px-6 py-3 text-center text-[15px] font-semibold text-white shadow-md transition-all hover:bg-[#E85C2D] hover:shadow-lg active:scale-95 flex items-center justify-center"
           >
-            Get a Quote
+            Apply Now
           </NavLink>
         </div>
       </aside>
