@@ -24,7 +24,7 @@ const Footer = () => {
   // ==========================================
   // COMPANY EMAIL
   // ==========================================
-  const companyEmail = "aligill82841@gmail.com";
+  const companyEmail = "business@transnova.solutions";
 
   // ==========================================
   // SCROLL EVENT
@@ -501,12 +501,14 @@ Your Name`
                     <FaLinkedinIn />
                   </a>
 
-                  {/* TWITTER */}
+                  {/* TWITTER / X */}
 
                   <a
-                    href="#"
+                    href="https://x.com/transnovasol?s=11"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                    aria-label="Twitter"
+                    aria-label="Twitter / X"
                   >
                     <FaTwitter />
                   </a>

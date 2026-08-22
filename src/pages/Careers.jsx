@@ -226,7 +226,7 @@ const Careers = () => {
 
       const emailData = {
 
-        to_email: "your-email@gmail.com",
+        to_email: "business@transnova.solutions",
 
         to_name: "HR Team",
 
@@ -259,7 +259,7 @@ const Careers = () => {
         start_date:
           formData.get("start_date"),
 
-        additional_info:
+        additional_details:
           formData.get("additional_info"),
 
         applied_date:
@@ -287,14 +287,9 @@ const Careers = () => {
       // EMAILJS CONFIG
       // ==========================================
 
-      const SERVICE_ID =
-        "service_cqjmmcc";
-
-      const TEMPLATE_ID =
-        "template_0owkphk";
-
-      const PUBLIC_KEY =
-        "Sf50Q47C4HaqNIBKx";
+      const EMAILJS_SERVICE_ID = "service_mwoqwbs";
+      const EMAILJS_TEMPLATE_ID = "template_zb04utt";
+      const EMAILJS_PUBLIC_KEY = "hkyeEuonkAKSiQj7d";
 
 
       // ==========================================
@@ -339,8 +334,8 @@ const Careers = () => {
         start_date:
           emailData.start_date,
 
-        additional_info:
-          emailData.additional_info,
+        additional_details:
+          emailData.additional_details,
 
         applied_date:
           emailData.applied_date,
@@ -358,10 +353,10 @@ const Careers = () => {
       // ==========================================
 
       const response = await emailjs.send(
-        SERVICE_ID,
-        TEMPLATE_ID,
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
         templateParams,
-        PUBLIC_KEY
+        EMAILJS_PUBLIC_KEY
       );
 
 
@@ -992,10 +987,9 @@ const Careers = () => {
             shadow-2xl
             flex items-center gap-3
             animate-slideDown
-            ${
-              toast.type === "success"
-                ? "bg-[#111111] border-2 border-[#FF6B35]"
-                : "bg-[#111111] border-2 border-red-500"
+            ${toast.type === "success"
+              ? "bg-[#111111] border-2 border-[#FF6B35]"
+              : "bg-[#111111] border-2 border-red-500"
             }
           `}
         >
@@ -1133,12 +1127,11 @@ const Careers = () => {
                   border
                   border-[#EDEAE4]
                   hover:-translate-y-2
-                  ${
-                    animatedBenefits.includes(
-                      String(index)
-                    )
-                      ? "animate-fadeInUp"
-                      : "opacity-0"
+                  ${animatedBenefits.includes(
+                  String(index)
+                )
+                    ? "animate-fadeInUp"
+                    : "opacity-0"
                   }
                 `}
                 style={{
@@ -1220,12 +1213,11 @@ const Careers = () => {
                   border-[#EDEAE4]
                   group
                   hover:-translate-y-1
-                  ${
-                    animatedJobs.includes(
-                      String(index)
-                    )
-                      ? "animate-fadeInUp"
-                      : "opacity-0"
+                  ${animatedJobs.includes(
+                  String(index)
+                )
+                    ? "animate-fadeInUp"
+                    : "opacity-0"
                   }
                 `}
                 style={{
@@ -2076,7 +2068,7 @@ const Careers = () => {
                         </p>
 
                         <p className="text-white text-sm">
-                          +92 300 1234567
+                          +1 404-910-4083
                         </p>
 
                       </div>
