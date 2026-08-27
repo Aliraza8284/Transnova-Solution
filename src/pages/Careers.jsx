@@ -1303,11 +1303,28 @@ const Careers = () => {
       </section>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       {/* =====================================================
           APPLICATION MODAL
       ===================================================== */}
 
       {isModalOpen && (
+
 
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-5 animate-fadeIn">
 
@@ -1368,6 +1385,316 @@ const Careers = () => {
               ====================================== */}
 
               <div className="p-5 sm:p-8 lg:p-10">
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  {/* ======================================
+                  RIGHT — CONTACT PANEL
+              ====================================== */}
+
+              <div className="bg-[#181818] border-l border-[#2A2A2A] relative overflow-hidden">
+
+
+                {/* Decorative */}
+
+                <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-[#FF6B35]/10 blur-3xl"></div>
+
+                <div className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-[#FF6B35]/5 blur-3xl"></div>
+
+
+                <div className="relative z-10 p-6 sm:p-8 lg:p-9 h-full flex flex-col">
+
+
+                  {/* Contact Header */}
+
+                  <div className="mb-8">
+
+                    <div className="w-12 h-12 rounded-2xl bg-[#FF6B35] flex items-center justify-center mb-5 shadow-lg shadow-orange-500/20">
+
+                      <FaEnvelope className="text-white text-lg" />
+
+                    </div>
+
+
+                    <h3 className="text-2xl font-bold text-white mb-3">
+                      Let's Stay Connected
+                    </h3>
+
+
+                    <p className="text-[#888888] text-sm leading-relaxed">
+
+                      Have questions about the position or
+                      application process? Our team is here to help.
+
+                    </p>
+
+                  </div>
+
+
+                  {/* ==================================
+                      CONTACT ITEMS
+                  ================================== */}
+
+                  <div className="space-y-3">
+
+
+                    {/* EMAIL */}
+
+                    <a
+                      href="mailto:your-email@gmail.com"
+                      className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] transition-all duration-300"
+                    >
+
+                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
+
+                        <FaEnvelope className="text-[#FF6B35] group-hover:text-white transition-colors" />
+
+                      </div>
+
+
+                      <div className="min-w-0">
+
+                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
+                          Email
+                        </p>
+
+                        <p className="text-white text-sm truncate">
+                          your-email@gmail.com
+                        </p>
+
+                      </div>
+
+                    </a>
+
+
+                    {/* WHATSAPP */}
+
+                    <a
+                      href="https://wa.me/923001234567"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] transition-all duration-300"
+                    >
+
+                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
+
+                        <FaWhatsapp className="text-[#FF6B35] group-hover:text-white transition-colors text-lg" />
+
+                      </div>
+
+
+                      <div>
+
+                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
+                          WhatsApp
+                        </p>
+
+                        <p className="text-white text-sm">
+                          +1 404-910-4083
+                        </p>
+
+                      </div>
+
+                    </a>
+
+
+                    {/* PHONE */}
+
+                    <a
+                      href="tel:+923001234567"
+                      className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] transition-all duration-300"
+                    >
+
+                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
+
+                        <FaPhone className="text-[#FF6B35] group-hover:text-white transition-colors" />
+
+                      </div>
+
+
+                      <div>
+
+                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
+                          Call Us
+                        </p>
+
+                        <p className="text-white text-sm">
+                          +92 300 1234567
+                        </p>
+
+                      </div>
+
+                    </a>
+
+
+                    {/* LOCATION */}
+
+                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A]">
+
+                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
+
+                        <FaMapMarkerAlt className="text-[#FF6B35]" />
+
+                      </div>
+
+
+                      <div>
+
+                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
+                          Location
+                        </p>
+
+                        <p className="text-white text-sm">
+                          Pakistan
+                        </p>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  {/* ==================================
+                      SOCIAL MEDIA
+                  ================================== */}
+
+                  <div className="mt-8">
+
+                    <p className="text-[#666666] text-[10px] uppercase tracking-widest font-semibold mb-4">
+                      Follow Us
+                    </p>
+
+
+                    <div className="flex gap-3">
+
+
+                      {/* Facebook */}
+
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook"
+                        className="w-11 h-11 rounded-xl bg-[#111111] border border-[#2A2A2A] flex items-center justify-center text-[#888888] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:-translate-y-1 transition-all duration-300"
+                      >
+
+                        <FaFacebookF />
+
+                      </a>
+
+
+                      {/* Twitter */}
+
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Twitter"
+                        className="w-11 h-11 rounded-xl bg-[#111111] border border-[#2A2A2A] flex items-center justify-center text-[#888888] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:-translate-y-1 transition-all duration-300"
+                      >
+
+                        <FaTwitter />
+
+                      </a>
+
+
+                      {/* Instagram */}
+
+                      <a
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                        className="w-11 h-11 rounded-xl bg-[#111111] border border-[#2A2A2A] flex items-center justify-center text-[#888888] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:-translate-y-1 transition-all duration-300"
+                      >
+
+                        <FaInstagram />
+
+                      </a>
+
+                    </div>
+
+                  </div>
+
+
+                  {/* ==================================
+                      CONTACT PAGE CTA
+                  ================================== */}
+
+                  <div className="mt-auto pt-8">
+
+                    <div className="p-5 rounded-2xl bg-gradient-to-br from-[#FF6B35]/15 to-transparent border border-[#FF6B35]/20">
+
+
+                      <div className="flex items-start justify-between gap-4">
+
+                        <div>
+
+                          <p className="text-white font-semibold text-sm mb-1">
+                            Need more information?
+                          </p>
+
+                          <p className="text-[#777777] text-xs leading-relaxed">
+
+                            Visit our Contact page for complete
+                            company information and support.
+
+                          </p>
+
+                        </div>
+
+
+                        <FaExternalLinkAlt className="text-[#FF6B35] text-sm mt-1 shrink-0" />
+
+                      </div>
+
+
+                      <a
+                        href="/contact"
+                        className="mt-4 w-full inline-flex items-center justify-center gap-2 bg-[#FF6B35] text-white text-sm font-semibold py-3 rounded-xl hover:bg-[#E85C2D] transition-all duration-300"
+                      >
+
+                        Contact Us
+
+                        <FaArrowRight className="text-xs" />
+
+                      </a>
+
+                    </div>
+
+
+                    {/* Availability */}
+
+                    <div className="flex items-center gap-2 mt-5">
+
+                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+
+                      <FaClock className="text-[#555555] text-xs" />
+
+                      <span className="text-[#666666] text-xs">
+
+                        Our recruitment team is available to assist you.
+
+                      </span>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
 
 
                 {/* Heading */}
@@ -1966,303 +2293,7 @@ const Careers = () => {
               </div>
 
 
-              {/* ======================================
-                  RIGHT — CONTACT PANEL
-              ====================================== */}
-
-              <div className="bg-[#181818] border-l border-[#2A2A2A] relative overflow-hidden">
-
-
-                {/* Decorative */}
-
-                <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-[#FF6B35]/10 blur-3xl"></div>
-
-                <div className="absolute -bottom-24 -left-24 w-64 h-64 rounded-full bg-[#FF6B35]/5 blur-3xl"></div>
-
-
-                <div className="relative z-10 p-6 sm:p-8 lg:p-9 h-full flex flex-col">
-
-
-                  {/* Contact Header */}
-
-                  <div className="mb-8">
-
-                    <div className="w-12 h-12 rounded-2xl bg-[#FF6B35] flex items-center justify-center mb-5 shadow-lg shadow-orange-500/20">
-
-                      <FaEnvelope className="text-white text-lg" />
-
-                    </div>
-
-
-                    <h3 className="text-2xl font-bold text-white mb-3">
-                      Let's Stay Connected
-                    </h3>
-
-
-                    <p className="text-[#888888] text-sm leading-relaxed">
-
-                      Have questions about the position or
-                      application process? Our team is here to help.
-
-                    </p>
-
-                  </div>
-
-
-                  {/* ==================================
-                      CONTACT ITEMS
-                  ================================== */}
-
-                  <div className="space-y-3">
-
-
-                    {/* EMAIL */}
-
-                    <a
-                      href="mailto:your-email@gmail.com"
-                      className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] transition-all duration-300"
-                    >
-
-                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
-
-                        <FaEnvelope className="text-[#FF6B35] group-hover:text-white transition-colors" />
-
-                      </div>
-
-
-                      <div className="min-w-0">
-
-                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
-                          Email
-                        </p>
-
-                        <p className="text-white text-sm truncate">
-                          your-email@gmail.com
-                        </p>
-
-                      </div>
-
-                    </a>
-
-
-                    {/* WHATSAPP */}
-
-                    <a
-                      href="https://wa.me/923001234567"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] transition-all duration-300"
-                    >
-
-                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
-
-                        <FaWhatsapp className="text-[#FF6B35] group-hover:text-white transition-colors text-lg" />
-
-                      </div>
-
-
-                      <div>
-
-                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
-                          WhatsApp
-                        </p>
-
-                        <p className="text-white text-sm">
-                          +1 404-910-4083
-                        </p>
-
-                      </div>
-
-                    </a>
-
-
-                    {/* PHONE */}
-
-                    <a
-                      href="tel:+923001234567"
-                      className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] transition-all duration-300"
-                    >
-
-                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
-
-                        <FaPhone className="text-[#FF6B35] group-hover:text-white transition-colors" />
-
-                      </div>
-
-
-                      <div>
-
-                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
-                          Call Us
-                        </p>
-
-                        <p className="text-white text-sm">
-                          +92 300 1234567
-                        </p>
-
-                      </div>
-
-                    </a>
-
-
-                    {/* LOCATION */}
-
-                    <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A]">
-
-                      <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
-
-                        <FaMapMarkerAlt className="text-[#FF6B35]" />
-
-                      </div>
-
-
-                      <div>
-
-                        <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">
-                          Location
-                        </p>
-
-                        <p className="text-white text-sm">
-                          Pakistan
-                        </p>
-
-                      </div>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* ==================================
-                      SOCIAL MEDIA
-                  ================================== */}
-
-                  <div className="mt-8">
-
-                    <p className="text-[#666666] text-[10px] uppercase tracking-widest font-semibold mb-4">
-                      Follow Us
-                    </p>
-
-
-                    <div className="flex gap-3">
-
-
-                      {/* Facebook */}
-
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Facebook"
-                        className="w-11 h-11 rounded-xl bg-[#111111] border border-[#2A2A2A] flex items-center justify-center text-[#888888] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:-translate-y-1 transition-all duration-300"
-                      >
-
-                        <FaFacebookF />
-
-                      </a>
-
-
-                      {/* Twitter */}
-
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Twitter"
-                        className="w-11 h-11 rounded-xl bg-[#111111] border border-[#2A2A2A] flex items-center justify-center text-[#888888] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:-translate-y-1 transition-all duration-300"
-                      >
-
-                        <FaTwitter />
-
-                      </a>
-
-
-                      {/* Instagram */}
-
-                      <a
-                        href="#"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Instagram"
-                        className="w-11 h-11 rounded-xl bg-[#111111] border border-[#2A2A2A] flex items-center justify-center text-[#888888] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:-translate-y-1 transition-all duration-300"
-                      >
-
-                        <FaInstagram />
-
-                      </a>
-
-                    </div>
-
-                  </div>
-
-
-                  {/* ==================================
-                      CONTACT PAGE CTA
-                  ================================== */}
-
-                  <div className="mt-auto pt-8">
-
-                    <div className="p-5 rounded-2xl bg-gradient-to-br from-[#FF6B35]/15 to-transparent border border-[#FF6B35]/20">
-
-
-                      <div className="flex items-start justify-between gap-4">
-
-                        <div>
-
-                          <p className="text-white font-semibold text-sm mb-1">
-                            Need more information?
-                          </p>
-
-                          <p className="text-[#777777] text-xs leading-relaxed">
-
-                            Visit our Contact page for complete
-                            company information and support.
-
-                          </p>
-
-                        </div>
-
-
-                        <FaExternalLinkAlt className="text-[#FF6B35] text-sm mt-1 shrink-0" />
-
-                      </div>
-
-
-                      <a
-                        href="/contact"
-                        className="mt-4 w-full inline-flex items-center justify-center gap-2 bg-[#FF6B35] text-white text-sm font-semibold py-3 rounded-xl hover:bg-[#E85C2D] transition-all duration-300"
-                      >
-
-                        Contact Us
-
-                        <FaArrowRight className="text-xs" />
-
-                      </a>
-
-                    </div>
-
-
-                    {/* Availability */}
-
-                    <div className="flex items-center gap-2 mt-5">
-
-                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-
-                      <FaClock className="text-[#555555] text-xs" />
-
-                      <span className="text-[#666666] text-xs">
-
-                        Our recruitment team is available to assist you.
-
-                      </span>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
-              </div>
+            
 
             </div>
 

@@ -1,6 +1,23 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// ==========================================
+// 1. ROUTER IMPORTS
+// ==========================================
+
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+
+// ==========================================
+// 2. LAYOUT & UTILITIES
+// ==========================================
+
 import MainLayout from "./layouts/MainLayout";
 import ScrollToTop from "./utils/ScrollToTop";
+
+// ==========================================
+// 3. MAIN PAGES
+// ==========================================
 
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -11,28 +28,103 @@ import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
 import CaseStudies from "./pages/CaseStudies";
 import FAQs from "./pages/FAQs";
+
+// ==========================================
+// 4. LEGAL PAGES
+// ==========================================
+
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
+
+// ==========================================
+// 5. APP COMPONENT
+// ==========================================
 
 export default function App() {
   return (
     <BrowserRouter>
+
+      {/* Scroll page to top on route change */}
       <ScrollToTop />
+
       <Routes>
+
+        {/* ==========================================
+            MAIN WEBSITE LAYOUT
+           ========================================== */}
+
         <Route element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/industries" element={<Industries />} />
-          <Route path="/careers" element={<Careers />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/case-studies" element={<CaseStudies />} />
-          <Route path="/faqs" element={<FAQs />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/terms" element={<TermsConditions />} />
+
+          {/* HOME */}
+          <Route
+            index
+            element={<Home />}
+          />
+
+          {/* ABOUT */}
+          <Route
+            path="/about"
+            element={<About />}
+          />
+
+          {/* SERVICES */}
+          <Route
+            path="/services"
+            element={<Services />}
+          />
+
+          {/* INDUSTRIES */}
+          <Route
+            path="/industries"
+            element={<Industries />}
+          />
+
+          {/* CAREERS */}
+          <Route
+            path="/careers"
+            element={<Careers />}
+          />
+
+          {/* CONTACT */}
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
+
+          {/* BLOG */}
+          <Route
+            path="/blog"
+            element={<Blog />}
+          />
+
+          {/* CASE STUDIES */}
+          <Route
+            path="/case-studies"
+            element={<CaseStudies />}
+          />
+
+          {/* FAQs */}
+          <Route
+            path="/faqs"
+            element={<FAQs />}
+          />
+
+          {/* PRIVACY POLICY */}
+          <Route
+            path="/privacy"
+            element={<PrivacyPolicy />}
+          />
+
+          {/* TERMS & CONDITIONS */}
+          <Route
+            path="/terms"
+            element={<TermsConditions />}
+          />
+
         </Route>
+
       </Routes>
+
     </BrowserRouter>
   );
 }
