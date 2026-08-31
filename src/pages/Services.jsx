@@ -3,7 +3,7 @@
 // TRUCKING COMPANY FOCUSED
 // ==========================================
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -20,107 +20,123 @@ import {
   FaShieldAlt,
   FaMapMarkedAlt,
   FaClipboardCheck,
+  FaQuoteRight,
 } from "react-icons/fa";
 
+// ==========================================
+// ANIMATION HOOK
+// ==========================================
+
+const useIntersectionObserver = (options = {}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, ...options }
+    );
+
+    const currentRef = ref.current;
+
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+      observer.disconnect();
+    };
+  }, [options]);
+
+  return [ref, isVisible];
+};
 
 // ==========================================
 // SERVICES COMPONENT
 // ==========================================
 
 const Services = () => {
-
   // ==========================================
   // MAIN SERVICES
   // ==========================================
 
   const servicesList = [
-
-    // ==========================================
-    // 01 - TRUCKING SERVICES
-    // MAIN FEATURED SERVICE
-    // ==========================================
-
     {
       number: "01",
       icon: <FaTruck />,
       title: "Trucking Services",
       shortTitle: "Trucking & Transportation",
-      desc:
-        "Complete trucking support built for carriers, owner-operators, and trucking companies looking to increase revenue, reduce downtime, and keep their trucks moving.",
+      desc: "Complete trucking support built for carriers, owner-operators, and trucking companies looking to increase revenue, reduce downtime, and keep their trucks moving.",
       highlighted: true,
+      features: ["Load Booking", "Rate Negotiation", "24/7 Dispatch"],
     },
-
-    // ==========================================
-    // 02 - BPO
-    // ==========================================
 
     {
       number: "02",
       icon: <FaHeadphones />,
       title: "BPO Solutions",
       shortTitle: "BPO Solutions",
-      desc:
-        "Professional business process outsourcing solutions designed to reduce operational workload and improve business efficiency.",
+      desc: "Professional business process outsourcing solutions designed to reduce operational workload and improve business efficiency.",
       highlighted: false,
+      features: ["Customer Support", "Data Entry", "Back Office"],
     },
-
-    // ==========================================
-    // 03 - VOIP
-    // ==========================================
 
     {
       number: "03",
       icon: <FaPhoneAlt />,
       title: "VoIP & Telecom",
       shortTitle: "VoIP & Telecom",
-      desc:
-        "Reliable communication solutions that help businesses stay connected with customers, drivers, teams, and partners.",
+      desc: "Reliable communication solutions that help businesses stay connected with customers, drivers, teams, and partners.",
       highlighted: false,
+      features: ["Cloud PBX", "Virtual Numbers", "Call Routing"],
     },
-
-    // ==========================================
-    // 04 - INVOICING
-    // ==========================================
 
     {
       number: "04",
       icon: <FaFileInvoice />,
       title: "Invoicing Solutions",
       shortTitle: "Invoicing Solutions",
-      desc:
-        "Streamlined invoicing support designed to organize billing, improve cash flow visibility, and simplify administrative work.",
+      desc: "Streamlined invoicing support designed to organize billing, improve cash flow visibility, and simplify administrative work.",
       highlighted: false,
+      features: ["Invoice Generation", "Payment Tracking", "Reports"],
     },
-
-    // ==========================================
-    // 05 - LOGISTICS
-    // ==========================================
 
     {
       number: "05",
       icon: <FaRoute />,
       title: "Logistics Solutions",
       shortTitle: "Logistics Solutions",
-      desc:
-        "End-to-end logistics support that helps businesses coordinate transportation, operations, and delivery efficiently.",
+      desc: "End-to-end logistics support that helps businesses coordinate transportation, operations, and delivery efficiently.",
       highlighted: false,
+      features: [
+        "Route Optimization",
+        "Fleet Tracking",
+        "Delivery Management",
+      ],
     },
-
-    // ==========================================
-    // 06 - OUTSOURCING
-    // ==========================================
 
     {
       number: "06",
       icon: <FaUsers />,
       title: "Outsourcing Services",
       shortTitle: "Outsourcing Services",
-      desc:
-        "Scalable outsourcing solutions that allow businesses to focus on growth while we handle essential operational tasks.",
+      desc: "Scalable outsourcing solutions that allow businesses to focus on growth while we handle essential operational tasks.",
       highlighted: false,
+      features: [
+        "Staff Augmentation",
+        "Project Outsourcing",
+        "Managed Services",
+      ],
     },
   ];
-
 
   // ==========================================
   // TRUCKING FEATURES
@@ -130,60 +146,51 @@ const Services = () => {
     {
       icon: <FaRoute />,
       title: "Load Booking",
-      desc:
-        "Find and secure suitable freight opportunities for your equipment and lanes.",
+      desc: "Find and secure suitable freight opportunities for your equipment and lanes.",
     },
 
     {
       icon: <FaHandshake />,
       title: "Broker Communication",
-      desc:
-        "Professional communication with brokers to keep your loads moving smoothly.",
+      desc: "Professional communication with brokers to keep your loads moving smoothly.",
     },
 
     {
       icon: <FaChartLine />,
       title: "Rate Negotiation",
-      desc:
-        "Work toward better freight rates and stronger revenue opportunities.",
+      desc: "Work toward better freight rates and stronger revenue opportunities.",
     },
 
     {
       icon: <FaClock />,
       title: "24/7 Dispatch Support",
-      desc:
-        "Continuous dispatch support to help reduce downtime and keep operations moving.",
+      desc: "Continuous dispatch support to help reduce downtime and keep operations moving.",
     },
 
     {
       icon: <FaMapMarkedAlt />,
       title: "Route & Lane Planning",
-      desc:
-        "Strategic planning around routes and lanes to improve operational efficiency.",
+      desc: "Strategic planning around routes and lanes to improve operational efficiency.",
     },
 
     {
       icon: <FaClipboardCheck />,
       title: "Carrier Support",
-      desc:
-        "Administrative and operational assistance for carriers and owner-operators.",
+      desc: "Administrative and operational assistance for carriers and owner-operators.",
     },
 
     {
       icon: <FaShieldAlt />,
       title: "Vetted Brokers",
-      desc:
-        "Focus on reliable freight opportunities and professional broker relationships.",
+      desc: "Focus on reliable freight opportunities and professional broker relationships.",
     },
 
     {
       icon: <FaTruck />,
       title: "Fleet Support",
-      desc:
-        "Scalable support for individual owner-operators and growing trucking fleets.",
+      desc: "Scalable support for individual owner-operators and growing trucking fleets.",
     },
   ];
-
 
   // ==========================================
   // EQUIPMENT TYPES
@@ -202,121 +209,197 @@ const Services = () => {
     "Lowboy",
   ];
 
+  // ==========================================
+  // STATISTICS
+  // ==========================================
+
+  const stats = [
+    {
+      number: "500+",
+      label: "Trucks Supported",
+    },
+    {
+      number: "98%",
+      label: "On-Time Delivery",
+    },
+    {
+      number: "24/7",
+      label: "Support Available",
+    },
+    {
+      number: "50+",
+      label: "Broker Partners",
+    },
+  ];
+
+  // ==========================================
+  // RENDER
+  // ==========================================
 
   return (
-
-    <div className="min-h-screen bg-[#FAF9F6] font-manrope pt-[70px]">
-
+    <div className="min-h-screen bg-[#FAF9F6] font-manrope pt-[70px] overflow-x-hidden">
 
       {/* =====================================================
-          HERO / HEADER
+          HERO / HEADER - WITH FLOATING IMAGE
       ===================================================== */}
 
       <section className="relative overflow-hidden bg-[#050505]">
 
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#FF6B35] blur-[120px]" />
-          <div className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#FF6B35] blur-[140px]" />
+        {/* Background Glow */}
+        <div className="absolute inset-0 opacity-30">
+
+          <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full bg-[#FF6B35] blur-[120px] animate-pulse" />
+
+          <div
+            className="absolute -bottom-40 -left-32 h-96 w-96 rounded-full bg-[#FF6B35] blur-[140px] animate-pulse"
+            style={{ animationDelay: "2s" }}
+          />
+
         </div>
 
+        <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 md:py-24 lg:px-12 lg:py-28">
 
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-12 lg:py-28">
+          {/* ==========================================
+              GRID: LEFT TEXT + RIGHT IMAGE
+          ========================================== */}
 
-          <div className="max-w-4xl">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
 
-            <p className="mb-5 text-sm font-semibold tracking-wide text-[#FF6B35]">
-              HOME / OUR SERVICES
-            </p>
+            {/* LEFT - TEXT CONTENT */}
+            <div className="max-w-4xl animate-fadeInUp">
 
+              {/* Breadcrumb */}
+              <p className="mb-4 flex items-center gap-2 text-[10px] font-semibold tracking-wide text-[#FF6B35] md:text-xs">
 
-            <div className="mb-6 flex items-center gap-3">
+                <span className="h-[2px] w-6 bg-[#FF6B35]" />
 
-              <div className="h-[3px] w-12 rounded-full bg-[#FF6B35]" />
+                HOME / OUR SERVICES
 
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#9B9B8A]">
-                Transportation & Business Solutions
-              </span>
+              </p>
 
-            </div>
+              {/* Small Heading */}
+              <div className="mb-4 flex items-center gap-3">
 
+                <div className="h-[2px] w-8 rounded-full bg-[#FF6B35] md:w-10" />
 
-            <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+                <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-[#9B9B8A] md:text-[10px] md:tracking-[0.2em]">
+                  Transportation & Business Solutions
+                </span>
 
-              <span className="block">
-                Powering Businesses.
-              </span>
+              </div>
 
-              <span className="block text-[#FF6B35]">
-                Moving Trucking Forward.
-              </span>
+              {/* Main Heading - SIZE REDUCED */}
+              <h1 className="text-2xl font-bold leading-[1.1] text-white sm:text-3xl md:text-4xl lg:text-5xl">
 
-            </h1>
+                <span className="block">
+                  Powering Businesses.
+                </span>
 
+                <span className="relative block text-[#FF6B35]">
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[#B5B5B0] md:text-lg">
+                  Moving Trucking Forward.
 
-              TransNova Solutions provides professional business and
-              transportation solutions, with a strong focus on helping
-              trucking companies keep their trucks moving, increase
-              efficiency, and grow their operations.
+                  <span className="absolute -bottom-2 left-0 h-1 w-12 rounded-full bg-[#FF6B35] md:w-16" />
 
-            </p>
+                </span>
 
+              </h1>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              {/* Description */}
+              <p className="mt-5 max-w-2xl text-xs leading-6 text-[#B5B5B0] sm:text-sm md:mt-6 md:text-sm md:leading-7">
 
-              <Link
-                to="/trucking-services"
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-3
-                  rounded-xl
-                  bg-[#FF6B35]
-                  px-7
-                  py-3.5
-                  text-sm
-                  font-bold
-                  text-white
-                  transition-all
-                  duration-300
-                  hover:bg-[#E85C2D]
-                  hover:gap-4
-                  hover:shadow-xl
-                  hover:shadow-[#FF6B35]/20
-                "
-              >
-                Explore Trucking Services
-                <FaArrowRight className="text-xs" />
-              </Link>
+                TransNova Solutions provides professional business and
+                transportation solutions, with a strong focus on helping
+                trucking companies keep their trucks moving, increase
+                efficiency, and grow their operations.
 
+              </p>
 
-              <Link
-                to="/contact"
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-3
-                  rounded-xl
-                  border
-                  border-white/20
-                  px-7
-                  py-3.5
-                  text-sm
-                  font-bold
-                  text-white
-                  transition-all
-                  duration-300
-                  hover:border-[#FF6B35]
-                  hover:text-[#FF6B35]
-                "
-              >
-                Talk to Our Team
-              </Link>
+              {/* Buttons */}
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:gap-3">
+
+                <Link
+                  to="/trucking-services"
+                  className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#FF6B35] px-5 py-2.5 text-[11px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:gap-3 hover:bg-[#E85C2D] hover:shadow-xl hover:shadow-[#FF6B35]/30 sm:px-6 sm:py-3 sm:text-xs"
+                >
+
+                  Explore Trucking Services
+
+                  <FaArrowRight className="text-[10px] transition-transform group-hover:translate-x-1" />
+
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="group inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-5 py-2.5 text-[11px] font-bold text-white transition-all duration-300 hover:border-[#FF6B35] hover:bg-white/5 hover:text-[#FF6B35] sm:px-6 sm:py-3 sm:text-xs"
+                >
+
+                  Talk to Our Team
+
+                </Link>
+
+              </div>
 
             </div>
+
+            {/* RIGHT - FLOATING IMAGE BOX */}
+            <div className="relative hidden lg:flex items-center justify-center">
+              <div className="animate-float relative">
+                <img
+                  src="/people.jpg"
+                  alt="Trucking Services"
+                  className="w-full max-w-md rounded-3xl object-cover shadow-2xl shadow-[#FF6B35]/20"
+                />
+                {/* Glow behind image */}
+                <div className="absolute -z-10 inset-0 rounded-3xl bg-[#FF6B35]/20 blur-[60px]" />
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-1.5 animate-bounce md:flex">
+
+          <span className="text-[8px] uppercase tracking-widest text-[#666]">
+            Scroll
+          </span>
+
+          <div className="h-10 w-[1px] bg-gradient-to-b from-[#FF6B35] to-transparent" />
+
+        </div>
+
+      </section>
+
+      {/* =====================================================
+          STATISTICS BAR
+      ===================================================== */}
+
+      <section className="border-y border-[#2A2A2A] bg-[#111111]">
+
+        <div className="mx-auto max-w-7xl px-6 py-6 lg:px-12">
+
+          <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+
+            {stats.map((stat, index) => (
+
+              <div
+                key={index}
+                className="group cursor-default text-center"
+              >
+
+                <p className="text-lg font-bold text-[#FF6B35] transition-all duration-300 group-hover:scale-110 md:text-xl lg:text-2xl">
+                  {stat.number}
+                </p>
+
+                <p className="mt-1 text-[9px] uppercase tracking-wider text-[#888] md:text-[10px]">
+                  {stat.label}
+                </p>
+
+              </div>
+
+            ))}
 
           </div>
 
@@ -324,48 +407,46 @@ const Services = () => {
 
       </section>
 
-
-
       {/* =====================================================
           TRUCKING FEATURE SECTION
       ===================================================== */}
 
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-12 lg:py-24">
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-12 lg:py-16">
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
 
+          {/* Left Content */}
+          <div className="space-y-4">
 
-          {/* LEFT CONTENT */}
+            <div className="flex items-center gap-2">
 
-          <div>
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FF6B35] text-white shadow-lg shadow-[#FF6B35]/30">
 
-            <div className="mb-5 flex items-center gap-3">
+                <FaTruck className="text-base" />
 
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#FF6B35] text-white shadow-lg shadow-[#FF6B35]/20">
-                <FaTruck />
               </span>
 
-              <span className="text-sm font-bold uppercase tracking-wider text-[#FF6B35]">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF6B35] md:text-xs">
                 Our #1 Focus
               </span>
 
             </div>
 
-
-            <h2 className="text-4xl font-bold leading-tight text-[#111111] md:text-5xl">
+            <h2 className="text-2xl font-bold leading-tight text-[#111111] md:text-3xl lg:text-4xl">
 
               Trucking Companies
-              <span className="block text-[#FF6B35]">
+
+              <span className="relative block text-[#FF6B35]">
+
                 Come First.
+
+                <span className="absolute -bottom-2 left-0 h-1 w-12 rounded-full bg-[#FF6B35] md:w-14" />
+
               </span>
 
             </h2>
 
-
-            <div className="mb-6 mt-4 h-[3px] w-14 rounded-full bg-[#FF6B35]" />
-
-
-            <p className="text-base leading-8 text-[#666666]">
+            <p className="text-sm leading-7 text-[#666666] md:text-base md:leading-8">
 
               We understand that a trucking company needs more than
               someone simply booking loads. Your business needs a
@@ -375,91 +456,61 @@ const Services = () => {
 
             </p>
 
+            <div className="rounded-2xl border-l-4 border-[#FF6B35] bg-[#F0EDE8] p-4 text-sm leading-7 text-[#666666] md:p-5 md:text-base md:leading-8">
 
-            <p className="mt-4 text-base leading-8 text-[#666666]">
+              <FaQuoteRight className="mb-2 text-lg text-[#FF6B35]" />
 
-              That's why our trucking solutions are designed around
-              one goal:
+              That's why our trucking solutions are designed around one goal:
 
-              <span className="font-bold text-[#111111]">
-                {" "}keeping your trucks productive while helping your
-                business grow.
+              <span className="mt-2 block font-bold text-[#111111]">
+                keeping your trucks productive while helping your business grow.
               </span>
 
-            </p>
-
+            </div>
 
             <Link
               to="/trucking-services"
-              className="
-                mt-7
-                inline-flex
-                items-center
-                gap-2
-                rounded-xl
-                bg-[#111111]
-                px-6
-                py-3
-                text-sm
-                font-bold
-                text-white
-                transition-all
-                duration-300
-                hover:bg-[#FF6B35]
-                hover:gap-3
-              "
+              className="group inline-flex items-center gap-2 rounded-lg bg-[#111111] px-5 py-2.5 text-xs font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:gap-3 hover:bg-[#FF6B35] hover:shadow-[#FF6B35]/20 sm:px-6 sm:py-3"
             >
+
               View Full Trucking Services
-              <FaArrowRight className="text-xs" />
+
+              <FaArrowRight className="text-[10px] transition-transform group-hover:translate-x-1" />
+
             </Link>
 
           </div>
 
+          {/* Right Feature Card */}
+          <div className="group relative overflow-hidden rounded-[28px] bg-[#111111] p-6 shadow-2xl transition-shadow duration-500 hover:shadow-[#FF6B35]/10 md:p-8">
 
-
-          {/* RIGHT FEATURE CARD */}
-
-          <div
-            className="
-              relative
-              overflow-hidden
-              rounded-[28px]
-              bg-[#111111]
-              p-7
-              shadow-2xl
-              md:p-9
-            "
-          >
-
-            {/* Glow */}
-
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#FF6B35]/20 blur-[80px]" />
+            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#FF6B35]/20 blur-[80px] transition-all duration-700 group-hover:bg-[#FF6B35]/30" />
 
             <div className="relative">
 
-              <div className="mb-8 flex items-center justify-between">
+              <div className="mb-6 flex items-center justify-between">
 
                 <div>
 
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#FF6B35]">
+                  <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#FF6B35] md:text-[10px]">
                     Trucking Support
                   </p>
 
-                  <h3 className="mt-2 text-2xl font-bold text-white">
+                  <h3 className="mt-1.5 text-lg font-bold text-white md:text-xl">
                     Built for Carriers
                   </h3>
 
                 </div>
 
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FF6B35] text-xl text-white shadow-lg shadow-[#FF6B35]/30 md:h-14 md:w-14 md:text-2xl">
 
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FF6B35] text-2xl text-white shadow-lg">
                   <FaTruck />
+
                 </div>
 
               </div>
 
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
 
                 {[
                   "Load Booking",
@@ -474,24 +525,14 @@ const Services = () => {
 
                   <div
                     key={index}
-                    className="
-                      flex
-                      items-center
-                      gap-3
-                      rounded-xl
-                      border
-                      border-white/10
-                      bg-white/[0.04]
-                      px-4
-                      py-3
-                    "
+                    className="group/item flex items-center gap-2.5 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2.5 transition-all duration-300 hover:border-[#FF6B35]/30 hover:bg-white/[0.08]"
                   >
 
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FF6B35]/15 text-xs text-[#FF6B35]">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#FF6B35]/20 text-[10px] text-[#FF6B35] transition-all group-hover/item:bg-[#FF6B35] group-hover/item:text-white">
                       ✓
                     </span>
 
-                    <span className="text-sm font-medium text-[#E7E7E2]">
+                    <span className="text-[10px] font-medium text-[#E7E7E2] md:text-xs">
                       {item}
                     </span>
 
@@ -509,35 +550,37 @@ const Services = () => {
 
       </section>
 
-
-
       {/* =====================================================
-          TRUCKING FEATURES
+          TRUCKING FEATURES GRID
       ===================================================== */}
 
       <section className="bg-white">
 
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-7xl px-6 py-12 lg:px-12 lg:py-16">
 
+          <div className="mx-auto mb-10 max-w-2xl text-center">
 
-          {/* HEADER */}
+            <div className="mb-3 inline-block rounded-full border border-[#FF6B35]/20 bg-[#FF6B35]/10 px-3 py-1">
 
-          <div className="mx-auto mb-12 max-w-2xl text-center">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-[#FF6B35] md:text-[10px]">
+                Trucking Solutions
+              </span>
 
-            <p className="text-sm font-bold uppercase tracking-wider text-[#FF6B35]">
-              Trucking Solutions
-            </p>
+            </div>
 
-            <h2 className="mt-3 text-3xl font-bold text-[#111111] md:text-4xl">
+            <h2 className="mt-2 text-xl font-bold text-[#111111] md:text-2xl lg:text-3xl">
 
               Everything Your Trucking
+
               <span className="text-[#FF6B35]">
                 {" "}Business Needs
               </span>
 
             </h2>
 
-            <p className="mt-4 text-sm leading-7 text-[#777777]">
+            <div className="mx-auto mt-3 h-1 w-12 rounded-full bg-[#FF6B35] md:w-14" />
+
+            <p className="mt-4 text-sm leading-7 text-[#777777] md:text-base">
 
               From finding freight to communicating with brokers,
               our team provides the operational support needed to
@@ -547,62 +590,28 @@ const Services = () => {
 
           </div>
 
-
-
-          {/* FEATURES GRID */}
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
             {truckingFeatures.map((feature, index) => (
 
               <div
                 key={index}
-                className="
-                  group
-                  rounded-2xl
-                  border
-                  border-[#EDEAE4]
-                  bg-[#FAF9F6]
-                  p-6
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-[#FF6B35]/40
-                  hover:bg-white
-                  hover:shadow-[0_15px_40px_rgba(0,0,0,0.07)]
-                "
+                className="group cursor-default rounded-2xl border border-[#EDEAE4] bg-[#FAF9F6] p-5 transition-all duration-500 hover:-translate-y-2 hover:border-[#FF6B35]/40 hover:bg-white hover:shadow-[0_20px_50px_rgba(255,107,53,0.08)]"
               >
 
-                <div
-                  className="
-                    mb-5
-                    flex
-                    h-12
-                    w-12
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-[#FF6B35]/10
-                    text-xl
-                    text-[#FF6B35]
-                    transition-all
-                    duration-300
-                    group-hover:bg-[#FF6B35]
-                    group-hover:text-white
-                  "
-                >
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FF6B35]/10 text-lg text-[#FF6B35] transition-all duration-500 group-hover:scale-110 group-hover:bg-[#FF6B35] group-hover:text-white group-hover:shadow-lg group-hover:shadow-[#FF6B35]/20">
                   {feature.icon}
                 </div>
 
-
-                <h3 className="text-base font-bold text-[#111111]">
+                <h3 className="text-sm font-bold text-[#111111] transition-colors group-hover:text-[#FF6B35] md:text-base">
                   {feature.title}
                 </h3>
 
-
-                <p className="mt-3 text-sm leading-6 text-[#777777]">
+                <p className="mt-2 text-xs leading-6 text-[#777777] md:text-sm">
                   {feature.desc}
                 </p>
+
+                <div className="mt-3 h-[2px] w-6 bg-[#FF6B35] transition-all duration-300 group-hover:w-10" />
 
               </div>
 
@@ -614,39 +623,40 @@ const Services = () => {
 
       </section>
 
-
-
       {/* =====================================================
           EQUIPMENT SECTION
       ===================================================== */}
 
       <section className="bg-[#FAF9F6]">
 
-        <div className="mx-auto max-w-7xl px-6 py-16 lg:px-12 lg:py-20">
+        <div className="mx-auto max-w-7xl px-6 py-12 lg:px-12 lg:py-16">
 
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
 
-
-            {/* LEFT */}
-
+            {/* Left */}
             <div>
 
-              <p className="text-sm font-bold uppercase tracking-wider text-[#FF6B35]">
-                Equipment We Support
-              </p>
+              <div className="mb-3 inline-block rounded-full border border-[#FF6B35]/20 bg-[#FF6B35]/10 px-3 py-1">
 
+                <span className="text-[9px] font-bold uppercase tracking-wider text-[#FF6B35] md:text-[10px]">
+                  Equipment We Support
+                </span>
 
-              <h2 className="mt-3 text-3xl font-bold text-[#111111] md:text-4xl">
+              </div>
+
+              <h2 className="text-xl font-bold text-[#111111] md:text-2xl lg:text-3xl">
 
                 Dispatch Support
+
                 <span className="block text-[#FF6B35]">
                   Across Equipment Types
                 </span>
 
               </h2>
 
+              <div className="mt-3 h-1 w-12 rounded-full bg-[#FF6B35] md:w-14" />
 
-              <p className="mt-5 max-w-lg text-sm leading-7 text-[#777777]">
+              <p className="mt-4 max-w-lg text-sm leading-7 text-[#777777] md:text-base">
 
                 Whether you're an owner-operator running one truck
                 or managing a growing fleet, our team can support
@@ -656,39 +666,22 @@ const Services = () => {
 
             </div>
 
-
-
-            {/* EQUIPMENT */}
-
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+            {/* Equipment */}
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-5">
 
               {equipmentTypes.map((equipment, index) => (
 
                 <div
                   key={index}
-                  className="
-                    flex
-                    min-h-[80px]
-                    items-center
-                    justify-center
-                    rounded-xl
-                    border
-                    border-[#EDEAE4]
-                    bg-white
-                    px-3
-                    text-center
-                    text-xs
-                    font-bold
-                    text-[#444444]
-                    shadow-[0_2px_10px_rgba(0,0,0,0.03)]
-                    transition-all
-                    duration-300
-                    hover:-translate-y-1
-                    hover:border-[#FF6B35]
-                    hover:text-[#FF6B35]
-                  "
+                  className="group relative flex min-h-[75px] cursor-default items-center justify-center overflow-hidden rounded-xl border border-[#EDEAE4] bg-white px-2.5 text-center text-[10px] font-bold text-[#444444] shadow-[0_2px_10px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-2 hover:border-[#FF6B35] hover:text-[#FF6B35] hover:shadow-lg hover:shadow-[#FF6B35]/10 md:min-h-[85px] md:text-xs"
                 >
-                  {equipment}
+
+                  <span className="relative z-10">
+                    {equipment}
+                  </span>
+
+                  <span className="absolute inset-0 bg-gradient-to-br from-[#FF6B35]/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
                 </div>
 
               ))}
@@ -701,30 +694,29 @@ const Services = () => {
 
       </section>
 
-
-
       {/* =====================================================
           ALL SERVICES
       ===================================================== */}
 
-      <section className="mx-auto max-w-7xl px-6 py-16 lg:px-12 lg:py-24">
+      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-12 lg:py-16">
 
-        <div className="mb-10">
+        <div className="mb-8">
 
-          <p className="text-sm font-bold uppercase tracking-wider text-[#FF6B35]">
-            More Solutions
-          </p>
+          <div className="mb-3 inline-block rounded-full border border-[#FF6B35]/20 bg-[#FF6B35]/10 px-3 py-1">
 
+            <span className="text-[9px] font-bold uppercase tracking-wider text-[#FF6B35] md:text-[10px]">
+              More Solutions
+            </span>
 
-          <h2 className="mt-2 text-3xl font-bold text-[#111111] md:text-4xl">
+          </div>
+
+          <h2 className="text-xl font-bold text-[#111111] md:text-2xl lg:text-3xl">
             Business Services
           </h2>
 
+          <div className="mt-3 h-1 w-12 rounded-full bg-[#FF6B35] md:w-14" />
 
-          <div className="mb-4 mt-4 h-[3px] w-12 rounded-full bg-[#FF6B35]" />
-
-
-          <p className="max-w-2xl text-sm leading-7 text-[#777777]">
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#777777] md:text-base">
 
             Beyond trucking, TransNova Solutions provides additional
             business services designed to support your company's
@@ -734,97 +726,61 @@ const Services = () => {
 
         </div>
 
-
-
-        {/* SERVICES GRID */}
-
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 
           {servicesList.slice(1).map((service) => (
 
             <div
               key={service.number}
-              className="
-                group
-                relative
-                rounded-2xl
-                border
-                border-[#EDEAE4]
-                bg-white
-                p-6
-                shadow-[0_3px_15px_rgba(0,0,0,0.03)]
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:border-[#FF6B35]/40
-                hover:shadow-[0_15px_35px_rgba(0,0,0,0.07)]
-              "
+              className="group relative rounded-2xl border border-[#EDEAE4] bg-white p-5 shadow-[0_3px_15px_rgba(0,0,0,0.03)] transition-all duration-500 hover:-translate-y-2 hover:border-[#FF6B35]/40 hover:shadow-[0_20px_50px_rgba(255,107,53,0.08)] md:p-6"
             >
 
-              {/* NUMBER */}
-
-              <div className="absolute right-5 top-5 text-3xl font-black text-[#F3F0EA]">
+              {/* Number */}
+              <div className="absolute right-4 top-4 text-2xl font-black text-[#F3F0EA] transition-all duration-500 group-hover:text-[#FF6B35]/10 md:text-3xl">
                 {service.number}
               </div>
 
-
-              {/* ICON */}
-
-              <div
-                className="
-                  mb-5
-                  flex
-                  h-12
-                  w-12
-                  items-center
-                  justify-center
-                  rounded-xl
-                  bg-[#FAF9F6]
-                  text-xl
-                  text-[#FF6B35]
-                  transition-all
-                  duration-300
-                  group-hover:bg-[#FF6B35]
-                  group-hover:text-white
-                "
-              >
+              {/* Icon */}
+              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FAF9F6] text-lg text-[#FF6B35] transition-all duration-500 group-hover:bg-[#FF6B35] group-hover:text-white group-hover:shadow-lg group-hover:shadow-[#FF6B35]/20 md:h-12 md:w-12 md:text-xl">
                 {service.icon}
               </div>
 
-
-              {/* TITLE */}
-
-              <h3 className="text-lg font-bold text-[#111111]">
+              {/* Title */}
+              <h3 className="text-sm font-bold text-[#111111] transition-colors group-hover:text-[#FF6B35] md:text-base">
                 {service.title}
               </h3>
 
-
-              {/* DESCRIPTION */}
-
-              <p className="mt-3 text-sm leading-6 text-[#777777]">
+              {/* Description */}
+              <p className="mt-2 text-xs leading-6 text-[#777777] md:text-sm">
                 {service.desc}
               </p>
 
+              {/* Tags */}
+              <div className="mt-3 flex flex-wrap gap-1.5">
 
-              {/* LINK */}
+                {service.features.map((feature, idx) => (
 
+                  <span
+                    key={idx}
+                    className="rounded-full border border-[#EDEAE4] bg-[#FAF9F6] px-2 py-0.5 text-[8px] text-[#666] md:text-[9px]"
+                  >
+                    {feature}
+                  </span>
+
+                ))}
+
+              </div>
+
+              {/* Link */}
               <Link
                 to="/contact"
-                className="
-                  mt-5
-                  inline-flex
-                  items-center
-                  gap-2
-                  text-sm
-                  font-bold
-                  text-[#FF6B35]
-                  transition-all
-                  duration-300
-                  hover:gap-3
-                "
+                className="group/link mt-4 inline-flex items-center gap-2 text-[10px] font-bold text-[#FF6B35] transition-all duration-300 hover:gap-3 group-hover:text-[#E85C2D] md:text-xs"
               >
+
                 Get Started
-                <FaArrowRight className="text-[10px]" />
+
+                <FaArrowRight className="text-[9px] transition-transform group-hover/link:translate-x-1" />
+
               </Link>
 
             </div>
@@ -835,56 +791,47 @@ const Services = () => {
 
       </section>
 
-
-
       {/* =====================================================
           TRUCKING CTA
       ===================================================== */}
 
-      <section className="px-6 pb-16 lg:px-12 lg:pb-24">
+      <section className="px-6 pb-12 lg:px-12 lg:pb-16">
 
         <div className="mx-auto max-w-7xl">
 
-          <div
-            className="
-              relative
-              overflow-hidden
-              rounded-[28px]
-              bg-[#111111]
-              px-7
-              py-12
-              md:px-12
-              lg:py-16
-            "
-          >
+          <div className="group relative overflow-hidden rounded-[28px] bg-[#111111] px-6 py-10 md:px-10 lg:py-14">
 
-            {/* BACKGROUND GLOW */}
+            {/* Glow */}
+            <div className="absolute -right-24 -top-24 h-96 w-96 rounded-full bg-[#FF6B35]/20 blur-[100px] transition-all duration-700 group-hover:bg-[#FF6B35]/30" />
 
-            <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#FF6B35]/20 blur-[100px]" />
+            <div className="absolute -bottom-32 -left-24 h-96 w-96 rounded-full bg-[#FF6B35]/10 blur-[100px] transition-all duration-700 group-hover:bg-[#FF6B35]/20" />
 
-            <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#FF6B35]/10 blur-[100px]" />
+            <div className="relative flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
 
-
-            <div className="relative flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
-
+              {/* Content */}
               <div className="max-w-2xl">
 
-                <p className="text-sm font-bold uppercase tracking-wider text-[#FF6B35]">
-                  Ready to Move Forward?
-                </p>
+                <div className="mb-3 inline-block rounded-full border border-[#FF6B35]/30 bg-[#FF6B35]/20 px-3 py-1">
 
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#FF6B35] md:text-[10px]">
+                    Ready to Move Forward?
+                  </span>
 
-                <h2 className="mt-3 text-3xl font-bold leading-tight text-white md:text-4xl">
+                </div>
+
+                <h2 className="text-xl font-bold leading-tight text-white md:text-2xl lg:text-3xl">
 
                   Let's Keep Your
-                  <span className="text-[#FF6B35]">
-                    {" "}Trucks Moving.
+
+                  <span className="block text-[#FF6B35]">
+                    Trucks Moving.
                   </span>
 
                 </h2>
 
+                <div className="mt-3 h-1 w-12 rounded-full bg-[#FF6B35] md:w-14" />
 
-                <p className="mt-4 text-sm leading-7 text-[#B5B5B0]">
+                <p className="mt-4 max-w-lg text-sm leading-7 text-[#B5B5B0] md:text-base">
 
                   Partner with TransNova Solutions for professional
                   trucking support designed around your business,
@@ -894,57 +841,27 @@ const Services = () => {
 
               </div>
 
-
-
-              <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              {/* Buttons */}
+              <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row">
 
                 <Link
                   to="/trucking-services"
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-3
-                    rounded-xl
-                    bg-[#FF6B35]
-                    px-7
-                    py-3.5
-                    text-sm
-                    font-bold
-                    text-white
-                    transition-all
-                    duration-300
-                    hover:bg-[#E85C2D]
-                    hover:gap-4
-                  "
+                  className="group/btn inline-flex items-center justify-center gap-2 rounded-lg bg-[#FF6B35] px-5 py-2.5 text-[11px] font-bold text-white transition-all duration-300 hover:-translate-y-0.5 hover:gap-3 hover:bg-[#E85C2D] hover:shadow-xl hover:shadow-[#FF6B35]/30 sm:px-6 sm:py-3 sm:text-xs"
                 >
-                  Start With Trucking
-                  <FaArrowRight className="text-xs" />
-                </Link>
 
+                  Start With Trucking
+
+                  <FaArrowRight className="text-[10px] transition-transform group-hover/btn:translate-x-1" />
+
+                </Link>
 
                 <Link
                   to="/contact"
-                  className="
-                    inline-flex
-                    items-center
-                    justify-center
-                    gap-3
-                    rounded-xl
-                    border
-                    border-white/20
-                    px-7
-                    py-3.5
-                    text-sm
-                    font-bold
-                    text-white
-                    transition-all
-                    duration-300
-                    hover:border-[#FF6B35]
-                    hover:text-[#FF6B35]
-                  "
+                  className="group/btn inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-5 py-2.5 text-[11px] font-bold text-white transition-all duration-300 hover:border-[#FF6B35] hover:bg-white/5 hover:text-[#FF6B35] sm:px-6 sm:py-3 sm:text-xs"
                 >
+
                   Contact Us
+
                 </Link>
 
               </div>
@@ -957,13 +874,73 @@ const Services = () => {
 
       </section>
 
+      {/* =====================================================
+          ANIMATION STYLES
+      ===================================================== */}
+
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 0.6;
+          }
+        }
+
+        .animate-pulse {
+          animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+
+        .animate-bounce {
+          animation: bounce 2s ease-in-out infinite;
+        }
+
+        /* ==========================================
+           FLOATING IMAGE ANIMATION
+        ========================================== */
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+      `}</style>
+
     </div>
   );
 };
-
-
-// ==========================================
-// DEFAULT EXPORT
-// ==========================================
 
 export default Services;
