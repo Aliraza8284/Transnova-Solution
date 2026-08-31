@@ -14,7 +14,14 @@ import {
   FaSync,
   FaQuoteLeft,
   FaStar,
-  FaStarHalfAlt
+  FaStarHalfAlt,
+  FaTruck,
+  FaClock,
+  FaThumbsUp,
+  FaBriefcase,
+  FaHeadset,
+  FaMapMarkerAlt,
+  FaDollarSign
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -44,9 +51,10 @@ const useInView = (threshold = 0.15) => {
 
 const AboutScript = () => {
   const [counts, setCounts] = useState({
-    years: 0,
+    experience: 0,
     clients: 0,
-    projects: 0,
+    loads: 0,
+    dailyLoads: 0,
     satisfaction: 0
   });
   const [isVisible, setIsVisible] = useState(false);
@@ -55,7 +63,6 @@ const AboutScript = () => {
   const [heroRef, heroInView] = useInView(0.1);
   const [whyRef, whyInView] = useInView(0.1);
   const [valuesRef, valuesInView] = useInView(0.1);
-  const [approachRef, approachInView] = useInView(0.1);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -78,9 +85,10 @@ const AboutScript = () => {
     if (!isVisible) return;
 
     const targets = {
-      years: 10,
-      clients: 500,
-      projects: 1200,
+      experience: 5,
+      clients: 1000,
+      loads: 100000,
+      dailyLoads: 25,
       satisfaction: 98
     };
 
@@ -95,9 +103,10 @@ const AboutScript = () => {
       const eased = 1 - Math.pow(1 - progress, 3);
 
       setCounts({
-        years: Math.min(Math.round(targets.years * eased), targets.years),
+        experience: Math.min(Math.round(targets.experience * eased), targets.experience),
         clients: Math.min(Math.round(targets.clients * eased), targets.clients),
-        projects: Math.min(Math.round(targets.projects * eased), targets.projects),
+        loads: Math.min(Math.round(targets.loads * eased), targets.loads),
+        dailyLoads: Math.min(Math.round(targets.dailyLoads * eased), targets.dailyLoads),
         satisfaction: Math.min(Math.round(targets.satisfaction * eased), targets.satisfaction)
       });
 
@@ -109,54 +118,37 @@ const AboutScript = () => {
     return () => clearInterval(timer);
   }, [isVisible]);
 
-  const benefits = [
+  const whyChooseUs = [
     {
-      Icon: FaConnectdevelop,
-      number: "01",
-      title: "Connected Thinking",
-      desc: "We look beyond individual services to understand the bigger picture and deliver solutions that truly connect.",
+      icon: <FaTruck className="text-2xl" />,
+      title: "RELIABLE & TRUSTED",
+      desc: "Consistent service you can count on, every time."
     },
     {
-      Icon: FaChartLine,
-      number: "02",
-      title: "Built to Scale",
-      desc: "Our solutions are designed to adapt to your needs and scale as your business grows.",
+      icon: <FaHeadset className="text-2xl" />,
+      title: "24/7 SUPPORT",
+      desc: "Our team is always here to keep your business moving."
     },
     {
-      Icon: FaUsers,
-      number: "03",
-      title: "Technology + People",
-      desc: "We combine human expertise with technology to deliver smarter, faster, and better outcomes.",
+      icon: <FaChartLine className="text-2xl" />,
+      title: "GROWTH FOCUSED",
+      desc: "Solutions designed to help you scale and succeed."
     },
     {
-      Icon: FaHandshake,
-      number: "04",
-      title: "One Connected Partner",
-      desc: "Multiple capabilities. One trusted partner. Less complexity, more opportunities.",
-    },
-  ];
-
-  const steps = [
-    {
-      title: "Understand",
-      desc: "We listen, analyze, and identify the real business challenge.",
-      icon: <FaLightbulb />
+      icon: <FaUsers className="text-2xl" />,
+      title: "EXPERIENCED TEAM",
+      desc: "Skilled professionals with years of industry expertise."
     },
     {
-      title: "Connect",
-      desc: "We bring together the right people, capabilities, and technology.",
-      icon: <FaConnectdevelop />
+      icon: <FaMapMarkerAlt className="text-2xl" />,
+      title: "NATIONWIDE COVERAGE",
+      desc: "Freight and logistics support across the United States."
     },
     {
-      title: "Deliver",
-      desc: "We turn strategy into practical, measurable solutions.",
-      icon: <FaRocket />
-    },
-    {
-      title: "Evolve",
-      desc: "We continuously improve as your business and market change.",
-      icon: <FaSync />
-    },
+      icon: <FaDollarSign className="text-2xl" />,
+      title: "COST EFFECTIVE",
+      desc: "Maximizing efficiency and reducing your operating costs."
+    }
   ];
 
   const values = [
@@ -240,6 +232,8 @@ const AboutScript = () => {
         .stagger-2 { transition-delay: 0.15s; }
         .stagger-3 { transition-delay: 0.25s; }
         .stagger-4 { transition-delay: 0.35s; }
+        .stagger-5 { transition-delay: 0.45s; }
+        .stagger-6 { transition-delay: 0.55s; }
 
         .float-hero-img {
           animation: float3D 5s ease-in-out infinite;
@@ -256,14 +250,14 @@ const AboutScript = () => {
       `}</style>
 
       {/* ==========================================
-          HERO / WHO WE ARE - Clean background with 3D float
+          HERO / WHO WE ARE
          ========================================== */}
       <section
         ref={heroRef}
         className="relative pt-20 pb-16 lg:pt-28 lg:pb-24"
       >
         <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 xl:gap-20 items-center">
+          <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 xl:gap-20 items-start">
             
             {/* Left Content */}
             <div className={`space-y-6 reveal-up ${heroInView ? "in-view" : ""}`}>
@@ -298,34 +292,7 @@ const AboutScript = () => {
                 </p>
               </div>
 
-              {/* Stats Row */}
-              <div className="mt-4 grid grid-cols-4 max-w-lg bg-white/90 backdrop-blur-sm rounded-2xl border border-[#EDEAE4] p-4 shadow-md">
-                <div className="text-center">
-                  <p className="text-xl font-extrabold text-[#FF6B35]">10+</p>
-                  <p className="mt-1 text-[9px] font-medium text-[#77736D] uppercase tracking-wide">
-                    Years Excellence
-                  </p>
-                </div>
-                <div className="text-center border-l border-[#EDEAE4]">
-                  <p className="text-xl font-extrabold text-[#FF6B35]">500+</p>
-                  <p className="mt-1 text-[9px] font-medium text-[#77736D] uppercase tracking-wide">
-                    Happy Clients
-                  </p>
-                </div>
-                <div className="text-center border-l border-[#EDEAE4]">
-                  <p className="text-xl font-extrabold text-[#FF6B35]">1200+</p>
-                  <p className="mt-1 text-[9px] font-medium text-[#77736D] uppercase tracking-wide">
-                    Projects Done
-                  </p>
-                </div>
-                <div className="text-center border-l border-[#EDEAE4]">
-                  <p className="text-xl font-extrabold text-[#FF6B35]">98%</p>
-                  <p className="mt-1 text-[9px] font-medium text-[#77736D] uppercase tracking-wide">
-                    Satisfaction
-                  </p>
-                </div>
-              </div>
-
+              {/* Buttons */}
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link
                   to="/contact"
@@ -343,40 +310,51 @@ const AboutScript = () => {
               </div>
             </div>
 
-            {/* Right - Image with 3D float and text below */}
+            {/* Right - Image with stats below */}
             <div className="relative flex flex-col items-center justify-center">
               <div className="float-hero-img relative w-full max-w-2xl">
                 <img
                   src="/about.png"
                   alt="Trans Nova Solutions"
-                  className="w-full h-auto max-h-[500px] rounded-3xl object-cover  "
+                  className="w-full h-auto max-h-[500px] rounded-3xl object-cover"
                 />
-                {/* Glow behind image */}
                 <div className="absolute -z-10 inset-0 rounded-3xl bg-[#FF6B35]/10 blur-[60px]" />
               </div>
               
-              {/* Text below image */}
-              <div className="mt-6 text-center">
-                <div className="flex items-center justify-center gap-6">
-                  <div className="flex items-center gap-2">
-                    <FaStar className="text-[#FF6B35] text-sm" />
-                    <span className="text-xs font-medium text-[#555]">Trusted Partner</span>
+              {/* Unified Stats Card Below Image */}
+              <div ref={statsRef} className="mt-6 w-full max-w-2xl bg-white/90 backdrop-blur-sm rounded-2xl border border-[#EDEAE4] p-4 shadow-md">
+                <div className="grid grid-cols-5">
+                  <div className="text-center">
+                    <p className="text-xl font-extrabold text-[#FF6B35]">{counts.experience}+</p>
+                    <p className="mt-1 text-[8px] font-medium text-[#77736D] uppercase tracking-wide">
+                      Years Experience
+                    </p>
                   </div>
-                  <div className="w-px h-6 bg-[#EDEAE4]"></div>
-                  <div className="flex items-center gap-2">
-                    <FaStar className="text-[#FF6B35] text-sm" />
-                    <span className="text-xs font-medium text-[#555]">4.9/5 Rating</span>
+                  <div className="text-center border-l border-[#EDEAE4]">
+                    <p className="text-xl font-extrabold text-[#FF6B35]">{counts.clients}+</p>
+                    <p className="mt-1 text-[8px] font-medium text-[#77736D] uppercase tracking-wide">
+                      Happy Clients
+                    </p>
                   </div>
-                  <div className="w-px h-6 bg-[#EDEAE4]"></div>
-                  <div className="flex items-center gap-2">
-                    <FaStar className="text-[#FF6B35] text-sm" />
-                    <span className="text-xs font-medium text-[#555]">500+ Clients</span>
+                  <div className="text-center border-l border-[#EDEAE4]">
+                    <p className="text-xl font-extrabold text-[#FF6B35]">{counts.loads.toLocaleString()}+</p>
+                    <p className="mt-1 text-[8px] font-medium text-[#77736D] uppercase tracking-wide">
+                      Total Loads Dispatched
+                    </p>
+                  </div>
+                  <div className="text-center border-l border-[#EDEAE4]">
+                    <p className="text-xl font-extrabold text-[#FF6B35]">{counts.dailyLoads}+</p>
+                    <p className="mt-1 text-[8px] font-medium text-[#77736D] uppercase tracking-wide">
+                      Daily Loads Dispatch
+                    </p>
+                  </div>
+                  <div className="text-center border-l border-[#EDEAE4]">
+                    <p className="text-xl font-extrabold text-[#FF6B35]">{counts.satisfaction}%</p>
+                    <p className="mt-1 text-[8px] font-medium text-[#77736D] uppercase tracking-wide">
+                      Satisfaction
+                    </p>
                   </div>
                 </div>
-                <p className="mt-2 text-sm text-[#77736D]">
-                  <span className="font-bold text-[#FF6B35]">10+ Years</span> of Excellence • 
-                  <span className="font-bold text-[#FF6B35] ml-1">1200+</span> Projects Delivered
-                </p>
               </div>
             </div>
 
@@ -385,147 +363,187 @@ const AboutScript = () => {
       </section>
 
       {/* ==========================================
-          WHY CHOOSE US
+          WHY CHOOSE US SECTION
          ========================================== */}
-      <section
-        ref={whyRef}
-        className="relative bg-[#070707] text-white py-16 lg:py-24 px-6 lg:px-12 overflow-hidden"
-      >
-        <div className="absolute inset-0 pointer-events-none opacity-[0.04] bg-[radial-gradient(circle_at_top_right,#FF6B35_0,transparent_35%)]" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#FF6B35]/20 to-transparent" />
+      <section className="py-16 px-4 md:px-8 lg:px-16 bg-white">
+        {/* Heading */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-[#FF6B35] tracking-wide">
+            WHY CHOOSE US
+          </h2>
+          <div className="w-24 h-1 bg-[#FF6B35] mx-auto mt-2"></div>
+        </div>
 
-        <div className="relative max-w-7xl mx-auto">
-          <div className={`flex flex-col lg:flex-row lg:items-end justify-between gap-5 mb-12 reveal-up ${whyInView ? "in-view" : ""}`}>
-            <div>
-              <div className="inline-flex items-center gap-2 bg-[#FF6B35]/10 px-3.5 py-2 rounded-full border border-[#FF6B35]/20">
-                <span className="w-1.5 h-1.5 bg-[#FF6B35] rounded-full animate-pulse" />
-                <span className="text-[#FF6B35] font-bold text-[9px] tracking-[2.5px] uppercase">
-                  Why Choose Us
-                </span>
+        {/* Sub-heading */}
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <h3 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+            Driven by Reliability.
+            <br />
+            <span className="text-[#FF6B35]">Committed to Your Success.</span>
+          </h3>
+          <p className="text-gray-700 text-base md:text-lg mt-4 max-w-2xl mx-auto">
+            At TransNova Solutions, we go beyond transportation. We build strong
+            partnerships, provide dependable support, and deliver results that
+            move your business forward.
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {/* Card 1 */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition text-center border border-gray-100">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-[#FF6B35]/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-[#FF6B35]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
               </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight mt-3 leading-tight">
-                Built Around Your
-                <span className="text-[#FF6B35] block">Growth.</span>
-              </h2>
             </div>
-
-            <p className="max-w-sm text-[#99958E] text-sm leading-6 lg:text-right">
-              One connected partner bringing people, technology, and capabilities together.
+            <h4 className="text-xl font-bold text-gray-900">RELIABLE & TRUSTED</h4>
+            <p className="text-gray-600 text-sm mt-2">
+              Consistent service you can count on, every time.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {benefits.map(({ Icon, number, title, desc }, i) => (
-              <div
-                key={number}
-                className={`card-lift group bg-gradient-to-br from-[#0f0f0f] to-[#070707] rounded-2xl p-6 border border-[#1a1a1a] hover:border-[#FF6B35]/30 hover:shadow-xl hover:shadow-[#FF6B35]/5 reveal-up stagger-${i + 1} ${whyInView ? "in-view" : ""}`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="w-11 h-11 bg-[#FF6B35]/10 rounded-xl flex items-center justify-center group-hover:bg-[#FF6B35] transition-colors duration-300">
-                    <Icon className="text-[#FF6B35] text-lg group-hover:text-white transition-colors duration-300" />
-                  </div>
-                  <span className="text-xs font-bold text-[#4D4D4D] group-hover:text-[#FF6B35] transition-colors duration-300">
-                    {number}
-                  </span>
-                </div>
-
-                <div className="mt-4">
-                  <div className="w-7 h-[2px] bg-[#FF6B35] mb-3 transition-all duration-300 group-hover:w-12" />
-                  <h3 className="text-base font-bold mb-2 group-hover:text-[#FF6B35] transition-colors duration-300">{title}</h3>
-                  <p className="text-[#96928B] text-sm leading-6">{desc}</p>
-                </div>
+          {/* Card 2 */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition text-center border border-gray-100">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-[#FF6B35]/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-[#FF6B35]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          CORE VALUES
-         ========================================== */}
-      <section ref={valuesRef} className="py-16 lg:py-24 bg-gradient-to-br from-white to-[#FAF9F6]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className={`text-center max-w-2xl mx-auto mb-12 reveal-up ${valuesInView ? "in-view" : ""}`}>
-            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-md border border-[#EDEAE4] mb-4">
-              <span className="w-1.5 h-1.5 bg-[#FF6B35] rounded-full" />
-              <span className="text-[#FF6B35] font-bold text-[9px] tracking-[2.5px] uppercase">
-                Core Values
-              </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight">
-              What Drives Us
-            </h2>
-            <div className="w-14 h-0.5 bg-[#FF6B35] mx-auto mt-3 rounded-full" />
-            <p className="text-[#9B948A] text-base mt-4 max-w-md mx-auto leading-7">
-              Our values shape our culture and define how we deliver value.
+            <h4 className="text-xl font-bold text-gray-900">24/7 SUPPORT</h4>
+            <p className="text-gray-600 text-sm mt-2">
+              Our team is always here to keep your business moving.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {values.map((value, index) => (
-              <div
-                key={index}
-                className={`card-lift group bg-white rounded-2xl p-6 text-center border border-[#EDEAE4] hover:border-[#FF6B35]/30 hover:shadow-xl reveal-up stagger-${index + 1} ${valuesInView ? "in-view" : ""}`}
-              >
-                <div className="w-14 h-14 bg-gradient-to-br from-[#FF6B35]/10 to-[#FF6B35]/5 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-[#FF6B35] transition-all duration-300 group-hover:shadow-lg group-hover:shadow-[#FF6B35]/20">
-                  <span className="text-[#FF6B35] text-xl group-hover:text-white transition-colors duration-300">
-                    {value.icon}
-                  </span>
-                </div>
-                <h4 className="text-base font-bold text-[#111111] mb-2 group-hover:text-[#FF6B35] transition-colors duration-300">
-                  {value.title}
-                </h4>
-                <p className="text-sm text-[#9B948A] leading-relaxed">{value.desc}</p>
+          {/* Card 3 */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition text-center border border-gray-100">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-[#FF6B35]/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-[#FF6B35]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          OUR APPROACH
-         ========================================== */}
-      <section ref={approachRef} className="py-16 lg:py-24 bg-white px-6 lg:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className={`text-center max-w-2xl mx-auto mb-12 reveal-up ${approachInView ? "in-view" : ""}`}>
-            <div className="inline-flex items-center gap-2 bg-[#FF6B35]/10 px-4 py-2 rounded-full border border-[#FF6B35]/20 mb-4">
-              <span className="w-1.5 h-1.5 bg-[#FF6B35] rounded-full animate-pulse" />
-              <span className="text-[#FF6B35] font-bold text-[9px] tracking-[2.5px] uppercase">
-                Our Approach
-              </span>
             </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-extrabold tracking-tight leading-tight">
-              A Connected Approach
-              <br />
-              <span className="text-[#FF6B35]">to Every Solution.</span>
-            </h2>
+            <h4 className="text-xl font-bold text-gray-900">GROWTH FOCUSED</h4>
+            <p className="text-gray-600 text-sm mt-2">
+              Solutions designed to help you scale and succeed.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className={`relative group reveal-up stagger-${index + 1} ${approachInView ? "in-view" : ""}`}
-              >
-                <div className="relative">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-[#FF6B35]/10 to-[#FF6B35]/5 border-2 border-[#FF6B35] flex items-center justify-center group-hover:scale-110 transition-all duration-300 group-hover:bg-[#FF6B35]">
-                    <span className="text-[#FF6B35] text-2xl group-hover:text-white transition-colors duration-300">
-                      {step.icon}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-5 text-center">
-                  <h3 className="font-bold text-lg text-[#111111] group-hover:text-[#FF6B35] transition-colors duration-300">
-                    {step.title}
-                  </h3>
-                  <div className="w-7 h-[2px] bg-[#FF6B35] mx-auto my-3 rounded-full group-hover:w-12 transition-all duration-300" />
-                  <p className="text-[#77736D] text-sm leading-6 max-w-[200px] mx-auto">
-                    {step.desc}
-                  </p>
-                </div>
+          {/* Card 4 */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition text-center border border-gray-100">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-[#FF6B35]/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-[#FF6B35]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
               </div>
-            ))}
+            </div>
+            <h4 className="text-xl font-bold text-gray-900">EXPERIENCED TEAM</h4>
+            <p className="text-gray-600 text-sm mt-2">
+              Skilled professionals with years of industry expertise.
+            </p>
+          </div>
+
+          {/* Card 5 */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition text-center border border-gray-100">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-[#FF6B35]/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-[#FF6B35]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h4 className="text-xl font-bold text-gray-900">NATIONWIDE COVERAGE</h4>
+            <p className="text-gray-600 text-sm mt-2">
+              Freight and logistics support across the United States.
+            </p>
+          </div>
+
+          {/* Card 6 */}
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm hover:shadow-md transition text-center border border-gray-100">
+            <div className="flex justify-center mb-3">
+              <div className="w-12 h-12 bg-[#FF6B35]/10 rounded-full flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-[#FF6B35]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h4 className="text-xl font-bold text-gray-900">COST EFFECTIVE</h4>
+            <p className="text-gray-600 text-sm mt-2">
+              Maximizing efficiency and reducing your operating costs.
+            </p>
           </div>
         </div>
       </section>

@@ -70,27 +70,24 @@ const Home = () => {
 
       {/* ==========================================
           SECTION 1: HERO
-          TRUCKING ONLY
          ========================================== */}
 
-      <section className="relative min-h-screen overflow-hidden bg-[#050505] font-manrope text-white flex items-center justify-center">
+      <section className="relative min-h-screen overflow-hidden bg-[#050505] font-manrope flex items-center justify-center">
 
         {/* ==========================================
-            TRUCKING BACKGROUND IMAGE
+            BACKGROUND IMAGE
            ========================================== */}
 
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/truck.png')",
+            backgroundImage: "url('/Main.jpeg')",
           }}
         />
 
         {/* ==========================================
-            DARK OVERLAY
+            DARK OVERLAY - REMOVED
            ========================================== */}
-
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-black/60 via-black/35 to-black/20" />
 
         {/* ==========================================
             ANIMATED DECORATIVE DIVS (glow orbs)
@@ -109,7 +106,6 @@ const Home = () => {
 
         <div className="relative z-20 mx-auto w-full max-w-7xl px-6 lg:px-12">
 
-          {/* Text center on mobile, left on tablet and above */}
           <div className="max-w-2xl text-center md:text-left">
 
             {/* ==========================================
@@ -128,49 +124,51 @@ const Home = () => {
 
 
             {/* ==========================================
-                MAIN HEADING
+                MAIN HEADING - BLACK COLOR
                ========================================== */}
 
-            <h1 className="text-4xl font-bold leading-[1.15] text-white md:text-5xl lg:text-6xl fade-up fade-up-2">
+            <h1 className="text-4xl font-bold leading-[1.15] text-black md:text-5xl lg:text-6xl fade-up fade-up-2">
 
-              Trans{" "}
+              TRUCKING{" "}
 
               <span className="text-[#FF6B35]">
-                NOVA
-              </span>{" "}
-
-              Solutions
+                & LOGISTICS
+              </span>
 
             </h1>
 
 
             {/* ==========================================
-                SUB HEADING
+                SUB HEADING - BLACK COLOR
                ========================================== */}
 
-            <h2 className="mt-3 text-2xl font-semibold text-white/90 md:text-3xl lg:text-4xl fade-up fade-up-3">
+            <h2 className="mt-3 text-2xl font-semibold text-black md:text-3xl lg:text-4xl fade-up fade-up-3">
 
-              One Company.
+              FREIGHT MOVES.
 
               <span className="text-[#FF6B35]">
-                {" "}Endless Solutions.
+                {" "}BUSINESS GROWS
               </span>
 
             </h2>
 
 
             {/* ==========================================
-                TRUCKING SERVICE TITLE
+                TAGLINE / DESCRIPTION LINE - BLACK COLOR
                ========================================== */}
 
             <div className="mt-5 fade-up fade-up-3">
 
-              <p className="text-xl font-medium text-white/90 md:text-2xl lg:text-3xl">
+              <p className="text-base font-medium text-black md:text-lg lg:text-xl">
 
-                Providing{" "}
+                Reliable trucking and logistics solutions for
 
                 <span className="font-semibold text-[#FF6B35]">
-                  Trucking Services
+                  {" "}carriers, owner-operators,
+                </span>
+
+                <span className="font-semibold text-[#FF6B35]">
+                  {" "}and fleets
                 </span>
 
                 <span className="ml-1 animate-pulse text-[#FF6B35]">
@@ -183,15 +181,20 @@ const Home = () => {
 
 
             {/* ==========================================
-                DESCRIPTION
+                DESCRIPTION - BLACK COLOR
                ========================================== */}
 
-            <p className="mt-5 max-w-xl text-sm leading-7 text-white md:text-base mx-auto md:mx-0 fade-up fade-up-4">
+            <p className="mt-5 max-w-xl text-sm leading-7 text-black md:text-base mx-auto md:mx-0 fade-up fade-up-4">
 
-              Trans Nova Solutions provides professional trucking
-              solutions for carriers, owner-operators, and fleets.
-              We help keep your trucks moving, find better freight,
-              reduce downtime, and grow your business.
+              Reliable trucking and logistics solutions for
+
+              <br />
+
+              carriers, owner-operators, and fleets
+
+              <br />
+
+              across the United States
 
             </p>
 
@@ -202,46 +205,17 @@ const Home = () => {
 
             <div className="mt-7 flex flex-wrap gap-3 justify-center md:justify-start fade-up fade-up-5">
 
-
-              {/* TRUCKING SERVICES BUTTON */}
-
-             <Link
-  to="/services"
-  className="
-    glow-btn
-    flex
-    items-center
-    gap-2
-    rounded-[4px]
-    bg-[#FF6B35]
-    px-6
-    py-3
-    text-sm
-    font-medium
-    text-white
-    transition-all
-    duration-300
-    hover:bg-[#E85C2D]
-    hover:gap-3
-  "
->
-  Explore Trucking Services
-  <FaArrowRight className="text-xs" />
-</Link>
-
-
-              {/* ABOUT BUTTON */}
+              {/* GET A QUOTE BUTTON - LINKED TO CAREERS */}
 
               <Link
-                to="/about"
+                to="/careers"
                 className="
+                  glow-btn
                   flex
                   items-center
                   gap-2
                   rounded-[4px]
-                  border
-                  border-white/40
-                  bg-transparent
+                  bg-[#FF6B35]
                   px-6
                   py-3
                   text-sm
@@ -249,16 +223,40 @@ const Home = () => {
                   text-white
                   transition-all
                   duration-300
-                  hover:border-white
-                  hover:bg-white/10
+                  hover:bg-[#E85C2D]
                   hover:gap-3
                 "
               >
-
-                About Trans Nova
-
+                Get a Quote
                 <FaArrowRight className="text-xs" />
+              </Link>
 
+              {/* EXPLORE SERVICES BUTTON */}
+
+              <Link
+                to="/services"
+                className="
+                  flex
+                  items-center
+                  gap-2
+                  rounded-[4px]
+                  border
+                  border-black/40
+                  bg-transparent
+                  px-6
+                  py-3
+                  text-sm
+                  font-medium
+                  text-black
+                  transition-all
+                  duration-300
+                  hover:border-black
+                  hover:bg-black/10
+                  hover:gap-3
+                "
+              >
+                Explore Services
+                <FaArrowRight className="text-xs" />
               </Link>
 
             </div>
