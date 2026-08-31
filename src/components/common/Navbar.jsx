@@ -1,65 +1,43 @@
 // src/components/common/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { Home, Info, Wrench, Factory, Briefcase, Mail, ChevronRight, X } from "lucide-react";
 
 const menuItems = [
   {
     label: "Home",
     path: "/",
+    icon: Home,
   },
   {
     label: "About Us",
     path: "/about",
+    icon: Info,
   },
   {
     label: "Services",
     path: "/services",
-    dropdown: true,
+    icon: Wrench,
   },
   {
     label: "Industries",
     path: "/industries",
+    icon: Factory,
   },
   {
     label: "Careers",
     path: "/careers",
+    icon: Briefcase,
   },
   {
     label: "Contact",
     path: "/contact",
-  },
-];
-
-const serviceItems = [
-  {
-    label: "BPO Solutions",
-    path: "/services/bpo-solutions",
-  },
-  {
-    label: "VoIP & Telecom",
-    path: "/services/voip-telecom",
-  },
-  {
-    label: "Invoicing Solutions",
-    path: "/services/invoicing-solutions",
-  },
-  {
-    label: "Logistics Solutions",
-    path: "/services/logistics-solutions",
-  },
-  {
-    label: "Trucking Services",
-    path: "/services/trucking-services",
-  },
-  {
-    label: "Outsourcing Services",
-    path: "/services/outsourcing-services",
+    icon: Mail,
   },
 ];
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const location = useLocation();
@@ -106,7 +84,6 @@ const Navbar = () => {
 
   const closeMenu = () => {
     setMobileMenuOpen(false);
-    setServicesOpen(false);
   };
 
   return (
@@ -121,33 +98,33 @@ const Navbar = () => {
           transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         }}
       >
-        <div className="mx-auto flex h-[50px] w-full items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[56px] sm:h-[60px] w-full items-center justify-between px-3 sm:px-6 lg:px-8">
 
-          {/* LOGO */}
+          {/* LOGO - Responsive */}
           <NavLink
             to="/"
             onClick={closeMenu}
-            className="relative flex h-full items-center"
+            className="relative flex h-full items-center gap-1.5 sm:gap-2 flex-shrink-0"
           >
             <img
               src="/alogo.png"
               alt="Transnova logo"
-              className="pointer-events-none relative h-[25px] w-auto object-contain mt-2.5 mr-3"
+              className="pointer-events-none h-[28px] sm:h-[32px] w-auto object-contain"
             />
 
-            <div className="relative z-10 flex items-center leading-none ml-0">
+            <div className="flex items-center leading-none whitespace-nowrap">
               <span
-                className={`text-[15px] font-bold tracking-[-0.5px] sm:text-[15px] ${getLogoTransColor()}`}
+                className={`text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] ${getLogoTransColor()}`}
               >
                 TRANS
               </span>
 
-              <span className="ml-1 text-[15px] font-bold tracking-[-0.5px] text-[#FF6B35] sm:text-[15px]">
+              <span className="ml-0.5 sm:ml-1 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-[#FF6B35]">
                 NOVA
               </span>
 
               <span
-                className={`ml-2 text-[15px] font-bold tracking-[-0.5px] sm:text-[15px] ${shouldBeWhite ? "text-[#111111]" : "text-white"
+                className={`ml-1.5 sm:ml-2 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] ${shouldBeWhite ? "text-[#111111]" : "text-white"
                   }`}
               >
                 SOLUTIONS
@@ -157,96 +134,30 @@ const Navbar = () => {
 
           {/* DESKTOP MENU */}
           <div className="hidden gap-4 h-full items-center lg:flex lg:flex-1 lg:justify-center">
-            {menuItems.map((item) => {
-              if (item.dropdown) {
-                return (
-                  <div
-                    key={item.path}
-                    className="relative mx-1 flex h-full items-center"
-                    onMouseEnter={() => setServicesOpen(true)}
-                    onMouseLeave={() => setServicesOpen(false)}
-                  >
-                    <NavLink
-                      to={item.path}
-                      onClick={() => setServicesOpen(false)}
-                      className={({ isActive }) =>
-                        `group relative py-1 text-[13px] font-normal transition-colors duration-300 flex items-center ${shouldBeWhite
-                          ? (isActive ? 'text-[#FF6B35]' : 'text-[#111111] hover:text-[#FF6B35]')
-                          : (isActive ? 'text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]')
-                        }`
-                      }
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <span>Services</span>
-                          <svg
-                            className={`ml-1 h-3 w-3 transition-colors duration-300 ${shouldBeWhite ? 'text-[#9B948A]' : 'text-white/60'
-                              } transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""
-                              }`}
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="m6 9 6 6 6-6"
-                            />
-                          </svg>
-                          <span
-                            className={`absolute bottom-[-2px] left-0 h-[2px] w-full origin-left rounded-full bg-[#FF6B35] transition-transform duration-200 ${isActive
-                              ? "scale-x-100"
-                              : "scale-x-0 group-hover:scale-x-100"
-                              }`}
-                          />
-                        </>
-                      )}
-                    </NavLink>
-
-                    {servicesOpen && (
-                      <div className="absolute left-0 top-full mt-2 w-48 rounded-xl border border-[#EDEAE4] bg-[#FAF9F6] p-2 shadow-xl">
-                        {serviceItems.map((service) => (
-                          <NavLink
-                            key={service.path}
-                            to={service.path}
-                            onClick={closeMenu}
-                            className="block rounded-lg px-4 py-2.5 text-sm font-normal text-[#9B948A] transition-colors hover:bg-[#EDEAE4] hover:text-[#111111]"
-                          >
-                            {service.label}
-                          </NavLink>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-
-              return (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${shouldBeWhite
-                      ? (isActive ? 'text-[#FF6B35]' : 'text-[#111111] hover:text-[#FF6B35]')
-                      : (isActive ? 'text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]')
-                    }`
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span>{item.label}</span>
-                      <span
-                        className={`absolute bottom-[-2px] left-0 h-[2px] w-full rounded-full bg-[#FF6B35] transition-transform duration-200 ${isActive
-                          ? "scale-x-100"
-                          : "scale-x-0 group-hover:scale-x-100"
-                          }`}
-                      />
-                    </>
-                  )}
-                </NavLink>
-              );
-            })}
+            {menuItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${shouldBeWhite
+                    ? (isActive ? 'text-[#FF6B35]' : 'text-[#111111] hover:text-[#FF6B35]')
+                    : (isActive ? 'text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]')
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    <span>{item.label}</span>
+                    <span
+                      className={`absolute bottom-[-2px] left-0 h-[2px] w-full rounded-full bg-[#FF6B35] transition-transform duration-200 ${isActive
+                        ? "scale-x-100"
+                        : "scale-x-0 group-hover:scale-x-100"
+                        }`}
+                    />
+                  </>
+                )}
+              </NavLink>
+            ))}
           </div>
 
           {/* APPLY NOW BUTTON - Desktop */}
@@ -263,13 +174,13 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden ${getHamburgerColor()}`}
+            className={`flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden flex-shrink-0 ${getHamburgerColor()}`}
             aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
               <svg
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -279,7 +190,7 @@ const Navbar = () => {
               </svg>
             ) : (
               <svg
-                className="h-6 w-6"
+                className="h-5 w-5 sm:h-6 sm:w-6"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -295,73 +206,87 @@ const Navbar = () => {
       {/* MOBILE MENU OVERLAY */}
       <div
         onClick={closeMenu}
-        className={`fixed inset-0 z-40 bg-black/30 transition-opacity duration-300 lg:hidden ${mobileMenuOpen
+        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${mobileMenuOpen
           ? "pointer-events-auto opacity-100"
           : "pointer-events-none opacity-0"
           }`}
       />
 
-      {/* MOBILE MENU SIDEBAR */}
+      {/* MOBILE MENU SIDEBAR - Full height right drawer */}
       <aside
-        className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 flex h-[80vh] max-h-[500px] w-[280px] max-w-[80vw] flex-col bg-[#FAF9F6] rounded-2xl shadow-2xl transition-transform duration-300 ease-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed right-0 top-0 z-50 flex h-full w-[280px] max-w-[85vw] flex-col bg-[#FAF9F6] shadow-2xl transition-transform duration-300 ease-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
-        <div className="flex h-[60px] items-center justify-between border-b border-[#EDEAE4] px-6 bg-white/50 backdrop-blur-sm rounded-t-2xl">
-          <NavLink to="/" onClick={closeMenu} className="flex items-baseline">
-            <span className="text-[20px] font-bold text-[#111111]">TRANS</span>
-            <span className="ml-[2px] text-[20px] font-bold text-[#FF6B35]">
-              NOVA
-            </span>
+        {/* Header - Mobile Menu Logo */}
+        <div className="flex h-[64px] shrink-0 items-center justify-between border-b border-[#EDEAE4] px-4 sm:px-6">
+          <NavLink to="/" onClick={closeMenu} className="flex items-center gap-2">
+            <img
+              src="/alogo.png"
+              alt="Transnova logo"
+              className="h-[26px] w-auto object-contain"
+            />
+            <div className="flex items-baseline">
+              <span className="text-[18px] font-bold text-[#111111]">TRANS</span>
+              <span className="ml-[1px] text-[18px] font-bold text-[#FF6B35]">
+                NOVA
+              </span>
+            </div>
           </NavLink>
 
           <button
             type="button"
             onClick={closeMenu}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#EDEAE4] text-[#111111] transition-colors hover:bg-[#DCD8D0]"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-[#EDEAE4]"
             aria-label="Close navigation"
           >
-            <svg
-              className="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-            >
-              <path strokeLinecap="round" d="M6 6l12 12M18 6L6 18" />
-            </svg>
+            <X className="h-5 w-5" strokeWidth={1.8} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-4">
-          {menuItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={closeMenu}
-              className={({ isActive }) =>
-                `group relative flex items-center rounded-xl px-4 py-3 mb-1 text-[15px] font-medium transition-all duration-200 ${isActive
-                  ? "bg-[#FF6B35]/10 text-[#111111]"
-                  : "text-[#9B948A] hover:bg-[#EDEAE4] hover:text-[#111111]"
-                }`
-              }
-            >
-              {({ isActive }) => (
-                <>
-                  <span>{item.label}</span>
-                  <span
-                    className={`absolute right-4 h-2 w-2 rounded-full bg-[#FF6B35] transition-all duration-200 ${isActive ? "opacity-100 scale-100" : "opacity-0 scale-0"
-                      }`}
-                  />
-                </>
-              )}
-            </NavLink>
-          ))}
+        {/* Nav items */}
+        <div className="flex-1 overflow-y-auto px-3 py-4 sm:px-4 sm:py-6">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                onClick={closeMenu}
+                className={({ isActive }) =>
+                  `group mb-1 flex items-center justify-between rounded-xl px-3 py-3 sm:px-4 sm:py-3.5 transition-all duration-200 ${isActive
+                    ? "bg-[#FF6B35] text-white shadow-md shadow-[#FF6B35]/30"
+                    : "text-[#111111] hover:bg-[#EDEAE4]"
+                  }`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    <span className="flex items-center gap-2.5 sm:gap-3">
+                      {Icon && (
+                        <Icon
+                          className={`h-[16px] w-[16px] sm:h-[18px] sm:w-[18px] ${isActive ? "text-white" : "text-[#FF6B35]"}`}
+                          strokeWidth={1.8}
+                        />
+                      )}
+                      <span className="text-[14px] sm:text-[15px] font-medium">{item.label}</span>
+                    </span>
+                    <ChevronRight
+                      className={`h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-200 ${isActive ? "text-white" : "text-[#9B948A] group-hover:translate-x-0.5"
+                        }`}
+                    />
+                  </>
+                )}
+              </NavLink>
+            );
+          })}
+        </div>
 
-          {/* APPLY NOW BUTTON - Mobile */}
+        {/* Apply Now - sticky footer */}
+        <div className="shrink-0 border-t border-[#EDEAE4] p-3 sm:p-4">
           <NavLink
             to="/careers"
             onClick={closeMenu}
-            className="mt-6 block w-full rounded-full bg-[#FF6B35] px-6 py-3 text-center text-[15px] font-semibold text-white shadow-md transition-all hover:bg-[#E85C2D] hover:shadow-lg active:scale-95 flex items-center justify-center"
+            className="flex w-full items-center justify-center rounded-full bg-[#FF6B35] px-4 py-3 sm:px-6 sm:py-3.5 text-center text-[14px] sm:text-[15px] font-semibold text-white shadow-md transition-all hover:bg-[#E85C2D] hover:shadow-lg active:scale-95"
           >
             Apply Now
           </NavLink>

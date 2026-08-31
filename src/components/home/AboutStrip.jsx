@@ -202,8 +202,18 @@ const AboutScript = () => {
           100% { opacity: 1; transform: scale(1); }
         }
         @keyframes floatCard {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-8px); }
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          25% { transform: translateY(-8px) rotate(-2deg); }
+          75% { transform: translateY(-4px) rotate(2deg); }
+        }
+
+        @keyframes float3D {
+          0%, 100% {
+            transform: translateY(0px) rotateX(2deg) rotateY(-2deg);
+          }
+          50% {
+            transform: translateY(-20px) rotateX(-2deg) rotateY(2deg);
+          }
         }
 
         .reveal { opacity: 0; }
@@ -232,7 +242,9 @@ const AboutScript = () => {
         .stagger-4 { transition-delay: 0.35s; }
 
         .float-hero-img {
-          animation: floatCard 6s ease-in-out infinite;
+          animation: float3D 5s ease-in-out infinite;
+          transform-style: preserve-3d;
+          perspective: 1000px;
         }
 
         .card-lift {
@@ -244,17 +256,15 @@ const AboutScript = () => {
       `}</style>
 
       {/* ==========================================
-          HERO / WHO WE ARE
+          HERO / WHO WE ARE - Clean background with 3D float
          ========================================== */}
       <section
         ref={heroRef}
-        className="relative pt-20 pb-16 lg:pt-28 lg:pb-24 overflow-hidden"
+        className="relative pt-20 pb-16 lg:pt-28 lg:pb-24"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FF6B35]/5 via-[#FAF9F6] to-transparent" />
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-[#FF6B35]/10 to-transparent rounded-full blur-3xl" />
-
         <div className="relative max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-12 xl:gap-20 items-center">
+            
             {/* Left Content */}
             <div className={`space-y-6 reveal-up ${heroInView ? "in-view" : ""}`}>
               {/* Badge */}
@@ -333,40 +343,43 @@ const AboutScript = () => {
               </div>
             </div>
 
-            {/* Right Content - Image */}
-            <div className={`relative reveal-scale ${heroInView ? "in-view" : ""}`}>
-              <div className="relative rounded-3xl overflow-hidden bg-white p-4 shadow-[0_25px_70px_rgba(0,0,0,0.10)] hover:shadow-[0_35px_90px_rgba(255,107,53,0.14)] transition-shadow duration-500 float-hero-img">
-                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-[#111111] to-[#1a1a1a]">
-                  <img
-                    src="about.png"
-                    alt="Trans Nova Solutions"
-                    className="w-full h-auto object-contain block"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
-                </div>
+            {/* Right - Image with 3D float and text below */}
+            <div className="relative flex flex-col items-center justify-center">
+              <div className="float-hero-img relative w-full max-w-2xl">
+                <img
+                  src="/about.png"
+                  alt="Trans Nova Solutions"
+                  className="w-full h-auto max-h-[500px] rounded-3xl object-cover  "
+                />
+                {/* Glow behind image */}
+                <div className="absolute -z-10 inset-0 rounded-3xl bg-[#FF6B35]/10 blur-[60px]" />
               </div>
-
-              {/* Floating Card */}
-              <div className="absolute -bottom-5 -left-3 sm:left-8 bg-white rounded-2xl px-6 py-4 shadow-2xl border border-[#EDEAE4]">
-                <div className="flex items-center gap-4">
-                  <div className="flex gap-0.5">
+              
+              {/* Text below image */}
+              <div className="mt-6 text-center">
+                <div className="flex items-center justify-center gap-6">
+                  <div className="flex items-center gap-2">
                     <FaStar className="text-[#FF6B35] text-sm" />
-                    <FaStar className="text-[#FF6B35] text-sm" />
-                    <FaStar className="text-[#FF6B35] text-sm" />
-                    <FaStar className="text-[#FF6B35] text-sm" />
-                    <FaStarHalfAlt className="text-[#FF6B35] text-sm" />
+                    <span className="text-xs font-medium text-[#555]">Trusted Partner</span>
                   </div>
-                  <div>
-                    <p className="text-[9px] uppercase tracking-[1.5px] font-semibold text-[#FF6B35]">
-                      Our Focus
-                    </p>
-                    <p className="text-sm font-bold text-[#111111]">
-                      People • Technology • Growth
-                    </p>
+                  <div className="w-px h-6 bg-[#EDEAE4]"></div>
+                  <div className="flex items-center gap-2">
+                    <FaStar className="text-[#FF6B35] text-sm" />
+                    <span className="text-xs font-medium text-[#555]">4.9/5 Rating</span>
+                  </div>
+                  <div className="w-px h-6 bg-[#EDEAE4]"></div>
+                  <div className="flex items-center gap-2">
+                    <FaStar className="text-[#FF6B35] text-sm" />
+                    <span className="text-xs font-medium text-[#555]">500+ Clients</span>
                   </div>
                 </div>
+                <p className="mt-2 text-sm text-[#77736D]">
+                  <span className="font-bold text-[#FF6B35]">10+ Years</span> of Excellence • 
+                  <span className="font-bold text-[#FF6B35] ml-1">1200+</span> Projects Delivered
+                </p>
               </div>
             </div>
+
           </div>
         </div>
       </section>

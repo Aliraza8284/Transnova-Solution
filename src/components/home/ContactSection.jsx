@@ -29,7 +29,7 @@ const ContactSection = () => {
   const [sectionRef, inView] = useInView(0.15);
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#FAF9F6] py-20 sm:py-24 px-4 sm:px-6 lg:px-12">
+    <section className="relative w-full overflow-hidden bg-[#FAF9F6] py-16 sm:py-20 px-4 sm:px-6 lg:px-12">
 
       {/* ==========================================
           LOCAL ANIMATION STYLES
@@ -77,14 +77,14 @@ const ContactSection = () => {
       {/* ================= MAIN CONTAINER ================= */}
       <div className="relative max-w-7xl mx-auto" ref={sectionRef}>
 
-        <div className={`card-float relative overflow-hidden rounded-[28px] border border-[#EDEAE4] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] reveal-scale ${inView ? "in-view" : ""}`}>
+        <div className={`card-float relative overflow-hidden rounded-[24px] sm:rounded-[28px] border border-[#EDEAE4] bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] reveal-scale ${inView ? "in-view" : ""}`}>
 
           {/* Decorative Lines */}
           <div className="absolute top-0 left-0 w-32 h-px bg-gradient-to-r from-[#FF6B35] to-transparent z-20" />
           <div className="absolute top-0 right-0 w-32 h-px bg-gradient-to-l from-[#FF6B35] to-transparent z-20" />
 
           {/* ================= CONTENT DIV WITH SCOPED WAVE BACKGROUND ================= */}
-          <div className="relative px-6 py-12 sm:px-10 sm:py-14 lg:px-16 lg:py-16 overflow-hidden">
+          <div className="relative px-5 sm:px-8 py-10 sm:py-12 lg:px-14 lg:py-14 overflow-hidden">
 
             {/* ---- WAVE BACKGROUND (BLACK -> WHITE), scoped to this div only ---- */}
             <div className="absolute inset-0 z-0 pointer-events-none">
@@ -117,92 +117,92 @@ const ContactSection = () => {
             {/* ================= ACTUAL CONTENT (sits above the wave bg) ================= */}
             <div className="relative z-10">
 
-              <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-10">
 
                 {/* ================= LEFT CONTENT ================= */}
                 <div className={`max-w-2xl text-center lg:text-left reveal-up stagger-1 ${inView ? "in-view" : ""}`}>
 
                   {/* Badge */}
-                  <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[#FF6B35]/25 bg-[#FF6B35]/[0.1] mb-6">
-                    <span className="relative flex h-2 w-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[#FF6B35]/25 bg-[#FF6B35]/[0.1] mb-4">
+                    <span className="relative flex h-1.5 w-1.5">
                       <span className="absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-60 animate-ping" />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF6B35]" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#FF6B35]" />
                     </span>
-                    <FaHandshake className="text-[#FF6B35] text-xs" />
-                    <span className="text-[#FF6B35] text-[10px] font-bold tracking-[2.5px] uppercase">
+                    <FaHandshake className="text-[#FF6B35] text-[10px]" />
+                    <span className="text-[#FF6B35] text-[9px] font-bold tracking-[2px] uppercase">
                       Let's Work Together
                     </span>
                   </div>
 
-                  {/* Heading — sits on black portion, so white text */}
-                  <h2 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold leading-[1.1] tracking-[-1px] text-white">
+                  {/* Heading */}
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-[1.1] tracking-[-0.5px] text-white">
                     Ready to Transform
                     <span className="block text-[#FF6B35] relative mt-1">
                       Your Business?
-                      <span className="absolute -bottom-1 left-0 w-24 h-1 bg-[#FF6B35]/40 rounded-full lg:left-0 mx-auto lg:mx-0" />
+                      <span className="absolute -bottom-1 left-0 w-16 h-0.5 bg-[#FF6B35]/40 rounded-full lg:left-0 mx-auto lg:mx-0" />
                     </span>
                   </h2>
-
-                  {/* Description — sits on black portion, fixed to text-white/65 */}
-                  <p className="mt-6 max-w-xl text-base sm:text-lg text-white/65 leading-relaxed">
+ <br /><br />
+                  {/* Description - Dark text */}
+                  <p className="mt-4 max-w-xl text-sm sm:text-base text-[#111111] leading-relaxed">
                     Let's discuss how Trans Nova Solutions can help you build
                     smarter, scale faster, and achieve your business goals with
                     cutting-edge technology and expert guidance.
                   </p>
 
-                  {/* Stats — sits on white portion, so dark text */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 sm:gap-8 mt-8">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-full bg-[#FF6B35]/10 flex items-center justify-center">
-                        <FaRocket className="text-[#FF6B35] text-sm" />
+                  {/* Stats - Dark text */}
+                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 mt-6">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-[#FF6B35]/10 flex items-center justify-center">
+                        <FaRocket className="text-[#FF6B35] text-[11px]" />
                       </div>
-                      <span className="text-[#444444] text-sm font-semibold">Fast Execution</span>
+                      <span className="text-[#444444] text-xs sm:text-sm font-semibold">Fast Execution</span>
                     </div>
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-full bg-[#FF6B35]/10 flex items-center justify-center">
-                        <FaChartLine className="text-[#FF6B35] text-sm" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-[#FF6B35]/10 flex items-center justify-center">
+                        <FaChartLine className="text-[#FF6B35] text-[11px]" />
                       </div>
-                      <span className="text-[#444444] text-sm font-semibold">Scalable Growth</span>
+                      <span className="text-[#444444] text-xs sm:text-sm font-semibold">Scalable Growth</span>
                     </div>
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-full bg-[#FF6B35]/10 flex items-center justify-center">
-                        <FaUsers className="text-[#FF6B35] text-sm" />
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-[#FF6B35]/10 flex items-center justify-center">
+                        <FaUsers className="text-[#FF6B35] text-[11px]" />
                       </div>
-                      <span className="text-[#444444] text-sm font-semibold">Expert Team</span>
+                      <span className="text-[#444444] text-xs sm:text-sm font-semibold">Expert Team</span>
                     </div>
                   </div>
                 </div>
 
-                {/* ================= RIGHT BUTTONS ================= */}
-                <div className={`flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-4 shrink-0 w-full sm:w-auto reveal-up stagger-2 ${inView ? "in-view" : ""}`}>
+                {/* ================= RIGHT BUTTONS - BOX SHAPE ================= */}
+                <div className={`flex flex-col sm:flex-row lg:flex-col xl:flex-row gap-3 shrink-0 w-full sm:w-auto reveal-up stagger-2 ${inView ? "in-view" : ""}`}>
 
-                  {/* Primary Button */}
+                  {/* Primary Button - Box Shape */}
                   <Link
                     to="/careers"
-                    className="group relative inline-flex items-center justify-center gap-3 w-full sm:min-w-[210px] px-9 py-4 rounded-full bg-gradient-to-r from-[#FF6B35] to-[#E85C2D] text-white text-sm font-bold uppercase tracking-[1.5px] transition-all duration-300 hover:shadow-2xl hover:shadow-[#FF6B35]/30 hover:-translate-y-1 active:scale-95 overflow-hidden"
+                    className="group relative inline-flex items-center justify-center gap-2 w-full sm:min-w-[160px] px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B35] to-[#E85C2D] text-white text-[11px] font-bold uppercase tracking-[1px] transition-all duration-300 hover:shadow-xl hover:shadow-[#FF6B35]/25 hover:-translate-y-0.5 active:scale-95 overflow-hidden"
                   >
                     <span className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/0 via-white/15 to-[#FF6B35]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
 
-                    <span className="relative z-10 flex items-center gap-2">
-                      <FaUsers className="text-xs" />
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      <FaUsers className="text-[10px]" />
                       Join Our Team
-                      <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+                      <FaArrowRight className="text-[10px] transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
 
-                    <span className="absolute inset-0 rounded-full bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <span className="absolute inset-0 rounded-lg bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </Link>
 
-                  {/* Secondary Button */}
+                  {/* Secondary Button - Box Shape */}
                   <Link
                     to="/services"
-                    className="group relative inline-flex items-center justify-center gap-3 w-full sm:min-w-[190px] px-9 py-4 rounded-full border border-white/25 bg-white/5 backdrop-blur-sm text-white text-sm font-bold uppercase tracking-[1.5px] transition-all duration-300 hover:border-[#FF6B35] hover:bg-[#FF6B35] hover:text-white hover:-translate-y-1 active:scale-95 overflow-hidden"
+                    className="group relative inline-flex items-center justify-center gap-2 w-full sm:min-w-[150px] px-6 py-2.5 rounded-lg border border-white/25 bg-white/5 backdrop-blur-sm text-white text-[11px] font-bold uppercase tracking-[1px] transition-all duration-300 hover:border-[#FF6B35] hover:bg-[#FF6B35] hover:text-white hover:-translate-y-0.5 active:scale-95 overflow-hidden"
                   >
                     <span className="absolute inset-0 bg-[#FF6B35] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                    <span className="relative z-10 flex items-center gap-2">
-                      <FaRocket className="text-xs" />
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      <FaRocket className="text-[10px]" />
                       Explore Services
-                      <span className="text-white/60 transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
+                      <span className="text-white/60 transition-all duration-300 group-hover:text-white group-hover:translate-x-1 text-[10px]">
                         →
                       </span>
                     </span>

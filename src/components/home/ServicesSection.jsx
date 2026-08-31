@@ -15,42 +15,68 @@ const ServicesSection = () => {
   return (
     <section className="py-16 lg:py-20 px-6 lg:px-12 bg-[#FAF9F6] font-manrope">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-10">
-          <div className="max-w-xl lg:max-w-lg">
-            <h2 className="text-4xl lg:text-5xl font-bold text-[#111111] leading-tight">Our Services</h2>
-            <div className="w-10 h-[3px] bg-[#FF6B35] mt-3 mb-6 rounded-full"></div>
-            <p className="text-[#666666] text-base leading-relaxed">Comprehensive solutions designed to optimize operations, improve efficiency.</p>
-          </div>
+        
+        {/* ==========================================
+            HEADER WITH IMAGE ON RIGHT - Like Services page
+        ========================================== */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16 items-center">
           
-          {/* ==========================================
-              IMAGE SECTION - Increased Height & Clean Image
-             ========================================== */}
-          <div className="w-full lg:w-[45%] h-80 lg:h-56 relative overflow-hidden lg:rounded-l-none">
-            <div 
-              className="h-full w-full origin-bottom-right bg-cover bg-center lg:skew-x-[-15deg] lg:rounded-l-[50px]" 
-              style={{ 
-                backgroundImage: "url('/people.jpg')"
-              }}
-            >
-              {/* Removed dark overlay - clean image */}
-              <div className="absolute inset-0 origin-bottom-right lg:skew-x-[-15deg]" />
+          {/* Left - Text Content */}
+          <div className="space-y-4 lg:space-y-6 order-2 lg:order-1">
+            <div>
+              <span className="inline-flex items-center gap-2 text-[#FF6B35] text-xs font-bold uppercase tracking-wider">
+                <span className="w-8 h-[2px] bg-[#FF6B35]"></span>
+                What We Offer
+              </span>
             </div>
             
-            {/* Mobile view - Clean image */}
-            <div className="absolute inset-0 block lg:hidden">
-              <img 
-                src="/people.jpg" 
-                alt="Tech Services" 
-                className="h-full w-full rounded-xl object-cover" 
-              />
-              {/* Removed overlay */}
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#111111] leading-tight">
+              Our <span className="text-[#FF6B35]">Services</span>
+            </h2>
+            
+            <div className="w-12 h-[3px] bg-[#FF6B35] rounded-full"></div>
+            
+            <p className="text-[#666666] text-sm sm:text-base leading-relaxed max-w-lg">
+              Comprehensive solutions designed to optimize operations, improve efficiency, and drive growth for your business across all sectors.
+            </p>
+            
+            <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
+                <span className="text-sm text-[#555]">Trusted Solutions</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
+                <span className="text-sm text-[#555]">Expert Team</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
+                <span className="text-sm text-[#555]">24/7 Support</span>
+              </div>
             </div>
           </div>
+
+          {/* Right - Image with animation and glow */}
+          <div className="relative flex items-center justify-center order-1 lg:order-2">
+            <div className="animate-float relative w-full max-w-2xl">
+              <img
+                src="/people.jpg"
+                alt="Our Services"
+                className="w-full h-auto max-h-[500px] rounded-3xl object-cover  "
+              />
+              {/* Glow behind image */}
+              <div className="absolute -z-10 inset-0 rounded-3xl bg-[#FF6B35]/10 blur-[60px]" />
+            </div>
+          </div>
+
         </div>
         
+        {/* ==========================================
+            SERVICES GRID
+        ========================================== */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {servicesList.map((service, index) => (
-            <div key={index} className="group rounded-xl border border-[#EDEAE4] bg-white p-5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-transparent hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)]">
+            <div key={index} className="group rounded-xl border border-[#EDEAE4] bg-white p-5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-transparent hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] hover:-translate-y-1">
               <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[#FAF9F6] transition-colors duration-300 group-hover:bg-[#FF6B35]/10">{service.icon}</div>
               <h3 className="mb-2 text-[17px] font-bold text-[#111111]">{service.title}</h3>
               <p className="mb-4 text-[13px] leading-relaxed text-[#777777]">{service.desc}</p>
@@ -59,6 +85,25 @@ const ServicesSection = () => {
           ))}
         </div>
       </div>
+
+      {/* ==========================================
+          FLOATING ANIMATION STYLES
+      ========================================== */}
+      <style>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+      `}</style>
+
     </section>
   );
 };
