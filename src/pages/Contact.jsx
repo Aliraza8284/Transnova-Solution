@@ -442,7 +442,7 @@ Your Name`;
       phone: "+923075043511",
       phoneDisplay: "+92 307 5043511",
       email: "info@transnova.solutions",
-      whatsapp: "+923075043511",
+      whatsapp: "+14049104083", // Unified WhatsApp
     },
     {
       id: 2,
@@ -457,7 +457,7 @@ Your Name`;
       phone: "+923208216983",
       phoneDisplay: "+92 320 8216983",
       email: "info@transnova.solutions",
-      whatsapp: "+923208216983",
+      whatsapp: "+14049104083", // Unified WhatsApp
     },
     {
       id: 3,
@@ -468,10 +468,10 @@ Your Name`;
       flag: "🇺🇸",
       mapLink: "https://maps.app.goo.gl/9FcFMkRT6gteYF1T8?g_st=iw",
       color: "from-blue-600 to-blue-800",
-      phone: "+14049104083",
-      phoneDisplay: "+1 (404) 910-4083",
+      phone: "+14072059059", // Updated USA number
+      phoneDisplay: "+1 (407) 205-9059", // Updated USA number display
       email: "info@transnova.solutions",
-      whatsapp: "+14049104083",
+      whatsapp: "+14049104083", // Unified WhatsApp
     },
   ];
 
@@ -486,7 +486,7 @@ Your Name`;
       value: "business@transnova.solutions",
       action: () => openGmail("business@transnova.solutions"),
     },
-    { icon: FaPhoneAlt, label: "Call Us", value: "+1 (404) 910-4083", action: "tel:+14049104083" },
+    { icon: FaPhoneAlt, label: "Call Us", value: "+1 (407) 205-9059", action: "tel:+14072059059" },
     {
       icon: FaWhatsapp,
       label: "WhatsApp",
@@ -843,7 +843,7 @@ Your Name`;
                     <span className="hover:underline">Email</span>
                   </button>
 
-                  {/* WhatsApp - Clickable */}
+                  {/* WhatsApp - Clickable - Same number for all */}
                   <a
                     href={`https://wa.me/${location.whatsapp}`}
                     target="_blank"

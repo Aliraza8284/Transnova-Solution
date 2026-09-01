@@ -1,7 +1,7 @@
 // src/components/common/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Home, Info, Wrench, Factory, Briefcase, Mail, ChevronRight, X } from "lucide-react";
+import { Home, Info, Wrench, Factory, Briefcase, Mail, ChevronRight, X, Truck } from "lucide-react";
 
 const menuItems = [
   {
@@ -19,6 +19,7 @@ const menuItems = [
     path: "/services",
     icon: Wrench,
   },
+
   {
     label: "Industries",
     path: "/industries",
@@ -28,6 +29,11 @@ const menuItems = [
     label: "Careers",
     path: "/careers",
     icon: Briefcase,
+  },
+    {
+    label: "Fleet Services",
+    path: "/Outlet",
+    icon: Truck,
   },
   {
     label: "Contact",
@@ -68,18 +74,10 @@ const Navbar = () => {
 
   const getNavbarBg = () => {
     if (shouldBeWhite) {
-      return 'bg-[#FAF9F6]/95 backdrop-blur-md shadow-lg shadow-black/10';
+      return 'bg-[#1A1A1A]/95 backdrop-blur-md shadow-lg shadow-black/30';
     } else {
       return 'bg-transparent';
     }
-  };
-
-  const getLogoTransColor = () => {
-    return 'text-[#111111]'; // Always black now
-  };
-
-  const getHamburgerColor = () => {
-    return 'text-[#111111] hover:bg-[#EDEAE4]'; // Always black now
   };
 
   const closeMenu = () => {
@@ -93,7 +91,7 @@ const Navbar = () => {
         style={{
           transform: isScrolled ? 'translateY(4px)' : 'translateY(0)',
           boxShadow: shouldBeWhite
-            ? '0 8px 30px rgba(0,0,0,0.12), 0 2px 10px rgba(0,0,0,0.05)'
+            ? '0 8px 30px rgba(0,0,0,0.3), 0 2px 10px rgba(0,0,0,0.15)'
             : 'none',
           transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
         }}
@@ -113,9 +111,7 @@ const Navbar = () => {
             />
 
             <div className="flex items-center leading-none whitespace-nowrap">
-              <span
-                className="text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-[#111111]"
-              >
+              <span className="text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-white">
                 TRANS
               </span>
 
@@ -123,9 +119,7 @@ const Navbar = () => {
                 NOVA
               </span>
 
-              <span
-                className="ml-1.5 sm:ml-2 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-[#111111]"
-              >
+              <span className="ml-1.5 sm:ml-2 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-white">
                 SOLUTIONS
               </span>
             </div>
@@ -139,7 +133,7 @@ const Navbar = () => {
                 to={item.path}
                 className={({ isActive }) =>
                   `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${
-                    isActive ? 'text-[#FF6B35]' : 'text-[#111111] hover:text-[#FF6B35]'
+                    isActive ? 'text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]'
                   }`
                 }
               >
@@ -147,10 +141,11 @@ const Navbar = () => {
                   <>
                     <span>{item.label}</span>
                     <span
-                      className={`absolute bottom-[-2px] left-0 h-[2px] w-full rounded-full bg-[#FF6B35] transition-transform duration-200 ${isActive
-                        ? "scale-x-100"
-                        : "scale-x-0 group-hover:scale-x-100"
-                        }`}
+                      className={`absolute bottom-[-2px] left-0 h-[2px] w-full rounded-full bg-[#FF6B35] transition-transform duration-200 ${
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100"
+                      }`}
                     />
                   </>
                 )}
@@ -158,11 +153,11 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* GET A QUOTE BUTTON - Desktop */}
+          {/* GET A QUOTE BUTTON - Desktop - Links to Fleet Services */}
           <div className="hidden lg:block">
             <NavLink
-              to="/Careers"
-              className="rounded-full border-2 border-[#FF6B35] px-5 py-1.5 text-[13px] font-medium text-[#111111] transition-colors hover:bg-[#FF6B35] hover:text-white"
+              to="/Outlet"
+              className="rounded-full border-2 border-[#FF6B35] px-5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#FF6B35] hover:text-white"
             >
               Get a Quote
             </NavLink>
@@ -172,7 +167,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden flex-shrink-0 text-[#111111] hover:bg-[#EDEAE4]"
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden flex-shrink-0 text-white hover:bg-white/10"
             aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={mobileMenuOpen}
           >
@@ -204,19 +199,21 @@ const Navbar = () => {
       {/* MOBILE MENU OVERLAY */}
       <div
         onClick={closeMenu}
-        className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${mobileMenuOpen
-          ? "pointer-events-auto opacity-100"
-          : "pointer-events-none opacity-0"
-          }`}
+        className={`fixed inset-0 z-40 bg-black/70 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+          mobileMenuOpen
+            ? "pointer-events-auto opacity-100"
+            : "pointer-events-none opacity-0"
+        }`}
       />
 
       {/* MOBILE MENU SIDEBAR - Full height right drawer */}
       <aside
-        className={`fixed right-0 top-0 z-50 flex h-full w-[280px] max-w-[85vw] flex-col bg-[#FAF9F6] shadow-2xl transition-transform duration-300 ease-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+        className={`fixed right-0 top-0 z-50 flex h-full w-[280px] max-w-[85vw] flex-col bg-[#1A1A1A] shadow-2xl transition-transform duration-300 ease-out lg:hidden ${
+          mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+        }`}
       >
         {/* Header - Mobile Menu Logo */}
-        <div className="flex h-[64px] shrink-0 items-center justify-between border-b border-[#EDEAE4] px-4 sm:px-6">
+        <div className="flex h-[64px] shrink-0 items-center justify-between border-b border-white/10 px-4 sm:px-6">
           <NavLink to="/" onClick={closeMenu} className="flex items-center gap-2">
             <img
               src="/alogo.png"
@@ -224,7 +221,7 @@ const Navbar = () => {
               className="h-[26px] w-auto object-contain"
             />
             <div className="flex items-baseline">
-              <span className="text-[18px] font-bold text-[#111111]">TRANS</span>
+              <span className="text-[18px] font-bold text-white">TRANS</span>
               <span className="ml-[1px] text-[18px] font-bold text-[#FF6B35]">
                 NOVA
               </span>
@@ -234,7 +231,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={closeMenu}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-[#111111] transition-colors hover:bg-[#EDEAE4]"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
             aria-label="Close navigation"
           >
             <X className="h-5 w-5" strokeWidth={1.8} />
@@ -251,9 +248,10 @@ const Navbar = () => {
                 to={item.path}
                 onClick={closeMenu}
                 className={({ isActive }) =>
-                  `group mb-1 flex items-center justify-between rounded-xl px-3 py-3 sm:px-4 sm:py-3.5 transition-all duration-200 ${isActive
-                    ? "bg-[#FF6B35] text-white shadow-md shadow-[#FF6B35]/30"
-                    : "text-[#111111] hover:bg-[#EDEAE4]"
+                  `group mb-1 flex items-center justify-between rounded-xl px-3 py-3 sm:px-4 sm:py-3.5 transition-all duration-200 ${
+                    isActive
+                      ? "bg-[#FF6B35] text-white shadow-md shadow-[#FF6B35]/30"
+                      : "text-white hover:bg-white/10"
                   }`
                 }
               >
@@ -262,15 +260,18 @@ const Navbar = () => {
                     <span className="flex items-center gap-2.5 sm:gap-3">
                       {Icon && (
                         <Icon
-                          className={`h-[16px] w-[16px] sm:h-[18px] sm:w-[18px] ${isActive ? "text-white" : "text-[#FF6B35]"}`}
+                          className={`h-[16px] w-[16px] sm:h-[18px] sm:w-[18px] ${
+                            isActive ? "text-white" : "text-[#FF6B35]"
+                          }`}
                           strokeWidth={1.8}
                         />
                       )}
-                      <span className="text-[14px] sm:text-[15px] font-medium">{item.label}</span>
+                      <span className="text-[14px] sm:text-[15px] font-medium text-white">{item.label}</span>
                     </span>
                     <ChevronRight
-                      className={`h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-200 ${isActive ? "text-white" : "text-[#9B948A] group-hover:translate-x-0.5"
-                        }`}
+                      className={`h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-200 ${
+                        isActive ? "text-white" : "text-white/50 group-hover:translate-x-0.5"
+                      }`}
                     />
                   </>
                 )}
@@ -279,10 +280,10 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Get a Quote - sticky footer */}
-        <div className="shrink-0 border-t border-[#EDEAE4] p-3 sm:p-4">
+        {/* Get a Quote - Mobile - Links to Fleet Services */}
+        <div className="shrink-0 border-t border-white/10 p-3 sm:p-4">
           <NavLink
-            to="/Careers"
+            to="/Outlet"
             onClick={closeMenu}
             className="flex w-full items-center justify-center rounded-full bg-[#FF6B35] px-4 py-3 sm:px-6 sm:py-3.5 text-center text-[14px] sm:text-[15px] font-semibold text-white shadow-md transition-all hover:bg-[#E85C2D] hover:shadow-lg active:scale-95"
           >

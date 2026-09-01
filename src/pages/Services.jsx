@@ -5,18 +5,18 @@ import {
   FaHeartbeat,
   FaCalculator,
   FaCheck,
+  FaArrowRight,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   return (
-   
-
     <section className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
-      {/* ===== HEADER ===== */} <br />
+      {/* ===== HEADER ===== */}
       <div className="w-full text-center mb-10 sm:mb-12">
         <div className="flex items-center justify-center gap-4 mb-4">
           <span className="w-8 sm:w-9 h-[2px] bg-[#FF5A1F]" />
-          <span className="text-[#FF5A1F] font-bold text-xs sm:text-sm uppercase tracking-wider"> 
+          <span className="text-[#FF5A1F] font-bold text-xs sm:text-sm uppercase tracking-wider">
             Our Services
           </span>
           <span className="w-8 sm:w-9 h-[2px] bg-[#FF5A1F]" />
@@ -39,138 +39,142 @@ const Services = () => {
         {/* ============================== */}
         {/* 1. TRUCKING & LOGISTICS */}
         {/* ============================== */}
-       <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
-  {/* Image — full image always visible, never cropped by absolute overlay */}
-  <div className="w-full md:w-1/2 aspect-[16/10] md:aspect-auto">
-    <img
-      src="/img (4).jpg"
-      alt="Trucking and Logistics"
-      className="w-full h-full object-cover"
-    />
-  </div>
+        <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
+          <div className="w-full md:w-1/2 aspect-[16/10] md:aspect-auto">
+            <img
+              src="/img (4).jpg"
+              alt="Trucking and Logistics"
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-  {/* Content */}
-  <div className="w-full md:w-1/2 bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
-    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#FF5A1F] text-white flex items-center justify-center text-2xl sm:text-3xl mb-6">
-      <FaTruck />
-    </div>
+          <div className="w-full md:w-1/2 bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#FF5A1F] text-white flex items-center justify-center text-2xl sm:text-3xl mb-6">
+              <FaTruck />
+            </div>
 
-    <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black uppercase leading-tight">
-      Trucking &<br />Logistics
-    </h3>
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black uppercase leading-tight">
+              Trucking &<br />Logistics
+            </h3>
 
-    <div className="w-8 h-[2px] bg-[#FF5A1F] my-5" />
+            <div className="w-8 h-[2px] bg-[#FF5A1F] my-5" />
 
-    <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-md mb-5">
-      Reliable dispatching, load management, and logistics
-      solutions designed to keep your trucks moving and
-      your business growing.
-    </p>
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-md mb-5">
+              Reliable dispatching, load management, and logistics
+              solutions designed to keep your trucks moving and
+              your business growing.
+            </p>
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
-      {[
-        "Freight Dispatching",
-        "Load Planning & Optimization",
-        "Carrier & Broker Network",
-        "Dedicated Support 24/7",
-        "On-Time, Every Time",
-      ].map((item, index) => (
-        <div key={index} className="flex items-center gap-2.5 text-sm sm:text-base text-gray-700">
-          <FaCheck className="text-[#FF5A1F] text-xs sm:text-sm flex-shrink-0" />
-          <span>{item}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-5">
+              {[
+                "Freight Dispatching",
+                "Load Planning & Optimization",
+                "Carrier & Broker Network",
+                "Dedicated Support 24/7",
+                "On-Time, Every Time",
+              ].map((item, index) => (
+                <div key={index} className="flex items-center gap-2.5 text-sm sm:text-base text-gray-700">
+                  <FaCheck className="text-[#FF5A1F] text-xs sm:text-sm flex-shrink-0" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Read More Button */}
+            <Link
+              to="/careers"
+              className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group"
+            >
+              Read More
+              <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
 
         {/* ============================== */}
         {/* 2 + 3: AUTO + HEALTH INSURANCE */}
         {/* ============================== */}
-       <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 px-4 sm:px-6 lg:px-8">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
 
-  {/* --- Commercial Auto Insurance --- */}
-  <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+          {/* --- Commercial Auto Insurance --- */}
+          <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+            <div className="w-full h-48 sm:h-56 overflow-hidden">
+              <img
+                src="/img (1).jpg"
+                alt="Commercial Auto Insurance"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
 
-    {/* Image */}
-    <div className="w-full h-48 sm:h-56 overflow-hidden">
-      <img
-        src="/img (1).jpg"
-        alt="Commercial Auto Insurance"
-        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-      />
-    </div>
+            <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#FF5A1F] text-white flex items-center justify-center text-base sm:text-lg mb-3">
+                <FaShieldAlt />
+              </div>
 
-    {/* Content */}
-    <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
+              <h3 className="text-sm sm:text-base font-extrabold text-black uppercase leading-tight">
+                Commercial Auto Insurance
+              </h3>
 
-      {/* Icon */}
-      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#FF5A1F] text-white flex items-center justify-center text-base sm:text-lg mb-3">
-        <FaShieldAlt />
-      </div>
+              <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
 
-      {/* Heading */}
-      <h3 className="text-sm sm:text-base font-extrabold text-black uppercase leading-tight">
-        Commercial Auto Insurance
-      </h3>
+              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-4">
+                We work with licensed insurance agents to find
+                the right coverage for your truck and business.
+              </p>
 
-      {/* Orange Line */}
-      <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
+              {/* Read More Button */}
+              <Link
+                to="/careers"
+                className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group mt-auto"
+              >
+                Read More
+                <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
+          </div>
 
-      {/* Description */}
-      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-        We work with licensed insurance agents to find
-        the right coverage for your truck and business.
-      </p>
+          {/* --- Health Care Insurance --- */}
+          <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+            <div className="w-full h-48 sm:h-56 overflow-hidden">
+              <img
+                src="/img (2).jpg"
+                alt="Health Care Insurance"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
 
-    </div>
-  </div>
+            <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#FF5A1F] text-white flex items-center justify-center text-base sm:text-lg mb-3">
+                <FaHeartbeat />
+              </div>
 
+              <h3 className="text-sm sm:text-base font-extrabold text-black uppercase leading-tight">
+                Health Care Insurance
+              </h3>
 
-  {/* --- Health Care Insurance --- */}
-  <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+              <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
 
-    {/* Image */}
-    <div className="w-full h-48 sm:h-56 overflow-hidden">
-      <img
-        src="/img (2).jpg"
-        alt="Health Care Insurance"
-        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-      />
-    </div>
+              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-4">
+                Access quality health coverage through our trusted
+                licensed insurance agents.
+              </p>
 
-    {/* Content */}
-    <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
-
-      {/* Icon */}
-      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#FF5A1F] text-white flex items-center justify-center text-base sm:text-lg mb-3">
-        <FaHeartbeat />
-      </div>
-
-      {/* Heading */}
-      <h3 className="text-sm sm:text-base font-extrabold text-black uppercase leading-tight">
-        Health Care Insurance
-      </h3>
-
-      {/* Orange Line */}
-      <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
-
-      {/* Description */}
-      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-        Access quality health coverage through our trusted
-        licensed insurance agents.
-      </p>
-
-    </div>
-  </div>
-
-</div> 
+              {/* Read More Button */}
+              <Link
+                to="/careers"
+                className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group mt-auto"
+              >
+                Read More
+                <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
+            </div>
+          </div>
+        </div>
 
         {/* ============================== */}
         {/* 4. BOOKKEEPING & ACCOUNTING */}
         {/* ============================== */}
         <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
-          {/* Image */}
           <div className="w-full md:w-[35%] lg:w-[30%] aspect-[16/10] md:aspect-auto">
             <img
               src="/img (3).jpg"
@@ -179,9 +183,7 @@ const Services = () => {
             />
           </div>
 
-          {/* Content */}
           <div className="w-full md:w-[65%] lg:w-[70%] bg-white p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-8">
-            {/* Left */}
             <div className="w-full lg:w-[40%] xl:w-[38%]">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#FF5A1F] text-white flex items-center justify-center text-xl sm:text-2xl flex-shrink-0">
@@ -201,10 +203,8 @@ const Services = () => {
               </p>
             </div>
 
-            {/* Divider */}
             <div className="hidden lg:block w-px h-28 bg-gray-200 self-stretch" />
 
-            {/* Right - Features */}
             <div className="w-full lg:flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
               {[
                 "Bookkeeping & Record Keeping",
@@ -223,9 +223,17 @@ const Services = () => {
           </div>
         </div>
 
+        {/* Read More Button for Bookkeeping (outside the card) */}
+        <div className="flex justify-end mt-2">
+          <Link
+            to="/careers"
+            className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group"
+          >
+            Read More
+            <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+        </div>
 
-
-        
       </div>
     </section>
   );

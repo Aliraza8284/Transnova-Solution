@@ -6,6 +6,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
+  Outlet,  // ← This is React Router's Outlet
 } from "react-router-dom";
 
 // ==========================================
@@ -37,13 +38,23 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 
 // ==========================================
-// 5. APP COMPONENT
+// 5. DRIVE WITH TLS PAGE
+// ==========================================
+
+import DriveWithTLS from "./pages/Outlet";  // ← Import the renamed component
+
+// ==========================================
+// 6. APP COMPONENT
 // ==========================================
 
 export default function App() {
   return (
-    <BrowserRouter>
-
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       {/* Scroll page to top on route change */}
       <ScrollToTop />
 
@@ -56,70 +67,40 @@ export default function App() {
         <Route element={<MainLayout />}>
 
           {/* HOME */}
-          <Route
-            index
-            element={<Home />}
-          />
+          <Route index element={<Home />} />
 
           {/* ABOUT */}
-          <Route
-            path="/about"
-            element={<About />}
-          />
+          <Route path="/about" element={<About />} />
 
           {/* SERVICES */}
-          <Route
-            path="/services"
-            element={<Services />}
-          />
+          <Route path="/services" element={<Services />} />
+
+          {/* FLEET SERVICES / DRIVE WITH TLS */}
+          <Route path="/Outlet" element={<DriveWithTLS />} />
 
           {/* INDUSTRIES */}
-          <Route
-            path="/industries"
-            element={<Industries />}
-          />
+          <Route path="/industries" element={<Industries />} />
 
           {/* CAREERS */}
-          <Route
-            path="/careers"
-            element={<Careers />}
-          />
+          <Route path="/careers" element={<Careers />} />
 
           {/* CONTACT */}
-          <Route
-            path="/contact"
-            element={<Contact />}
-          />
+          <Route path="/contact" element={<Contact />} />
 
           {/* BLOG */}
-          <Route
-            path="/blog"
-            element={<Blog />}
-          />
+          <Route path="/blog" element={<Blog />} />
 
           {/* CASE STUDIES */}
-          <Route
-            path="/case-studies"
-            element={<CaseStudies />}
-          />
+          <Route path="/case-studies" element={<CaseStudies />} />
 
           {/* FAQs */}
-          <Route
-            path="/faqs"
-            element={<FAQs />}
-          />
+          <Route path="/faqs" element={<FAQs />} />
 
           {/* PRIVACY POLICY */}
-          <Route
-            path="/privacy"
-            element={<PrivacyPolicy />}
-          />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
           {/* TERMS & CONDITIONS */}
-          <Route
-            path="/terms"
-            element={<TermsConditions />}
-          />
+          <Route path="/terms" element={<TermsConditions />} />
 
         </Route>
 

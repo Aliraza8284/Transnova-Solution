@@ -330,7 +330,7 @@ const AboutScript = () => {
             <div className="relative flex flex-col items-center justify-center mt-6 lg:mt-0">
               <div className="float-hero-img relative w-full max-w-2xl">
                 <img
-                  src="/about.png"
+                  src="/Above.png"
                   alt="Trans Nova Solutions"
                   className="w-full h-auto max-h-[300px] sm:max-h-[400px] md:max-h-[450px] lg:max-h-[500px] rounded-2xl sm:rounded-3xl object-cover"
                 />

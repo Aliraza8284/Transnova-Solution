@@ -6,24 +6,10 @@ import {
   FaHeartbeat,
   FaCalculator,
   FaCheck,
-  FaArrowRight,
-  FaHeadphones,
-  FaPhoneAlt,
-  FaFileInvoice,
-  FaUsers
+  FaArrowRight
 } from 'react-icons/fa';
 
 const ServicesSection = () => {
-  // Additional services data
-  const additionalServices = [
-    { icon: <FaHeadphones className="text-xl text-[#FF6B35]" />, title: 'BPO Solutions', desc: 'Delivering exceptional customer experiences with tailored support.' },
-    { icon: <FaPhoneAlt className="text-xl text-[#FF6B35]" />, title: 'VoIP & Telecom', desc: 'Connecting businesses with reliable communication solutions.' },
-    { icon: <FaFileInvoice className="text-xl text-[#FF6B35]" />, title: 'Invoicing Solutions', desc: 'Automated invoicing for better cash flow.' },
-    { icon: <FaTruck className="text-xl text-[#FF6B35]" />, title: 'Logistics Solutions', desc: 'End-to-end logistics management that ensures timely delivery.' },
-    { icon: <FaTruck className="text-xl text-[#FF6B35]" />, title: 'Trucking Services', desc: 'Safe and reliable trucking services across North America.' },
-    { icon: <FaUsers className="text-xl text-[#FF6B35]" />, title: 'Outsourcing Services', desc: 'Scalable outsourcing solutions to improve business performance.' },
-  ];
-
   return (
     <section className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
       {/* ===== HEADER ===== */}
@@ -53,18 +39,9 @@ const ServicesSection = () => {
         {/* ============================== */}
         {/* 1. TRUCKING & LOGISTICS */}
         {/* ============================== */}
-        <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
-          {/* Image */}
-          <div className="w-full md:w-[45%] lg:w-[40%] aspect-[16/10] md:aspect-auto">
-            <img
-              src="/imga.png"
-              alt="Trucking and Logistics"
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Content */}
-          <div className="w-full md:w-[55%] lg:w-[60%] bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+        <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row">
+          {/* Content - 50% (Left) */}
+          <div className="w-full md:w-1/2 bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#FF5A1F] text-white flex items-center justify-center text-2xl sm:text-3xl mb-6">
               <FaTruck />
             </div>
@@ -81,7 +58,7 @@ const ServicesSection = () => {
               your business growing.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5 mb-5">
               {[
                 "Freight Dispatching",
                 "Load Planning & Optimization",
@@ -95,6 +72,24 @@ const ServicesSection = () => {
                 </div>
               ))}
             </div>
+
+            {/* Read More Button */}
+            <Link
+              to="/careers"
+              className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group"
+            >
+              Read More
+              <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+            </Link>
+          </div>
+
+          {/* Image - 50% (Right) */}
+          <div className="w-full md:w-1/2 aspect-[16/10] md:aspect-auto">
+            <img
+              src="/img (4).jpg"
+              alt="Trucking and Logistics"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
@@ -124,10 +119,19 @@ const ServicesSection = () => {
 
               <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
 
-              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-4">
                 We work with licensed insurance agents to find
                 the right coverage for your truck and business.
               </p>
+
+              {/* Read More Button */}
+              <Link
+                to="/careers"
+                className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group mt-auto"
+              >
+                Read More
+                <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
             </div>
           </div>
 
@@ -152,10 +156,19 @@ const ServicesSection = () => {
 
               <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
 
-              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed mb-4">
                 Access quality health coverage through our trusted
                 licensed insurance agents.
               </p>
+
+              {/* Read More Button */}
+              <Link
+                to="/careers"
+                className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group mt-auto"
+              >
+                Read More
+                <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+              </Link>
             </div>
           </div>
         </div>
@@ -217,7 +230,16 @@ const ServicesSection = () => {
           </div>
         </div>
 
-       
+        {/* Read More Button for Bookkeeping */}
+        <div className="flex justify-end mt-2">
+          <Link
+            to="/careers"
+            className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group"
+          >
+            Read More
+            <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+        </div>
 
       </div>
 
