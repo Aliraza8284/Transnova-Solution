@@ -75,11 +75,11 @@ const Navbar = () => {
   };
 
   const getLogoTransColor = () => {
-    return shouldBeWhite ? 'text-[#111111]' : 'text-white';
+    return 'text-[#111111]'; // Always black now
   };
 
   const getHamburgerColor = () => {
-    return shouldBeWhite ? 'text-[#111111] hover:bg-[#EDEAE4]' : 'text-white hover:bg-white/10';
+    return 'text-[#111111] hover:bg-[#EDEAE4]'; // Always black now
   };
 
   const closeMenu = () => {
@@ -114,7 +114,7 @@ const Navbar = () => {
 
             <div className="flex items-center leading-none whitespace-nowrap">
               <span
-                className={`text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] ${getLogoTransColor()}`}
+                className="text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-[#111111]"
               >
                 TRANS
               </span>
@@ -124,8 +124,7 @@ const Navbar = () => {
               </span>
 
               <span
-                className={`ml-1.5 sm:ml-2 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] ${shouldBeWhite ? "text-[#111111]" : "text-white"
-                  }`}
+                className="ml-1.5 sm:ml-2 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-[#111111]"
               >
                 SOLUTIONS
               </span>
@@ -139,9 +138,8 @@ const Navbar = () => {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${shouldBeWhite
-                    ? (isActive ? 'text-[#FF6B35]' : 'text-[#111111] hover:text-[#FF6B35]')
-                    : (isActive ? 'text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]')
+                  `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${
+                    isActive ? 'text-[#FF6B35]' : 'text-[#111111] hover:text-[#FF6B35]'
                   }`
                 }
               >
@@ -160,13 +158,13 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* APPLY NOW BUTTON - Desktop */}
+          {/* GET A QUOTE BUTTON - Desktop */}
           <div className="hidden lg:block">
             <NavLink
-              to="/careers"
-              className="rounded-full bg-[#FF6B35] px-5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#E85C2D]"
+              to="/Careers"
+              className="rounded-full border-2 border-[#FF6B35] px-5 py-1.5 text-[13px] font-medium text-[#111111] transition-colors hover:bg-[#FF6B35] hover:text-white"
             >
-              Apply Now
+              Get a Quote
             </NavLink>
           </div>
 
@@ -174,7 +172,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((current) => !current)}
-            className={`flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden flex-shrink-0 ${getHamburgerColor()}`}
+            className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-colors duration-300 lg:hidden flex-shrink-0 text-[#111111] hover:bg-[#EDEAE4]"
             aria-label={mobileMenuOpen ? "Close navigation" : "Open navigation"}
             aria-expanded={mobileMenuOpen}
           >
@@ -281,14 +279,14 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Apply Now - sticky footer */}
+        {/* Get a Quote - sticky footer */}
         <div className="shrink-0 border-t border-[#EDEAE4] p-3 sm:p-4">
           <NavLink
-            to="/careers"
+            to="/Careers"
             onClick={closeMenu}
             className="flex w-full items-center justify-center rounded-full bg-[#FF6B35] px-4 py-3 sm:px-6 sm:py-3.5 text-center text-[14px] sm:text-[15px] font-semibold text-white shadow-md transition-all hover:bg-[#E85C2D] hover:shadow-lg active:scale-95"
           >
-            Apply Now
+            Get a Quote
           </NavLink>
         </div>
       </aside>

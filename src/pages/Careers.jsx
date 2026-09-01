@@ -539,7 +539,7 @@ const Careers = () => {
 
           <div className="w-full lg:w-2/5">
             <img
-              src="/home6.png"
+              src="/truck.png"
               alt="Team working"
               className="w-full h-56 lg:h-64 object-cover rounded-2xl shadow-lg"
             />
@@ -975,7 +975,7 @@ const Careers = () => {
                 <div className="bg-[#181818] border-r border-[#2A2A2A] relative overflow-hidden animate-field" style={{ animationDelay: "0ms" }}>
                   <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-[#FF6B35]/10 blur-3xl"></div>
                   <div className="relative z-10 p-6 sm:p-8">
-                    <h3 className="text-xl font-bold text-white mb-2">Drive With TLS?</h3>
+                    <h3 className="text-xl font-bold text-white mb-2">Drive With Trans Nova Solutions?</h3>
                     <p className="text-[#888888] text-sm leading-relaxed mb-7">
                       Apply once and let our dispatch team keep you loaded. No forced dispatch, no hidden fees —
                       and if you have questions at any step, we're one call away.
@@ -1014,7 +1014,7 @@ const Careers = () => {
                         </div>
                         <div>
                           <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">Our Location</p>
-                          <p className="text-white text-sm">Cypress, TX 77433</p>
+                          <p className="text-white text-sm">Shorkot  Jhang </p>
                         </div>
                       </div>
 

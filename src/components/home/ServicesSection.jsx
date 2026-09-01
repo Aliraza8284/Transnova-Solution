@@ -1,9 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaHeadphones, FaPhoneAlt, FaFileInvoice, FaTruck, FaUsers } from 'react-icons/fa';
+import {
+  FaTruck,
+  FaShieldAlt,
+  FaHeartbeat,
+  FaCalculator,
+  FaCheck,
+  FaArrowRight,
+  FaHeadphones,
+  FaPhoneAlt,
+  FaFileInvoice,
+  FaUsers
+} from 'react-icons/fa';
 
 const ServicesSection = () => {
-  const servicesList = [
+  // Additional services data
+  const additionalServices = [
     { icon: <FaHeadphones className="text-xl text-[#FF6B35]" />, title: 'BPO Solutions', desc: 'Delivering exceptional customer experiences with tailored support.' },
     { icon: <FaPhoneAlt className="text-xl text-[#FF6B35]" />, title: 'VoIP & Telecom', desc: 'Connecting businesses with reliable communication solutions.' },
     { icon: <FaFileInvoice className="text-xl text-[#FF6B35]" />, title: 'Invoicing Solutions', desc: 'Automated invoicing for better cash flow.' },
@@ -13,89 +25,223 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="py-16 lg:py-20 px-6 lg:px-12 bg-[#FAF9F6] font-manrope">
-      <div className="max-w-7xl mx-auto">
-        
-        {/* ==========================================
-            HEADER WITH IMAGE ON RIGHT - Like Services page
-        ========================================== */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 lg:mb-16 items-center">
-          
-          {/* Left - Text Content */}
-          <div className="space-y-4 lg:space-y-6 order-2 lg:order-1">
-            <div>
-              <span className="inline-flex items-center gap-2 text-[#FF6B35] text-xs font-bold uppercase tracking-wider">
-                <span className="w-8 h-[2px] bg-[#FF6B35]"></span>
-                What We Offer
-              </span>
-            </div>
-            
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#111111] leading-tight">
-              Our <span className="text-[#FF6B35]">Services</span>
-            </h2>
-            
-            <div className="w-12 h-[3px] bg-[#FF6B35] rounded-full"></div>
-            
-            <p className="text-[#666666] text-sm sm:text-base leading-relaxed max-w-lg">
-              Comprehensive solutions designed to optimize operations, improve efficiency, and drive growth for your business across all sectors.
-            </p>
-            
-            <div className="flex flex-wrap gap-3 pt-2">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
-                <span className="text-sm text-[#555]">Trusted Solutions</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
-                <span className="text-sm text-[#555]">Expert Team</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#FF6B35]"></span>
-                <span className="text-sm text-[#555]">24/7 Support</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right - Image with animation and glow */}
-          <div className="relative flex items-center justify-center order-1 lg:order-2">
-            <div className="animate-float relative w-full max-w-2xl">
-              <img
-                src="/people.jpg"
-                alt="Our Services"
-                className="w-full h-auto max-h-[500px] rounded-3xl object-cover  "
-              />
-              {/* Glow behind image */}
-              <div className="absolute -z-10 inset-0 rounded-3xl bg-[#FF6B35]/10 blur-[60px]" />
-            </div>
-          </div>
-
+    <section className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+      {/* ===== HEADER ===== */}
+      <div className="w-full text-center mb-10 sm:mb-12">
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <span className="w-8 sm:w-9 h-[2px] bg-[#FF5A1F]" />
+          <span className="text-[#FF5A1F] font-bold text-xs sm:text-sm uppercase tracking-wider">
+            Our Services
+          </span>
+          <span className="w-8 sm:w-9 h-[2px] bg-[#FF5A1F]" />
         </div>
-        
-        {/* ==========================================
-            SERVICES GRID
-        ========================================== */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {servicesList.map((service, index) => (
-            <div key={index} className="group rounded-xl border border-[#EDEAE4] bg-white p-5 shadow-[0_2px_10px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-transparent hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)] hover:-translate-y-1">
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-[#FAF9F6] transition-colors duration-300 group-hover:bg-[#FF6B35]/10">{service.icon}</div>
-              <h3 className="mb-2 text-[17px] font-bold text-[#111111]">{service.title}</h3>
-              <p className="mb-4 text-[13px] leading-relaxed text-[#777777]">{service.desc}</p>
-              <Link to="/services" className="inline-flex items-center gap-2 text-[13px] font-medium text-[#FF6B35] transition-all duration-300 hover:gap-3">Learn More <FaArrowRight className="text-[10px]" /></Link>
-            </div>
-          ))}
-        </div>
+
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-black leading-tight">
+          Complete Solutions.{" "}
+          <span className="text-[#FF5A1F]">Built for Drivers.</span>
+        </h2>
+
+        <p className="mt-4 text-gray-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          We provide everything drivers and fleet owners need to
+          stay on the road, protected, and profitable.
+        </p>
       </div>
 
-      {/* ==========================================
-          FLOATING ANIMATION STYLES
-      ========================================== */}
+      {/* ===== SERVICES LIST ===== */}
+      <div className="w-full max-w-[1400px] mx-auto space-y-5 sm:space-y-6">
+
+        {/* ============================== */}
+        {/* 1. TRUCKING & LOGISTICS */}
+        {/* ============================== */}
+        <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
+          {/* Image */}
+          <div className="w-full md:w-[45%] lg:w-[40%] aspect-[16/10] md:aspect-auto">
+            <img
+              src="/imga.png"
+              alt="Trucking and Logistics"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="w-full md:w-[55%] lg:w-[60%] bg-white p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-[#FF5A1F] text-white flex items-center justify-center text-2xl sm:text-3xl mb-6">
+              <FaTruck />
+            </div>
+
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-black uppercase leading-tight">
+              Trucking &<br />Logistics
+            </h3>
+
+            <div className="w-8 h-[2px] bg-[#FF5A1F] my-5" />
+
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed max-w-md mb-5">
+              Reliable dispatching, load management, and logistics
+              solutions designed to keep your trucks moving and
+              your business growing.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
+              {[
+                "Freight Dispatching",
+                "Load Planning & Optimization",
+                "Carrier & Broker Network",
+                "Dedicated Support 24/7",
+                "On-Time, Every Time",
+              ].map((item, index) => (
+                <div key={index} className="flex items-center gap-2.5 text-sm sm:text-base text-gray-700">
+                  <FaCheck className="text-[#FF5A1F] text-xs sm:text-sm flex-shrink-0" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ============================== */}
+        {/* 2 + 3: AUTO + HEALTH INSURANCE */}
+        {/* ============================== */}
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+
+          {/* --- Commercial Auto Insurance --- */}
+          <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+            <div className="w-full h-48 sm:h-56 overflow-hidden">
+              <img
+                src="/img (1).jpg"
+                alt="Commercial Auto Insurance"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#FF5A1F] text-white flex items-center justify-center text-base sm:text-lg mb-3">
+                <FaShieldAlt />
+              </div>
+
+              <h3 className="text-sm sm:text-base font-extrabold text-black uppercase leading-tight">
+                Commercial Auto Insurance
+              </h3>
+
+              <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
+
+              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                We work with licensed insurance agents to find
+                the right coverage for your truck and business.
+              </p>
+            </div>
+          </div>
+
+          {/* --- Health Care Insurance --- */}
+          <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+            <div className="w-full h-48 sm:h-56 overflow-hidden">
+              <img
+                src="/img (2).jpg"
+                alt="Health Care Insurance"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+
+            <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#FF5A1F] text-white flex items-center justify-center text-base sm:text-lg mb-3">
+                <FaHeartbeat />
+              </div>
+
+              <h3 className="text-sm sm:text-base font-extrabold text-black uppercase leading-tight">
+                Health Care Insurance
+              </h3>
+
+              <div className="w-6 h-[2px] bg-[#FF5A1F] my-2.5" />
+
+              <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
+                Access quality health coverage through our trusted
+                licensed insurance agents.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ============================== */}
+        {/* 4. BOOKKEEPING & ACCOUNTING */}
+        {/* ============================== */}
+        <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
+          {/* Image */}
+          <div className="w-full md:w-[35%] lg:w-[30%] aspect-[16/10] md:aspect-auto">
+            <img
+              src="/img (3).jpg"
+              alt="Bookkeeping and Accounting Services"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Content */}
+          <div className="w-full md:w-[65%] lg:w-[70%] bg-white p-6 sm:p-8 lg:p-10 flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-8">
+            {/* Left */}
+            <div className="w-full lg:w-[40%] xl:w-[38%]">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#FF5A1F] text-white flex items-center justify-center text-xl sm:text-2xl flex-shrink-0">
+                  <FaCalculator />
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-extrabold text-black uppercase leading-tight">
+                  Bookkeeping &<br />Accounting Services
+                </h3>
+              </div>
+
+              <div className="w-8 h-[2px] bg-[#FF5A1F] mt-3 mb-3" />
+
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Professional bookkeeping and accounting services
+                to help you stay organized and tax-ready.
+              </p>
+            </div>
+
+            {/* Divider */}
+            <div className="hidden lg:block w-px h-28 bg-gray-200 self-stretch" />
+
+            {/* Right - Features */}
+            <div className="w-full lg:flex-1 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+              {[
+                "Bookkeeping & Record Keeping",
+                "Financial Reports",
+                "Income & Expense Tracking",
+                "Payroll Support",
+                "Tax Preparation Support",
+                "1099 Reporting",
+              ].map((item, index) => (
+                <div key={index} className="flex items-center gap-2 text-sm text-gray-700">
+                  <FaCheck className="text-[#FF5A1F] text-xs flex-shrink-0" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+       
+
+      </div>
+
+      {/* ========================================== */}
+      {/* FLOATING ANIMATION STYLES */}
+      {/* ========================================== */}
       <style>{`
         @keyframes float {
           0%, 100% {
             transform: translateY(0px);
           }
           50% {
-            transform: translateY(-20px);
+            transform: translateY(-15px);
+          }
+        }
+
+        @media (min-width: 640px) {
+          @keyframes float {
+            0%, 100% {
+              transform: translateY(0px);
+            }
+            50% {
+              transform: translateY(-20px);
+            }
           }
         }
 

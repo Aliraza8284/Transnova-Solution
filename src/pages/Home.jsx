@@ -157,27 +157,7 @@ const Home = () => {
                 TAGLINE / DESCRIPTION LINE - BLACK COLOR
                ========================================== */}
 
-            <div className="mt-5 fade-up fade-up-3">
-
-              <p className="text-base font-medium text-black md:text-lg lg:text-xl">
-
-                Reliable trucking and logistics solutions for
-
-                <span className="font-semibold text-[#FF6B35]">
-                  {" "}carriers, owner-operators,
-                </span>
-
-                <span className="font-semibold text-[#FF6B35]">
-                  {" "}and fleets
-                </span>
-
-                <span className="ml-1 animate-pulse text-[#FF6B35]">
-                  |
-                </span>
-
-              </p>
-
-            </div>
+        
 
 
             {/* ==========================================
