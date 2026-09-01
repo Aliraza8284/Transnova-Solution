@@ -2,8 +2,6 @@
 // ==========================================
 // Standalone "Drive With TLS" page — driver / owner-operator /
 // MC lease equipment application flow, split out of Careers.jsx.
-// Mount this at whatever route your "Drive With TLS" hero button
-// in Careers.jsx points to (e.g. /drive-with-tls).
 // ==========================================
 
 import React, { useState } from "react";
@@ -42,11 +40,17 @@ import emailjs from "@emailjs/browser";
 const COMPANY_PHONE_DISPLAY = "+1 (407) 205-9059";
 const COMPANY_PHONE_TEL = "+1 (407) 205-9059";
 const COMPANY_EMAIL = "business@transnova.solutions";
-const COMPANY_LOCATION = "Shorkot Jhang";
+const COMPANY_LOCATION = "1209 Mountain Road PL NE STE 12783, Albuquerque, NM 87110";
+
+// ==========================================
+// GOOGLE MAPS URL
+// ==========================================
+
+const GOOGLE_MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(COMPANY_LOCATION)}`;
 
 
 // ==========================================
-// SHARED CLASS TOKENS (medium, animated inputs/buttons)
+// SHARED CLASS TOKENS
 // ==========================================
 
 const INPUT_CLS =
@@ -60,18 +64,20 @@ const SELECT_CLS =
     "hover:border-[#454545] transition-all duration-200 cursor-pointer";
 
 const BTN_PRIMARY =
-    "bg-[#FF6B35] text-black font-semibold text-sm py-3 rounded-xl hover:bg-[#B8960C] " +
-    "hover:scale-[1.02] active:scale-[0.97] transition-all duration-200 shadow-md shadow-amber-500/20 " +
+    "bg-[#FF6B35] text-white font-semibold text-sm py-3 rounded-xl " +
+    "hover:bg-[#D95A2A] hover:scale-[1.02] active:scale-[0.97] " +
+    "transition-all duration-200 shadow-md shadow-[#FF6B35]/20 " +
     "flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100";
 
 const BTN_SECONDARY =
     "bg-[#181818] border border-[#303030] text-white font-semibold text-sm py-3 rounded-xl " +
-    "hover:border-[#FF6B35] hover:scale-[1.02] active:scale-[0.97] transition-all duration-200 " +
-    "flex items-center justify-center gap-2 cursor-pointer";
+    "hover:border-[#FF6B35] hover:bg-[#252525] hover:scale-[1.02] active:scale-[0.97] " +
+    "transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer";
 
 const BTN_PRIMARY_SM =
-    "bg-[#FF6B35] text-black font-semibold text-xs py-2.5 px-5 rounded-lg hover:bg-[#B8960C] " +
-    "hover:scale-[1.03] active:scale-[0.96] transition-all duration-200 shadow-md shadow-amber-500/20 " +
+    "bg-[#FF6B35] text-white font-semibold text-xs py-2.5 px-5 rounded-lg " +
+    "hover:bg-[#D95A2A] hover:scale-[1.03] active:scale-[0.96] " +
+    "transition-all duration-200 shadow-md shadow-[#FF6B35]/20 " +
     "flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100";
 
 
@@ -109,14 +115,10 @@ const accessoriesList = [
 
 
 // ==========================================
-// OUTLET COMPONENT — "DRIVE WITH TLS"
+// OUTLET COMPONENT
 // ==========================================
 
 const Outlet = () => {
-
-    // ==========================================
-    // STATES — DRIVER & EQUIPMENT SECTION
-    // ==========================================
 
     const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
     const [driverStep, setDriverStep] = useState(1);
@@ -139,7 +141,7 @@ const Outlet = () => {
 
 
     // ==========================================
-    // OPEN / CLOSE — DRIVER & EQUIPMENT MODAL
+    // OPEN / CLOSE
     // ==========================================
 
     const openDriverModal = () => {
@@ -165,6 +167,11 @@ const Outlet = () => {
         setAccessories([]);
     };
 
+
+    // ==========================================
+    // HANDLE DRIVER SUBMIT — DIRECT VARIABLES
+    // ==========================================
+
     const handleDriverSubmit = async (e) => {
         e.preventDefault();
         setIsDriverSubmitting(true);
@@ -172,37 +179,116 @@ const Outlet = () => {
         try {
             const formData = new FormData(e.target);
 
-            const driverData = {
-                to_email: COMPANY_EMAIL,
-                to_name: "Dispatch Team",
-                operator_type: operatorType === "owner" ? "Owner Operator" : "MC Lease Operator",
-                first_name: formData.get("first_name"),
-                last_name: formData.get("last_name"),
-                company_name: formData.get("company_name"),
-                phone: formData.get("phone"),
-                email: formData.get("email"),
-                home_address: formData.get("home_address"),
-                home_state: formData.get("home_state"),
-                agreement_date: formData.get("agreement_date"),
-                truck_type: formData.get("truck_type"),
-                trailer_length: formData.get("trailer_length"),
-                accessories: accessories.join(", ") || "None selected",
-                applied_date: new Date().toLocaleString("en-US", {
-                    weekday: "long", year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit",
-                }),
-            };
+            // Format accessories for display
+            const accessoriesDisplay = accessories.length > 0 
+                ? accessories.map(item => `<span class="accessory-tag">${item}</span>`).join(" ")
+                : '<span class="accessory-tag empty">No accessories selected</span>';
+
+            // Get operator type for tag class
+            const operatorTag = operatorType === "owner" ? "owner" : "lease";
+            const operatorDisplay = operatorType === "owner" ? "Owner Operator" : "MC Lease Operator";
+            const customerStatus = "new";
+
+            // Get current date
+            const submittedAt = new Date().toLocaleString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
 
             const EMAILJS_SERVICE_ID = "service_mwoqwbs";
             const EMAILJS_TEMPLATE_ID = "template_zb04utt";
             const EMAILJS_PUBLIC_KEY = "hkyeEuonkAKSiQj7d";
 
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, driverData, EMAILJS_PUBLIC_KEY);
+            // ==========================================
+            // DIRECT VARIABLES — EmailJS Template ke hisaab se
+            // ==========================================
 
+            const templateParams = {
+                // === EMAIL RECIPIENTS ===
+                to_email: COMPANY_EMAIL,
+                to_name: "Dispatch Team",
+                subject: `New Driver Application - ${formData.get("first_name") || ""} ${formData.get("last_name") || ""}`,
+
+                // === SUBMISSION INFO ===
+                submitted_at: submittedAt,
+
+                // === APPLICATION TYPE ===
+                operator_type: operatorTag,
+                operator_type_display: operatorDisplay,
+                customer_status: customerStatus,
+                submitted_from: "TransNova Website",
+
+                // === PERSONAL INFORMATION ===
+                first_name: formData.get("first_name") || "",
+                last_name: formData.get("last_name") || "",
+                company_name: formData.get("company_name") || "Not specified",
+                email: formData.get("email") || "",
+                phone: formData.get("phone") || "",
+                home_address: formData.get("home_address") || "Not specified",
+                home_state: formData.get("home_state") || "Not specified",
+                agreement_date: formData.get("agreement_date") || "Not specified",
+
+                // === EQUIPMENT DETAILS ===
+                truck_type: formData.get("truck_type") || "Not specified",
+                trailer_length: formData.get("trailer_length") || "Not specified",
+                accessories: accessoriesDisplay,
+
+                // === APPLICATION HISTORY ===
+                previous_ticket: "None",
+                total_submissions: "1",
+
+                // === FALLBACK TEXT VERSION ===
+                message: `
+New Driver Application
+-----------------------
+Name: ${formData.get("first_name") || ""} ${formData.get("last_name") || ""}
+Company: ${formData.get("company_name") || "Not specified"}
+Email: ${formData.get("email") || ""}
+Phone: ${formData.get("phone") || ""}
+Operator Type: ${operatorDisplay}
+Truck Type: ${formData.get("truck_type") || "Not specified"}
+Trailer Length: ${formData.get("trailer_length") || "Not specified"}
+Accessories: ${accessories.join(", ") || "None selected"}
+Home Address: ${formData.get("home_address") || "Not specified"}
+Home State: ${formData.get("home_state") || "Not specified"}
+Agreement Date: ${formData.get("agreement_date") || "Not specified"}
+Applied: ${submittedAt}
+                `
+            };
+
+            console.log("📤 Sending email with data:", templateParams);
+
+            await emailjs.send(
+                EMAILJS_SERVICE_ID,
+                EMAILJS_TEMPLATE_ID,
+                templateParams,
+                EMAILJS_PUBLIC_KEY
+            );
+
+            // Try backend save
             try {
                 const backendResponse = await fetch("http://localhost:5000/api/save-driver-application", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(driverData),
+                    body: JSON.stringify({
+                        operator_type: operatorDisplay,
+                        first_name: formData.get("first_name") || "",
+                        last_name: formData.get("last_name") || "",
+                        company_name: formData.get("company_name") || "Not specified",
+                        phone: formData.get("phone") || "",
+                        email: formData.get("email") || "",
+                        home_address: formData.get("home_address") || "Not specified",
+                        home_state: formData.get("home_state") || "Not specified",
+                        agreement_date: formData.get("agreement_date") || "Not specified",
+                        truck_type: formData.get("truck_type") || "Not specified",
+                        trailer_length: formData.get("trailer_length") || "Not specified",
+                        accessories: accessories.join(", ") || "None selected",
+                        applied_date: submittedAt,
+                    }),
                 });
                 if (!backendResponse.ok) console.warn("Backend returned an error.");
             } catch (backendError) {
@@ -240,9 +326,7 @@ const Outlet = () => {
     return (
         <div className="bg-[#FAF9F6] min-h-screen font-manrope pb-16 overflow-x-hidden">
 
-            {/* ==========================================
-          TOAST
-      ========================================== */}
+            {/* TOAST */}
             {toast.show && (
                 <div
                     className={`fixed top-5 left-1/2 -translate-x-1/2 z-[999999] w-[calc(100%-30px)] max-w-md px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-slideDown ${toast.type === "success" ? "bg-[#111111] border-2 border-[#FF6B35]" : "bg-[#111111] border-2 border-red-500"
@@ -259,9 +343,7 @@ const Outlet = () => {
                 </div>
             )}
 
-            {/* ==========================================
-          DRIVE WITH TLS — HERO
-      ========================================== */}
+            {/* HERO SECTION */}
             <section className="pt-16 lg:pt-24 px-6 lg:px-12 max-w-7xl mx-auto">
                 <div className="bg-[#111111] text-white rounded-3xl p-8 sm:p-10 lg:p-16 flex flex-col lg:flex-row gap-10 lg:gap-16 items-center shadow-xl">
                     <div className="w-full lg:w-3/5 space-y-5">
@@ -281,7 +363,7 @@ const Outlet = () => {
                             <button
                                 type="button"
                                 onClick={openDriverModal}
-                                className="inline-flex items-center gap-2 bg-[#FF6B35] text-black px-6 py-3 rounded-full font-medium text-sm hover:bg-[#FF6B35] hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
+                                className="inline-flex items-center gap-2 bg-[#FF6B35] text-white px-6 py-3 rounded-full font-medium text-sm hover:bg-[#D95A2A] hover:scale-[1.03] active:scale-[0.98] transition-all duration-200"
                             >
                                 <FaTruck className="text-xs" />
                                 Apply To Drive
@@ -300,9 +382,7 @@ const Outlet = () => {
                 </div>
             </section>
 
-            {/* ==========================================
-          WHY DRIVE WITH US — QUICK FACTS
-      ========================================== */}
+            {/* QUICK FACTS */}
             <section className="py-16 px-6 lg:px-12 max-w-7xl mx-auto">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl lg:text-4xl font-bold text-[#111111]">
@@ -317,7 +397,7 @@ const Outlet = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <a
                         href={`tel:${COMPANY_PHONE_TEL}`}
-                        className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4] hover:border-[#FF6B35]/50 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                        className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4] hover:border-[#FF6B35] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
                     >
                         <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
                             <FaPhone className="text-[#FF6B35] group-hover:text-white transition-colors" />
@@ -330,7 +410,7 @@ const Outlet = () => {
 
                     <a
                         href={`mailto:${COMPANY_EMAIL}`}
-                        className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4] hover:border-[#FF6B35]/50 hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                        className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4] hover:border-[#FF6B35] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
                     >
                         <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
                             <FaEnvelope className="text-[#FF6B35] group-hover:text-white transition-colors" />
@@ -341,15 +421,20 @@ const Outlet = () => {
                         </div>
                     </a>
 
-                    <div className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4]">
-                        <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
-                            <FaMapMarkerAlt className="text-[#FF6B35]" />
+                    <a
+                        href={GOOGLE_MAPS_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4] hover:border-[#FF6B35] hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
+                    >
+                        <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
+                            <FaMapMarkerAlt className="text-[#FF6B35] group-hover:text-white transition-colors" />
                         </div>
                         <div>
                             <p className="text-[#999999] text-[10px] uppercase tracking-wider font-semibold mb-1">Our Location</p>
                             <p className="text-[#111111] text-sm font-medium">{COMPANY_LOCATION}</p>
                         </div>
-                    </div>
+                    </a>
 
                     <div className="flex items-center gap-4 p-5 rounded-2xl bg-white border border-[#EDEAE4]">
                         <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
@@ -363,9 +448,7 @@ const Outlet = () => {
                 </div>
             </section>
 
-            {/* =====================================================
-          DRIVE WITH TLS — DRIVER & EQUIPMENT APPLICATION MODAL
-      ===================================================== */}
+            {/* DRIVER APPLICATION MODAL */}
             {isDriverModalOpen && (
                 <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-5 animate-fadeIn">
                     <div className="bg-[#111111] w-[90%] max-w-[90%] max-h-[94vh] overflow-y-auto rounded-3xl shadow-2xl border border-[#2A2A2A] animate-slideUp">
@@ -397,7 +480,7 @@ const Outlet = () => {
                             <div className={`h-1 flex-1 rounded-full transition-all duration-500 ${driverStep >= 2 ? "bg-[#FF6B35]" : "bg-[#2A2A2A]"}`} />
                         </div>
 
-                        {/* STEP 1 — OPERATOR TYPE + CONTACT PANEL */}
+                        {/* STEP 1 */}
                         {driverStep === 1 && (
                             <div key="step1" className="grid grid-cols-1 lg:grid-cols-[320px_1fr] animate-step">
                                 <div className="bg-[#181818] border-r border-[#2A2A2A] relative overflow-hidden animate-field" style={{ animationDelay: "0ms" }}>
@@ -412,7 +495,7 @@ const Outlet = () => {
                                         <div className="space-y-3">
                                             <a
                                                 href={`tel:${COMPANY_PHONE_TEL}`}
-                                                className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] hover:scale-[1.02] transition-all duration-300"
+                                                className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35] hover:bg-[#1C1C1C] hover:scale-[1.02] transition-all duration-300"
                                             >
                                                 <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
                                                     <FaPhone className="text-[#FF6B35] group-hover:text-white transition-colors" />
@@ -425,7 +508,7 @@ const Outlet = () => {
 
                                             <a
                                                 href={`mailto:${COMPANY_EMAIL}`}
-                                                className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35]/50 hover:bg-[#1C1C1C] hover:scale-[1.02] transition-all duration-300"
+                                                className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35] hover:bg-[#1C1C1C] hover:scale-[1.02] transition-all duration-300"
                                             >
                                                 <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
                                                     <FaEnvelope className="text-[#FF6B35] group-hover:text-white transition-colors" />
@@ -436,15 +519,20 @@ const Outlet = () => {
                                                 </div>
                                             </a>
 
-                                            <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A]">
-                                                <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
-                                                    <FaMapMarkerAlt className="text-[#FF6B35]" />
+                                            <a
+                                                href={GOOGLE_MAPS_URL}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="group flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A] hover:border-[#FF6B35] hover:bg-[#1C1C1C] hover:scale-[1.02] transition-all duration-300"
+                                            >
+                                                <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center group-hover:bg-[#FF6B35] transition-all">
+                                                    <FaMapMarkerAlt className="text-[#FF6B35] group-hover:text-white transition-colors" />
                                                 </div>
                                                 <div>
                                                     <p className="text-[#666666] text-[10px] uppercase tracking-wider font-semibold mb-1">Our Location</p>
                                                     <p className="text-white text-sm">{COMPANY_LOCATION}</p>
                                                 </div>
-                                            </div>
+                                            </a>
 
                                             <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#111111] border border-[#2A2A2A]">
                                                 <div className="w-11 h-11 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center">
@@ -464,9 +552,6 @@ const Outlet = () => {
                                         <span className="w-2 h-2 rounded-full bg-[#FF6B35] animate-pulse"></span>
                                         <span className="text-[#FF6B35] text-xs font-semibold uppercase tracking-wider">Apply Now</span>
                                     </div>
-
-                                    <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2 animate-field" style={{ animationDelay: "110ms" }}>
-                                    </h3>
 
                                     <p className="text-[#888888] text-sm mb-6 max-w-xl animate-field" style={{ animationDelay: "160ms" }}>
                                         Choose the onboarding option that best matches your operation.
@@ -541,7 +626,7 @@ const Outlet = () => {
                             </div>
                         )}
 
-                        {/* STEP 2 — DRIVER & EQUIPMENT FORM */}
+                        {/* STEP 2 — FORM */}
                         {driverStep === 2 && (
                             <div key="step2" className="p-5 sm:p-8 lg:p-10 animate-step">
                                 <div className="max-w-3xl mx-auto">
@@ -754,7 +839,7 @@ const Outlet = () => {
                                                                 className={`w-4 h-4 shrink-0 rounded-md border flex items-center justify-center transition-all duration-200 ${checked ? "bg-[#FF6B35] border-[#FF6B35] scale-105" : "border-[#3A3A3A] bg-transparent"
                                                                     }`}
                                                             >
-                                                                <FaCheckCircle className={`text-black text-[10px] transition-all duration-200 ${checked ? "opacity-100 scale-100" : "opacity-0 scale-50"}`} />
+                                                                <FaCheckCircle className={`text-white text-[10px] transition-all duration-200 ${checked ? "opacity-100 scale-100" : "opacity-0 scale-50"}`} />
                                                             </span>
                                                             <span className={`text-xs font-medium transition-colors ${checked ? "text-white" : "text-[#999999]"}`}>{item}</span>
                                                         </label>
@@ -763,7 +848,6 @@ const Outlet = () => {
                                             </div>
                                         </div>
 
-                                        {/* hidden fields */}
                                         <input type="hidden" name="operator_type" value={operatorType} />
 
                                         <div className="flex flex-col sm:flex-row gap-3 animate-field" style={{ animationDelay: "450ms" }}>
@@ -774,7 +858,7 @@ const Outlet = () => {
                                             <button type="submit" disabled={isDriverSubmitting} className={`${BTN_PRIMARY} flex-1 py-3.5 font-bold`}>
                                                 {isDriverSubmitting ? (
                                                     <>
-                                                        <span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+                                                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                                                         Submitting Application...
                                                     </>
                                                 ) : (
@@ -798,9 +882,7 @@ const Outlet = () => {
                 </div>
             )}
 
-            {/* =====================================================
-          SUCCESS POPUP — DRIVER APPLICATIONS
-      ===================================================== */}
+            {/* SUCCESS POPUP */}
             {isDriverSuccessOpen && (
                 <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn">
                     <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 sm:p-10 text-center relative animate-scaleUp">
@@ -816,66 +898,65 @@ const Outlet = () => {
                         <h3 className="text-3xl font-bold text-[#111111] mb-2">Application Submitted!</h3>
                         <div className="w-12 h-1 bg-[#FF6B35] mx-auto rounded-full mb-5"></div>
                         <p className="text-[#555555] text-base mb-6 leading-relaxed">
-                            Thanks for applying to drive with TLS. Our dispatch team will review your details and reach out shortly.
+                            Thanks for applying to drive with Trans Nova . Our dispatch team will review your details and reach out shortly.
                         </p>
-                        <button onClick={closeDriverSuccess} className={`${BTN_PRIMARY_SM} w-full py-3`}>Got it, Thanks!</button>
+                        <button onClick={closeDriverSuccess} className="w-full py-3 bg-[#FF6B35] text-white font-semibold text-sm rounded-lg hover:bg-[#D95A2A] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-md shadow-[#FF6B35]/20">
+                            Got it, Thanks!
+                        </button>
                     </div>
                 </div>
             )}
 
-            {/* =====================================================
-          CUSTOM CSS
-      ===================================================== */}
+            {/* CUSTOM CSS */}
             <style>{`
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+                @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+                .animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .animate-slideUp { animation: slideUp 0.4s ease-out forwards; }
+                @keyframes slideUp { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+                .animate-slideUp { animation: slideUp 0.4s ease-out forwards; }
 
-        @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
-        .animate-slideDown { animation: slideDown 0.4s ease-out forwards; }
+                @keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+                .animate-slideDown { animation: slideDown 0.4s ease-out forwards; }
 
-        @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
-        .animate-slideInLeft { animation: slideInLeft 0.6s ease-out forwards; }
+                @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
+                .animate-slideInLeft { animation: slideInLeft 0.6s ease-out forwards; }
 
-        @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        .animate-scaleUp { animation: scaleUp 0.4s ease-out forwards; }
+                @keyframes scaleUp { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+                .animate-scaleUp { animation: scaleUp 0.4s ease-out forwards; }
 
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .animate-spin { animation: spin 0.8s linear infinite; }
+                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+                .animate-spin { animation: spin 0.8s linear infinite; }
 
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+                @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+                .animate-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
 
-        @keyframes stepIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
-        .animate-step { animation: stepIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
+                @keyframes stepIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+                .animate-step { animation: stepIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-        @keyframes fieldIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-field { animation: fieldIn 0.45s ease-out both; }
+                @keyframes fieldIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-field { animation: fieldIn 0.45s ease-out both; }
 
-        @media (prefers-reduced-motion: reduce) {
-          .animate-fadeIn, .animate-slideUp, .animate-slideDown,
-          .animate-slideInLeft, .animate-scaleUp, .animate-step, .animate-field {
-            animation: none !important;
-            opacity: 1 !important;
-            transform: none !important;
-          }
-        }
+                @media (prefers-reduced-motion: reduce) {
+                  .animate-fadeIn, .animate-slideUp, .animate-slideDown,
+                  .animate-slideInLeft, .animate-scaleUp, .animate-step, .animate-field {
+                    animation: none !important;
+                    opacity: 1 !important;
+                    transform: none !important;
+                  }
+                }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #111111; }
-        ::-webkit-scrollbar-thumb { background: #444444; border-radius: 20px; }
-        ::-webkit-scrollbar-thumb:hover { background: #FF6B35; }
+                ::-webkit-scrollbar { width: 6px; }
+                ::-webkit-scrollbar-track { background: #111111; }
+                ::-webkit-scrollbar-thumb { background: #444444; border-radius: 20px; }
+                ::-webkit-scrollbar-thumb:hover { background: #FF6B35; }
 
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+                input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+                select option { background: #181818; color: white; }
 
-        select option { background: #181818; color: white; }
-
-        @media (max-width: 640px) {
-          .animate-slideUp { animation-duration: 0.3s; }
-        }
-      `}</style>
+                @media (max-width: 640px) {
+                  .animate-slideUp { animation-duration: 0.3s; }
+                }
+            `}</style>
         </div>
     );
 };

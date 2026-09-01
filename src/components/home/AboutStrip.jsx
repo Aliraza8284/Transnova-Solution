@@ -274,7 +274,7 @@ const AboutScript = () => {
       >
         <div className="relative max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-8 md:gap-12 xl:gap-20 items-start">
-            
+
             {/* Left Content */}
             <div className={`space-y-5 sm:space-y-6 reveal-up ${heroInView ? "in-view" : ""}`}>
               {/* Badge */}
@@ -336,42 +336,53 @@ const AboutScript = () => {
                 />
                 <div className="absolute -z-10 inset-0 rounded-2xl sm:rounded-3xl bg-[#FF6B35]/10 blur-[40px] sm:blur-[60px]" />
               </div>
-              
+
               {/* Unified Stats Card Below Image */}
-              <div ref={statsRef} className="mt-4 sm:mt-5 md:mt-6 w-full max-w-2xl bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-[#EDEAE4] p-2 sm:p-4 shadow-md">
-                <div className="grid grid-cols-3 sm:grid-cols-5 gap-0">
-                  <div className="stat-item text-center px-0.5 sm:px-2 py-0.5 sm:py-0">
-                    <p className="text-xs sm:text-lg md:text-xl font-extrabold text-[#FF6B35]">{counts.experience}+</p>
-                    <p className="mt-0.5 sm:mt-1 text-[5px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
-                      Years<br className="hidden sm:inline" /> Exp.
-                    </p>
-                  </div>
-                  <div className="stat-item text-center px-0.5 sm:px-2 py-0.5 sm:py-0 border-l border-[#EDEAE4]">
-                    <p className="text-xs sm:text-lg md:text-xl font-extrabold text-[#FF6B35]">{counts.clients}+</p>
-                    <p className="mt-0.5 sm:mt-1 text-[5px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
-                      Happy<br className="hidden sm:inline" /> Clients
-                    </p>
-                  </div>
-                  <div className="stat-item text-center px-0.5 sm:px-2 py-0.5 sm:py-0 border-l border-[#EDEAE4] hidden xs:block sm:block">
-                    <p className="text-[10px] sm:text-lg md:text-xl font-extrabold text-[#FF6B35]">{counts.loads.toLocaleString()}+</p>
-                    <p className="mt-0.5 sm:mt-1 text-[5px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
-                      Total<br className="hidden sm:inline" /> Loads
-                    </p>
-                  </div>
-                  <div className="stat-item text-center px-0.5 sm:px-2 py-0.5 sm:py-0 border-l border-[#EDEAE4]">
-                    <p className="text-xs sm:text-lg md:text-xl font-extrabold text-[#FF6B35]">{counts.dailyLoads}+</p>
-                    <p className="mt-0.5 sm:mt-1 text-[5px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
-                      Daily<br className="hidden sm:inline" /> Loads
-                    </p>
-                  </div>
-                  <div className="stat-item text-center px-0.5 sm:px-2 py-0.5 sm:py-0 border-l border-[#EDEAE4]">
-                    <p className="text-xs sm:text-lg md:text-xl font-extrabold text-[#FF6B35]">{counts.satisfaction}%</p>
-                    <p className="mt-0.5 sm:mt-1 text-[5px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
-                      Satis.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <div ref={statsRef} className="mt-4 sm:mt-5 md:mt-6 w-full max-w-2xl bg-white/90 backdrop-blur-sm rounded-xl sm:rounded-2xl border border-[#EDEAE4] p-1.5 sm:p-3 shadow-md">
+  <div className="grid grid-cols-3 sm:grid-cols-5 gap-0">
+    
+    {/* 1. Experience */}
+    <div className="stat-item text-center px-0.5 sm:px-1.5 md:px-2 py-0.5 sm:py-1.5 flex flex-col items-center justify-center">
+      <p className="text-sm sm:text-base md:text-lg font-extrabold text-[#FF6B35] whitespace-nowrap">{counts.experience}+</p>
+      <p className="mt-0.5 text-[8px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
+        Years <span className="hidden sm:inline">of</span> Exp.
+      </p>
+    </div>
+    
+    {/* 2. Clients */}
+    <div className="stat-item text-center px-0.5 sm:px-1.5 md:px-2 py-0.5 sm:py-1.5 flex flex-col items-center justify-center border-l border-[#EDEAE4]">
+      <p className="text-sm sm:text-base md:text-lg font-extrabold text-[#FF6B35] whitespace-nowrap">{counts.clients.toLocaleString()}+</p>
+      <p className="mt-0.5 text-[8px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
+        Happy <span className="hidden sm:inline">Clients</span>
+      </p>
+    </div>
+    
+    {/* 3. Total Loads - Hidden on mobile, visible on tablet+ */}
+    <div className="stat-item text-center px-0.5 sm:px-1.5 md:px-2 py-0.5 sm:py-1.5 flex flex-col items-center justify-center border-l border-[#EDEAE4] hidden sm:flex">
+      <p className="text-sm sm:text-base md:text-lg font-extrabold text-[#FF6B35] whitespace-nowrap">{counts.loads.toLocaleString()}+</p>
+      <p className="mt-0.5 text-[8px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
+        Total <span className="hidden sm:inline">Loads</span>
+      </p>
+    </div>
+    
+    {/* 4. Daily Loads */}
+    <div className="stat-item text-center px-0.5 sm:px-1.5 md:px-2 py-0.5 sm:py-1.5 flex flex-col items-center justify-center border-l border-[#EDEAE4]">
+      <p className="text-sm sm:text-base md:text-lg font-extrabold text-[#FF6B35] whitespace-nowrap">{counts.dailyLoads}+</p>
+      <p className="mt-0.5 text-[8px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
+        Daily <span className="hidden sm:inline">Loads</span>
+      </p>
+    </div>
+    
+    {/* 5. Satisfaction */}
+    <div className="stat-item text-center px-0.5 sm:px-1.5 md:px-2 py-0.5 sm:py-1.5 flex flex-col items-center justify-center border-l border-[#EDEAE4]">
+      <p className="text-sm sm:text-base md:text-lg font-extrabold text-[#FF6B35] whitespace-nowrap">{counts.satisfaction}%</p>
+      <p className="mt-0.5 text-[8px] sm:text-[8px] md:text-[9px] font-medium text-[#77736D] uppercase tracking-wide leading-tight">
+        Satis<span className="hidden sm:inline">faction</span>
+      </p>
+    </div>
+    
+  </div>
+</div>
             </div>
 
           </div>

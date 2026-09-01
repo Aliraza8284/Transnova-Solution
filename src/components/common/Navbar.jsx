@@ -9,34 +9,34 @@ const menuItems = [
     path: "/",
     icon: Home,
   },
+    {
+    label: "Services",
+    path: "/services",
+    icon: Wrench,
+  },
+    {
+    label: "Industries",
+    path: "/industries",
+    icon: Factory,
+  },
+ 
+    {
+    label: "Careers",
+    path: "/careers",
+    icon: Briefcase,
+  },
   {
     label: "About Us",
     path: "/about",
     icon: Info,
   },
-  {
-    label: "Services",
-    path: "/services",
-    icon: Wrench,
-  },
 
+
+
+
+  
   {
-    label: "Industries",
-    path: "/industries",
-    icon: Factory,
-  },
-  {
-    label: "Careers",
-    path: "/careers",
-    icon: Briefcase,
-  },
-    {
-    label: "Fleet Services",
-    path: "/Outlet",
-    icon: Truck,
-  },
-  {
-    label: "Contact",
+    label: "Contact Us",
     path: "/contact",
     icon: Mail,
   },

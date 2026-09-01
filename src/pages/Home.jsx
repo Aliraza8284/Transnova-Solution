@@ -112,6 +112,47 @@ const Home = () => {
             padding: 4px 8px !important;
           }
         }
+
+        /* ===== TEXT READABILITY WITH BLUR ON LEFT SIDE ===== */
+        .hero-text-container * {
+          text-shadow: 0 2px 30px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7);
+        }
+
+        .stat-item .stat-label,
+        .stat-item .stat-number {
+          text-shadow: 0 1px 15px rgba(0,0,0,0.9);
+        }
+
+        .hero-btn {
+          text-shadow: 0 1px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Glow effect on right side image */
+        .hero-image-glow::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(
+            ellipse at 70% 50%,
+            rgba(255,107,53,0.15) 0%,
+            rgba(255,107,53,0.05) 30%,
+            transparent 60%
+          );
+          pointer-events: none;
+        }
+
+        /* ===== NAVBAR BLUR EXTENSION ===== */
+        /* This ensures blur starts from top of hero (under navbar) */
+        .blur-layer {
+          mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%);
+          -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%);
+        }
+
+        /* Clear image layer - visible on right, hidden on left */
+        .clear-layer {
+          mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%);
+          -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%);
+        }
       `}</style>
 
       {/* ==========================================
@@ -120,25 +161,58 @@ const Home = () => {
 
       <section className="relative min-h-screen overflow-hidden bg-[#050505] font-manrope flex items-center justify-center">
         
-        {/* BACKGROUND IMAGE WITH OPACITY REDUCED */}
+        {/* ===== BACKGROUND IMAGE WITH BLUR ON LEFT, CLEAR ON RIGHT ===== */}
+        {/* Layer 1: Clear/Sharp image on right side (extends full height including navbar area) */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-90 md:opacity-90"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat hero-image-glow clear-layer"
           style={{
             backgroundImage: "url('/Ali.jpeg')",
+            filter: "brightness(1.1) contrast(1.05)",
           }}
         />
 
-        {/* DARK OVERLAY TO MAKE CONTENT MORE READABLE */}
-        <div className="absolute inset-0 bg-black/30 md:bg-black/10" />
+        {/* Layer 2: Blurred image on left side (extends full height including navbar area) */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-layer"
+          style={{
+            backgroundImage: "url('/Ali.jpeg')",
+            filter: "blur(14px) brightness(0.5) saturate(0.3)",
+            transform: "scale(1.05)",
+          }}
+        />
 
-        {/* ANIMATED DECORATIVE DIVS - Hidden on mobile for performance */}
+        {/* ===== DARK OVERLAY ON LEFT SIDE FOR TEXT READABILITY ===== */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%)",
+          }}
+        />
+
+        {/* ===== GLOW EFFECT ON RIGHT SIDE ===== */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at 75% 50%, rgba(255,107,53,0.08) 0%, transparent 50%)",
+          }}
+        />
+
+        {/* ===== EXTRA DARK OVERLAY AT VERY TOP (UNDER NAVBAR) ===== */}
+        <div 
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 15%, rgba(0,0,0,0) 100%)",
+          }}
+        />
+
+        {/* ANIMATED DECORATIVE DIVS */}
         <div className="pointer-events-none absolute -top-24 -right-24 z-10 h-96 w-96 rounded-full bg-[#FF6B35]/20 blur-[100px] float-blob-1 hidden md:block" />
         <div className="pointer-events-none absolute -bottom-32 -left-20 z-10 h-80 w-80 rounded-full bg-[#FF6B35]/10 blur-[110px] float-blob-2 hidden md:block" />
         <div className="pointer-events-none absolute top-1/3 left-1/2 z-10 h-64 w-64 -translate-x-1/2 rounded-full bg-white/5 blur-[90px] float-blob-1 hidden md:block" />
 
         {/* HERO CONTENT */}
         <div className="relative z-20 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-12 py-8 sm:py-0">
-          <div className="max-w-2xl text-center md:text-left">
+          <div className="max-w-2xl text-center md:text-left hero-text-container">
             
             {/* WELCOME BADGE */}
             <div className="mb-4 md:mb-5 flex items-center gap-2 md:gap-3 text-[8px] md:text-[10px] font-medium uppercase tracking-[1.5px] md:tracking-[2px] text-[#FF6B35] justify-center md:justify-start fade-up fade-up-1">
@@ -160,7 +234,7 @@ const Home = () => {
             </h2>
 
             {/* DESCRIPTION */}
-            <p className="mt-4 md:mt-5 max-w-xl text-xs sm:text-sm md:text-base leading-6 md:leading-7 text-white/90 mx-auto md:mx-0 fade-up fade-up-4">
+            <p className="mt-4 md:mt-5 max-w-xl text-xs sm:text-sm md:text-base leading-6 md:leading-7 text-white mx-auto md:mx-0 fade-up fade-up-4">
               Reliable trucking and logistics solutions for
               <br className="hidden sm:block" />
               carriers, owner-operators, and fleets
@@ -168,7 +242,7 @@ const Home = () => {
               across the United States
             </p>
 
-            {/* FEATURE STATS WITH ICONS - MOBILE OPTIMIZED */}
+            {/* FEATURE STATS WITH ICONS */}
             <div className="mt-3 md:mt-4 flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-4 fade-up fade-up-5">
               <div className="stat-item">
                 <FaClock className="stat-icon" />
@@ -184,7 +258,7 @@ const Home = () => {
               </div>
             </div>
 
-            {/* STATS BAR - MOBILE OPTIMIZED */}
+            {/* STATS BAR */}
             <div className="mt-3 md:mt-5 flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-5 fade-up fade-up-6">
               <div className="stat-item border border-[#FF6B35]/30 rounded-lg px-2 py-1 md:px-4 md:py-2">
                 <FaTruck className="stat-icon" />
@@ -203,11 +277,12 @@ const Home = () => {
               </div>
             </div>
 
-            {/* BUTTONS - MOBILE OPTIMIZED */}
+            {/* BUTTONS */}
             <div className="mt-4 md:mt-6 flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 fade-up fade-up-6">
               <Link
                 to="/careers"
                 className="
+                  hero-btn
                   glow-btn
                   flex
                   items-center
@@ -236,6 +311,7 @@ const Home = () => {
               <Link
                 to="/services"
                 className="
+                  hero-btn
                   flex
                   items-center
                   justify-center
