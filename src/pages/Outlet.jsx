@@ -596,7 +596,7 @@ Applied: ${submittedAt}
                                             <span className={`absolute top-4 right-4 w-4 h-4 rounded-full border transition-all duration-300 ${operatorType === "lease" ? "border-[#FF6B35] bg-[#FF6B35] scale-110" : "border-[#3A3A3A]"}`} />
                                             <FaTruck className="text-[#FF6B35] text-xl mb-3" />
                                             <p className="text-white font-semibold text-base mb-1">MC Lease Operator</p>
-                                            <p className="text-[#888888] text-xs leading-relaxed">I want to operate under TLS authority.</p>
+                                            <p className="text-[#888888] text-xs leading-relaxed">I want to operate under Trans Nova  authority.</p>
                                         </button>
                                     </div>
 

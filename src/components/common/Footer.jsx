@@ -13,6 +13,8 @@ import {
   FaArrowUp,
   FaWhatsapp,
   FaEnvelope,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
 
 const Footer = () => {
@@ -71,13 +73,11 @@ Additional Details:
 Thank you,
 Your Name`;
 
-    // Gmail compose URL
     const gmailUrl =
       `https://mail.google.com/mail/?view=cm&fs=1&to=${companyEmail}` +
       `&su=${encodeURIComponent(subject)}` +
       `&body=${encodeURIComponent(body)}`;
 
-    // Open Gmail in new tab
     window.open(gmailUrl, "_blank");
   };
 
@@ -103,15 +103,17 @@ Your Name`;
   ];
 
   // ==========================================
-  // SERVICES
+  // SERVICES - Updated with new services
   // ==========================================
   const ourServices = [
-    { name: "BPO Solutions", path: "/services" },
-    { name: "VoIP & Telecom", path: "/services" },
-    { name: "Invoicing Solutions", path: "/services" },
-    { name: "Logistics Solutions", path: "/services" },
-    { name: "Trucking Services", path: "/services" },
-    { name: "Outsourcing Services", path: "/services" },
+    { name: "Trucking & Logistics", path: "/services" },
+    { name: "Commercial Auto Insurance", path: "/services" },
+    { name: "Health Care Insurance", path: "/services" },
+    { name: "Bookkeeping & Accounting Services", path: "/services" },
+    { name: "Logistics & Transportation", path: "/services" },
+    { name: "Telecom & Communication", path: "/services" },
+    { name: "Healthcare", path: "/services" },
+    { name: "Finance & Banking", path: "/services" },
   ];
 
   // ==========================================
@@ -123,6 +125,30 @@ Your Name`;
     { name: "FAQs", path: "/faqs" },
     { name: "Privacy Policy", path: "/privacy" },
     { name: "Terms & Conditions", path: "/terms" },
+  ];
+
+  // ==========================================
+  // CONTACT INFO - New section
+  // ==========================================
+  const contactInfo = [
+    { 
+      icon: FaEnvelope, 
+      label: "Email", 
+      value: "business@transnova.solutions",
+      action: openGmail
+    },
+    { 
+      icon: FaPhoneAlt, 
+      label: "Phone", 
+      value: "+1 (407) 205-9059",
+      action: "tel:+14072059059"
+    },
+    { 
+      icon: FaMapMarkerAlt, 
+      label: "Address", 
+      value: "USA, Pakistan",
+      action: "#"
+    },
   ];
 
   return (
@@ -153,7 +179,7 @@ Your Name`;
           {/* DESCRIPTION */}
           <div className="max-w-md flex flex-col gap-2">
             <p className="text-[#9B9B8A] text-sm leading-relaxed">
-              TransNova Solutions LLC is a global business solutions
+              Trans Nova Solutions is a global business solutions
               provider committed to innovation, integrity, and impact.
             </p>
             <Link
@@ -289,7 +315,7 @@ Your Name`;
               </ul>
             </div>
 
-            {/* SERVICES */}
+            {/* SERVICES - Updated with new services */}
             <div className="space-y-2">
               <h4 className="text-white font-bold text-[12px] uppercase tracking-wide">Services</h4>
               <ul className="space-y-1.5 text-[#9B9B8A] text-[12px]">
@@ -317,80 +343,108 @@ Your Name`;
               </ul>
             </div>
 
-            {/* CONNECT */}
-            <div className="col-span-2 md:col-span-1 space-y-2">
-              <h4 className="text-white font-bold text-[12px] uppercase tracking-wide">Connect</h4>
+            {/* CONNECT & CONTACT - Updated with Contact section */}
+            <div className="col-span-2 md:col-span-1 space-y-3">
+              {/* CONTACT SECTION - NEW */}
+              <div>
+                <h4 className="text-white font-bold text-[12px] uppercase tracking-wide mb-2">Contact</h4>
+                <ul className="space-y-2 text-[#9B9B8A] text-[12px]">
+                  {contactInfo.map((item, index) => (
+                    <li key={index}>
+                      {typeof item.action === "function" ? (
+                        <button
+                          onClick={item.action}
+                          className="flex items-center gap-2 hover:text-[#FF6B35] transition-colors cursor-pointer w-full text-left"
+                        >
+                          <item.icon className="text-[#FF6B35] text-sm shrink-0" />
+                          <span className="text-[11px]">{item.value}</span>
+                        </button>
+                      ) : (
+                        <a
+                          href={item.action}
+                          target={item.action.startsWith("http") ? "_blank" : undefined}
+                          rel={item.action.startsWith("http") ? "noopener noreferrer" : undefined}
+                          className="flex items-center gap-2 hover:text-[#FF6B35] transition-colors"
+                        >
+                          <item.icon className="text-[#FF6B35] text-sm shrink-0" />
+                          <span className="text-[11px]">{item.value}</span>
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
               {/* SOCIAL ICONS */}
-              <div className="flex gap-2 flex-wrap">
-                <a
-                  href="https://www.facebook.com/profile.php?id=61593530214768"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                  aria-label="Facebook"
-                >
-                  <FaFacebookF />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/transnova.solutions"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                  aria-label="Instagram"
-                >
-                  <FaInstagram />
-                </a>
-
-                <a
-                  href="https://wa.me/14049104083"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#25D366] hover:text-white transition-colors text-sm"
-                  aria-label="WhatsApp"
-                >
-                  <FaWhatsapp />
-                </a>
-
-                {linkedInUrl && (
+              <div>
+                <h4 className="text-white font-bold text-[12px] uppercase tracking-wide mb-2">Follow Us</h4>
+                <div className="flex gap-2 flex-wrap">
                   <a
-                    href={linkedInUrl}
+                    href="https://www.facebook.com/profile.php?id=61593530214768"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                    aria-label="LinkedIn"
+                    aria-label="Facebook"
                   >
-                    <FaLinkedinIn />
+                    <FaFacebookF />
                   </a>
-                )}
 
-                <a
-                  href="https://x.com/transnovasol?s=11"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                  aria-label="Twitter / X"
-                >
-                  <FaTwitter />
-                </a>
+                  <a
+                    href="https://www.instagram.com/transnova.solutions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
+                    aria-label="Instagram"
+                  >
+                    <FaInstagram />
+                  </a>
+
+                  <a
+                    href="https://wa.me/14049104083"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#25D366] hover:text-white transition-colors text-sm"
+                    aria-label="WhatsApp"
+                  >
+                    <FaWhatsapp />
+                  </a>
+
+                  {linkedInUrl && (
+                    <a
+                      href={linkedInUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
+                      aria-label="LinkedIn"
+                    >
+                      <FaLinkedinIn />
+                    </a>
+                  )}
+
+                  <a
+                    href="https://x.com/transnovasol?s=11"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
+                    aria-label="Twitter / X"
+                  >
+                    <FaTwitter />
+                  </a>
+                </div>
               </div>
 
               {/* EMAIL - OPENS GMAIL */}
-              <div className="mt-3">
+              <div>
                 <button
                   onClick={openGmail}
                   className="flex items-center gap-2 text-[#9B9B8A] hover:text-[#FF6B35] transition-colors group cursor-pointer"
                   aria-label="Report a problem to TransNova"
                 >
                   <FaEnvelope className="text-[#FF6B35] text-sm" />
-                  <span className="text-[12px] font-medium group-hover:text-[#FF6B35]">
-                    {companyEmail}
+                  <span className="text-[11px] font-medium group-hover:text-[#FF6B35]">
+                    Report a Problem
                   </span>
                 </button>
-                <p className="text-[#9B9B8A] text-[9px] mt-1">
-                  Click to report a problem or complaint
-                </p>
               </div>
             </div>
 
@@ -423,7 +477,7 @@ Your Name`;
 
         {/* COPYRIGHT */}
         <p className="text-center text-[#9B9B8A] text-[10px]">
-          &copy; {new Date().getFullYear()} TransNova Solutions LLC. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Trans Nova Solutions. All Rights Reserved.
         </p>
 
         {/* WEBSITE CREDIT */}

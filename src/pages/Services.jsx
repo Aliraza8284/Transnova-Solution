@@ -82,10 +82,10 @@ const Services = () => {
 
             {/* Read More Button */}
             <Link
-              to="/careers"
+              to="/Outlet"
               className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group"
             >
-              Read More
+              Get a Quote
               <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </div>

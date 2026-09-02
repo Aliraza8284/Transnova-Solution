@@ -1,42 +1,69 @@
 // src/components/common/Navbar.jsx
 import React, { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Home, Info, Wrench, Factory, Briefcase, Mail, ChevronRight, X, Truck } from "lucide-react";
+import { 
+  Home, 
+  Info, 
+  Wrench, 
+  Factory, 
+  Briefcase, 
+  Mail, 
+  ChevronRight, 
+  X, 
+  Truck, 
+  DollarSign, 
+  FileText, 
+  HelpCircle 
+} from "lucide-react";
 
 const menuItems = [
   {
-    label: "Home",
+    label: "𝑯𝒐𝒎𝒆",
     path: "/",
     icon: Home,
   },
-    {
-    label: "Services",
+  {
+    label: "𝑺𝒆𝒓𝒗𝒊𝒄𝒆𝒔",
     path: "/services",
     icon: Wrench,
   },
-    {
-    label: "Industries",
+  {
+    label: "𝑰𝒏𝒅𝒖𝒔𝒕𝒓𝒊𝒆𝒔",
     path: "/industries",
     icon: Factory,
   },
- 
-    {
-    label: "Careers",
+  {
+    label: "𝑻𝒓𝒖𝒄𝒌 𝑻𝒚𝒑𝒆𝒔",
+    path: "/truck-types",
+    icon: Truck,
+  },
+  {
+    label: "𝑷𝒓𝒊𝒄𝒊𝒏𝒈",
+    path: "/pricing",
+    icon: DollarSign,
+  },
+  {
+    label: "𝑪𝒂𝒓𝒆𝒆𝒓𝒔",
     path: "/careers",
     icon: Briefcase,
   },
   {
-    label: "About Us",
+    label: "𝑨𝒃𝒐𝒖𝒕 𝑼𝒔",
     path: "/about",
     icon: Info,
   },
-
-
-
-
-  
   {
-    label: "Contact Us",
+    label: "𝑩𝒍𝒐𝒈",
+    path: "/blog",
+    icon: FileText,
+  },
+  {
+    label: "𝑭𝑨𝑸",
+    path: "/faqs",
+    icon: HelpCircle,
+  },
+  {
+    label: "𝑪𝒐𝒏𝒕𝒂𝒄𝒕 𝑼𝒔",
     path: "/contact",
     icon: Mail,
   },
@@ -112,34 +139,36 @@ const Navbar = () => {
 
             <div className="flex items-center leading-none whitespace-nowrap">
               <span className="text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-white">
-                TRANS
+                𝑻𝑹𝑨𝑵𝑺
               </span>
 
               <span className="ml-0.5 sm:ml-1 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-[#FF6B35]">
-                NOVA
+                𝑵𝑶𝑽𝑨
               </span>
 
               <span className="ml-1.5 sm:ml-2 text-[14px] sm:text-[17px] font-bold tracking-[-0.5px] text-white">
-                SOLUTIONS
+                𝑺𝑶𝑳𝑼𝑻𝑰𝑶𝑵𝑺
               </span>
             </div>
           </NavLink>
 
-          {/* DESKTOP MENU */}
-          <div className="hidden gap-4 h-full items-center lg:flex lg:flex-1 lg:justify-center">
+          {/* DESKTOP MENU - With proper gaps */}
+          <div className="hidden lg:flex lg:flex-1 lg:justify-center h-full items-center">
             {menuItems.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `group relative mx-1 py-1 text-[13px] font-normal transition-colors duration-300 ${
+                  `group relative mx-1.5 xl:mx-2 py-1 text-[13px] xl:text-[14px] font-medium transition-colors duration-300 ${
                     isActive ? 'text-[#FF6B35]' : 'text-white hover:text-[#FF6B35]'
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    <span>{item.label}</span>
+                    <span className="whitespace-nowrap font-serif" style={{ fontFamily: "'Brush Script MT', cursive, serif" }}>
+                      {item.label}
+                    </span>
                     <span
                       className={`absolute bottom-[-2px] left-0 h-[2px] w-full rounded-full bg-[#FF6B35] transition-transform duration-200 ${
                         isActive
@@ -159,7 +188,7 @@ const Navbar = () => {
               to="/Outlet"
               className="rounded-full border-2 border-[#FF6B35] px-5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#FF6B35] hover:text-white"
             >
-              Get a Quote
+              𝑮𝒆𝒕 𝒂 𝑸𝒖𝒐𝒕𝒆
             </NavLink>
           </div>
 
@@ -221,9 +250,9 @@ const Navbar = () => {
               className="h-[26px] w-auto object-contain"
             />
             <div className="flex items-baseline">
-              <span className="text-[18px] font-bold text-white">TRANS</span>
+              <span className="text-[18px] font-bold text-white">𝑻𝑹𝑨𝑵𝑺</span>
               <span className="ml-[1px] text-[18px] font-bold text-[#FF6B35]">
-                NOVA
+                𝑵𝑶𝑽𝑨
               </span>
             </div>
           </NavLink>
@@ -266,7 +295,9 @@ const Navbar = () => {
                           strokeWidth={1.8}
                         />
                       )}
-                      <span className="text-[14px] sm:text-[15px] font-medium text-white">{item.label}</span>
+                      <span className="text-[14px] sm:text-[15px] font-medium text-white font-serif" style={{ fontFamily: "'Brush Script MT', cursive, serif" }}>
+                        {item.label}
+                      </span>
                     </span>
                     <ChevronRight
                       className={`h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform duration-200 ${
@@ -287,7 +318,7 @@ const Navbar = () => {
             onClick={closeMenu}
             className="flex w-full items-center justify-center rounded-full bg-[#FF6B35] px-4 py-3 sm:px-6 sm:py-3.5 text-center text-[14px] sm:text-[15px] font-semibold text-white shadow-md transition-all hover:bg-[#E85C2D] hover:shadow-lg active:scale-95"
           >
-            Get a Quote
+            𝑮𝒆𝒕 𝒂 𝑸𝒖𝒐𝒕𝒆
           </NavLink>
         </div>
       </aside>

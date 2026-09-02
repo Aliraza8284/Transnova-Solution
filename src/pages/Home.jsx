@@ -141,17 +141,52 @@ const Home = () => {
           pointer-events: none;
         }
 
-        /* ===== NAVBAR BLUR EXTENSION ===== */
-        /* This ensures blur starts from top of hero (under navbar) */
+        /* ===== PC: BLUR ON LEFT, CLEAR ON RIGHT (AS BEFORE) ===== */
         .blur-layer {
           mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%);
           -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%);
         }
 
-        /* Clear image layer - visible on right, hidden on left */
         .clear-layer {
           mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%);
           -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(0,0,0,1) 55%, rgba(0,0,0,1) 100%);
+        }
+
+        /* ===== MOBILE: BLUR ON ALL SIDES (30% from each edge) ===== */
+        @media (max-width: 640px) {
+          .blur-layer-mobile {
+            mask-image: radial-gradient(
+              ellipse at 50% 50%,
+              rgba(0,0,0,1) 40%,
+              rgba(0,0,0,0) 70%
+            );
+            -webkit-mask-image: radial-gradient(
+              ellipse at 50% 50%,
+              rgba(0,0,0,1) 40%,
+              rgba(0,0,0,0) 70%
+            );
+          }
+
+          .clear-layer-mobile {
+            mask-image: radial-gradient(
+              ellipse at 50% 50%,
+              rgba(0,0,0,0) 40%,
+              rgba(0,0,0,1) 70%
+            );
+            -webkit-mask-image: radial-gradient(
+              ellipse at 50% 50%,
+              rgba(0,0,0,0) 40%,
+              rgba(0,0,0,1) 70%
+            );
+          }
+
+          .blur-overlay-mobile {
+            background: radial-gradient(
+              ellipse at 50% 50%,
+              rgba(0,0,0,0) 40%,
+              rgba(0,0,0,0.8) 70%
+            ) !important;
+          }
         }
       `}</style>
 
@@ -159,31 +194,35 @@ const Home = () => {
           SECTION 1: HERO
          ========================================== */}
 
-      <section className="relative min-h-screen overflow-hidden bg-[#050505] font-manrope flex items-center justify-center">
+     <section className="relative min-h-screen overflow-hidden bg-[#050505] font-manrope flex items-center justify-center">
         
-        {/* ===== BACKGROUND IMAGE WITH BLUR ON LEFT, CLEAR ON RIGHT ===== */}
-        {/* Layer 1: Clear/Sharp image on right side (extends full height including navbar area) */}
+        {/* ===== BACKGROUND IMAGE ===== */}
+        {/* PC: Blur on Left, Clear on Right */}
+        {/* Mobile: Thora sa blur (15% from edges) */}
+        
+        {/* Layer 1: Clear/Sharp image */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat hero-image-glow clear-layer"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat hero-image-glow clear-layer clear-layer-mobile"
           style={{
             backgroundImage: "url('/Ali.jpeg')",
             filter: "brightness(1.1) contrast(1.05)",
           }}
         />
 
-        {/* Layer 2: Blurred image on left side (extends full height including navbar area) */}
+        {/* Layer 2: Blurred image - Mobile mein blur kam */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-layer"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat blur-layer blur-layer-mobile"
           style={{
             backgroundImage: "url('/Ali.jpeg')",
-            filter: "blur(14px) brightness(0.5) saturate(0.3)",
-            transform: "scale(1.05)",
+            filter: "blur(6px) brightness(0.6) saturate(0.4)",
+            transform: "scale(1.02)",
           }}
         />
 
-        {/* ===== DARK OVERLAY ON LEFT SIDE FOR TEXT READABILITY ===== */}
+        {/* ===== DARK OVERLAY ON LEFT SIDE FOR TEXT READABILITY (PC) ===== */}
+        {/* Mobile: Thora sa overlay */}
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 blur-overlay-mobile"
           style={{
             background: "linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0) 65%, rgba(0,0,0,0) 100%)",
           }}
@@ -277,10 +316,10 @@ const Home = () => {
               </div>
             </div>
 
-            {/* BUTTONS */}
+            {/* BUTTONS - Get a Quote now navigates to /Outlet */}
             <div className="mt-4 md:mt-6 flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3 fade-up fade-up-6">
               <Link
-                to="/careers"
+                to="/Outlet"
                 className="
                   hero-btn
                   glow-btn

@@ -6,7 +6,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Outlet,  // ← This is React Router's Outlet
+  Outlet,
 } from "react-router-dom";
 
 // ==========================================
@@ -26,9 +26,11 @@ import Services from "./pages/Services";
 import Industries from "./pages/Industries";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
-import Blog from "./pages/Blog";
+import Blog from "./pages/Blog";  // ← Blog component (contains both list and article)
 import CaseStudies from "./pages/CaseStudies";
 import FAQs from "./pages/FAQs";
+import TruckTypes from "./pages/TruckTypes";
+import Pricing from "./pages/Pricing";
 
 // ==========================================
 // 4. LEGAL PAGES
@@ -41,7 +43,7 @@ import TermsConditions from "./pages/TermsConditions";
 // 5. DRIVE WITH TLS PAGE
 // ==========================================
 
-import DriveWithTLS from "./pages/Outlet";  // ← Import the renamed component
+import DriveWithTLS from "./pages/Outlet";
 
 // ==========================================
 // 6. APP COMPONENT
@@ -55,14 +57,9 @@ export default function App() {
         v7_relativeSplatPath: true,
       }}
     >
-      {/* Scroll page to top on route change */}
       <ScrollToTop />
 
       <Routes>
-
-        {/* ==========================================
-            MAIN WEBSITE LAYOUT
-           ========================================== */}
 
         <Route element={<MainLayout />}>
 
@@ -87,14 +84,21 @@ export default function App() {
           {/* CONTACT */}
           <Route path="/contact" element={<Contact />} />
 
-          {/* BLOG */}
+          {/* BLOG - Both list and single article */}
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />  {/* ← IMPORTANT: Add this line */}
 
           {/* CASE STUDIES */}
           <Route path="/case-studies" element={<CaseStudies />} />
 
           {/* FAQs */}
           <Route path="/faqs" element={<FAQs />} />
+
+          {/* TRUCK TYPES */}
+          <Route path="/truck-types" element={<TruckTypes />} />
+
+          {/* PRICING */}
+          <Route path="/pricing" element={<Pricing />} />
 
           {/* PRIVACY POLICY */}
           <Route path="/privacy" element={<PrivacyPolicy />} />

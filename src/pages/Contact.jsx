@@ -310,7 +310,7 @@ Your Name`;
   };
 
   // ==========================================
-  // SEND CONTACT FORM
+  // SEND CONTACT FORM - UPDATED SERVICE NAMES
   // ==========================================
 
   const handleSubmit = async (e) => {
@@ -323,11 +323,16 @@ Your Name`;
     setSubmissionNumber("");
 
     try {
+      // Updated service names mapping
       const serviceNames = {
-        bpo: "BPO Solutions",
-        voip: "VoIP & Telecom",
-        logistics: "Logistics Solutions",
-        digital: "Digital Services",
+        trucking: "Trucking & Logistics",
+        commercial_auto: "Commercial Auto Insurance",
+        healthcare_insurance: "Health Care Insurance",
+        bookkeeping: "Bookkeeping & Accounting Services",
+        logistics: "Logistics & Transportation",
+        telecom: "Telecom & Communication",
+        healthcare: "Healthcare",
+        finance: "Finance & Banking",
       };
 
       const selectedService =
@@ -442,7 +447,7 @@ Your Name`;
       phone: "+923075043511",
       phoneDisplay: "+92 307 5043511",
       email: "info@transnova.solutions",
-      whatsapp: "+14049104083", // Unified WhatsApp
+      whatsapp: "+14049104083",
     },
     {
       id: 2,
@@ -457,7 +462,7 @@ Your Name`;
       phone: "+923208216983",
       phoneDisplay: "+92 320 8216983",
       email: "info@transnova.solutions",
-      whatsapp: "+14049104083", // Unified WhatsApp
+      whatsapp: "+14049104083",
     },
     {
       id: 3,
@@ -468,10 +473,10 @@ Your Name`;
       flag: "🇺🇸",
       mapLink: "https://maps.app.goo.gl/9FcFMkRT6gteYF1T8?g_st=iw",
       color: "from-blue-600 to-blue-800",
-      phone: "+14072059059", // Updated USA number
-      phoneDisplay: "+1 (407) 205-9059", // Updated USA number display
+      phone: "+14072059059",
+      phoneDisplay: "+1 (407) 205-9059",
       email: "info@transnova.solutions",
-      whatsapp: "+14049104083", // Unified WhatsApp
+      whatsapp: "+14049104083",
     },
   ];
 
@@ -693,6 +698,9 @@ Your Name`;
                   className="w-full bg-[#1B1B1B] border border-white/10 text-white text-[13.5px] px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-white/30"
                 />
 
+                {/* ==========================================
+                    UPDATED DROPDOWN WITH NEW SERVICES
+                ========================================== */}
                 <select
                   name="service"
                   value={formData.service}
@@ -701,10 +709,14 @@ Your Name`;
                   className="w-full bg-[#1B1B1B] border border-white/10 text-white text-[13.5px] px-4 py-3 rounded-lg focus:outline-none focus:border-[#FF6B35] transition-colors"
                 >
                   <option value="">Select a Service *</option>
-                  <option value="bpo">BPO Solutions</option>
-                  <option value="voip">VoIP & Telecom</option>
-                  <option value="logistics">Logistics Solutions</option>
-                  <option value="digital">Digital Services</option>
+                  <option value="trucking">🚛 Trucking & Logistics</option>
+                  <option value="commercial_auto">🚗 Commercial Auto Insurance</option>
+                  <option value="healthcare_insurance">🏥 Health Care Insurance</option>
+                  <option value="bookkeeping">📊 Bookkeeping & Accounting Services</option>
+                  <option value="logistics">📦 Logistics & Transportation</option>
+                  <option value="telecom">📡 Telecom & Communication</option>
+                  <option value="healthcare">❤️ Healthcare</option>
+                  <option value="finance">🏦 Finance & Banking</option>
                 </select>
 
                 <textarea
