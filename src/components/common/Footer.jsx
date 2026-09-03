@@ -32,6 +32,11 @@ const Footer = () => {
   const linkedInUrl = "";
 
   // ==========================================
+  // MAP LINK
+  // ==========================================
+  const mapLink = "https://maps.app.goo.gl/9FcFMkRT6gteYF1T8?g_st=iw";
+
+  // ==========================================
   // SCROLL EVENT
   // ==========================================
   useEffect(() => {
@@ -128,7 +133,7 @@ Your Name`;
   ];
 
   // ==========================================
-  // CONTACT INFO - New section
+  // CONTACT INFO - Updated with US location
   // ==========================================
   const contactInfo = [
     { 
@@ -146,8 +151,8 @@ Your Name`;
     { 
       icon: FaMapMarkerAlt, 
       label: "Address", 
-      value: "USA, Pakistan",
-      action: "#"
+      value: "USA",
+      action: mapLink
     },
   ];
 
@@ -376,62 +381,62 @@ Your Name`;
               </div>
 
               {/* SOCIAL ICONS */}
-              <div>
-                <h4 className="text-white font-bold text-[12px] uppercase tracking-wide mb-2">Follow Us</h4>
-                <div className="flex gap-2 flex-wrap">
-                  <a
-                    href="https://www.facebook.com/profile.php?id=61593530214768"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                    aria-label="Facebook"
-                  >
-                    <FaFacebookF />
-                  </a>
+  <div>
+  <h4 className="text-white font-bold text-[12px] uppercase tracking-wide mb-2">Follow Us</h4>
+  <div className="flex gap-2 flex-wrap">
+    <a
+      href="https://www.facebook.com/profile.php?id=61593530214768"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#1877F2] hover:text-white transition-colors text-sm"
+      aria-label="Facebook"
+    >
+      <FaFacebookF />
+    </a>
 
-                  <a
-                    href="https://www.instagram.com/transnova.solutions"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                    aria-label="Instagram"
-                  >
-                    <FaInstagram />
-                  </a>
+    <a
+      href="https://www.instagram.com/transnova.solutions"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF] hover:text-white transition-colors text-sm"
+      aria-label="Instagram"
+    >
+      <FaInstagram />
+    </a>
 
-                  <a
-                    href="https://wa.me/14049104083"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#25D366] hover:text-white transition-colors text-sm"
-                    aria-label="WhatsApp"
-                  >
-                    <FaWhatsapp />
-                  </a>
+    <a
+      href="https://wa.me/14049104083"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#25D366] hover:text-white transition-colors text-sm"
+      aria-label="WhatsApp"
+    >
+      <FaWhatsapp />
+    </a>
 
-                  {linkedInUrl && (
-                    <a
-                      href={linkedInUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                      aria-label="LinkedIn"
-                    >
-                      <FaLinkedinIn />
-                    </a>
-                  )}
+    {linkedInUrl && (
+      <a
+        href={linkedInUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#0A66C2] hover:text-white transition-colors text-sm"
+        aria-label="LinkedIn"
+      >
+        <FaLinkedinIn />
+      </a>
+    )}
 
-                  <a
-                    href="https://x.com/transnovasol?s=11"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#FF6B35] hover:text-white transition-colors text-sm"
-                    aria-label="Twitter / X"
-                  >
-                    <FaTwitter />
-                  </a>
-                </div>
-              </div>
+    <a
+      href="https://x.com/transnovasol?s=11"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-[#9B9B8A] hover:bg-[#000000] hover:text-white transition-colors text-sm"
+      aria-label="Twitter / X"
+    >
+      <FaTwitter />
+    </a>
+  </div>
+</div>
 
               {/* EMAIL - OPENS GMAIL */}
               <div>
@@ -480,11 +485,11 @@ Your Name`;
           &copy; {new Date().getFullYear()} Trans Nova Solutions. All Rights Reserved.
         </p>
 
-        {/* WEBSITE CREDIT */}
-        <p className="text-center text-[#9B9B8A] text-[9px] mt-1">
-          Website by{" "}
+        {/* WEBSITE CREDIT - Updated Ali Raza link */}
+        <p className="text-center text-[#9B9B8A] text-[12px] mt-1">
+          Devolped by{" "}
           <a
-            href="https://www.facebook.com/share/18eFffWPme/"
+            href="https://www.facebook.com/share/1Lw7SmANPJ/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[#FF6B35] hover:underline transition-colors font-medium"

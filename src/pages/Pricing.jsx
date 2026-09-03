@@ -35,19 +35,17 @@ const SIGNAL_DARK = "#B33D0C";
 const SIGNAL_TINT = "#FBE7DB";
 
 /* =========================================================
-   TRAILER TYPES
+   TRAILER TYPES WITH RANGE-BASED PRICING
    ---------------------------------------------------------
-   IMPORTANT:
-   Every truck has its OWN price for:
-   1-3 Month
-   3-6 Month
-   6+ Month
-
-   And inside every authority period:
-   Local
-   Regional
-   OTR
-   OTR Team
+   Every truck has RANGES for:
+   - Rate per mile (min - max)
+   - Weekly gross (min - max)
+   - Dispatch fee percentage
+   
+   Based on Authority Age:
+   1-3 Month: Local
+   3-6 Month: Regional  
+   6+ Month: OTR / OTR Team
 ========================================================= */
 
 const trailerTypes = [
@@ -55,28 +53,28 @@ const trailerTypes = [
     id: "dry-van",
     name: "Dry Van",
     icon: <FaTruck />,
-    weeklyMiles: 2500,
-    fee: 6,
     description: "Enclosed trailer for general freight",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 1.85,
-        regional: 2.10,
-        otr: 2.25,
-        "otr-team": 2.55,
+        fee: 5.5,
+        rateMin: 2.00,
+        rateMax: 3.00,
+        weeklyMin: 3000,
+        weeklyMax: 5000,
       },
       "3-6": {
-        local: 1.95,
-        regional: 2.20,
-        otr: 2.35,
-        "otr-team": 2.70,
+        fee: 4.5,
+        rateMin: 2.00,
+        rateMax: 3.00,
+        weeklyMin: 5000,
+        weeklyMax: 7000,
       },
       "6-plus": {
-        local: 2.05,
-        regional: 2.25,
-        otr: 2.45,
-        "otr-team": 2.85,
+        fee: 3.5,
+        rateMin: 2.00,
+        rateMax: 3.00,
+        weeklyMin: 8000,
+        weeklyMax: 10000,
       },
     },
   },
@@ -85,28 +83,28 @@ const trailerTypes = [
     id: "flatbed",
     name: "Flatbed",
     icon: <FaTrailer />,
-    weeklyMiles: 2300,
-    fee: 7,
     description: "Open deck for oversized loads",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 2.05,
-        regional: 2.30,
-        otr: 2.50,
-        "otr-team": 2.80,
+        fee: 5.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 3000,
+        weeklyMax: 5000,
       },
       "3-6": {
-        local: 2.15,
-        regional: 2.40,
-        otr: 2.65,
-        "otr-team": 2.95,
+        fee: 4.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 5000,
+        weeklyMax: 7000,
       },
       "6-plus": {
-        local: 2.25,
-        regional: 2.50,
-        otr: 2.80,
-        "otr-team": 3.15,
+        fee: 3.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 8000,
+        weeklyMax: 10000,
       },
     },
   },
@@ -115,28 +113,28 @@ const trailerTypes = [
     id: "reefer",
     name: "Reefer",
     icon: <FaSnowflake />,
-    weeklyMiles: 2400,
-    fee: 7,
     description: "Temperature controlled freight",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 2.10,
-        regional: 2.35,
-        otr: 2.55,
-        "otr-team": 2.90,
+        fee: 5.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 4000,
+        weeklyMax: 6000,
       },
       "3-6": {
-        local: 2.20,
-        regional: 2.45,
-        otr: 2.70,
-        "otr-team": 3.05,
+        fee: 4.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 6000,
+        weeklyMax: 7000,
       },
       "6-plus": {
-        local: 2.30,
-        regional: 2.55,
-        otr: 2.85,
-        "otr-team": 3.20,
+        fee: 3.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 9000,
+        weeklyMax: 11000,
       },
     },
   },
@@ -145,28 +143,28 @@ const trailerTypes = [
     id: "step-deck",
     name: "Step Deck",
     icon: <FaRulerVertical />,
-    weeklyMiles: 2200,
-    fee: 7,
     description: "Low profile for tall cargo",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 2.15,
-        regional: 2.40,
-        otr: 2.60,
-        "otr-team": 2.95,
+        fee: 5.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 4000,
+        weeklyMax: 6000,
       },
       "3-6": {
-        local: 2.25,
-        regional: 2.50,
-        otr: 2.75,
-        "otr-team": 3.10,
+        fee: 4.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 6000,
+        weeklyMax: 7000,
       },
       "6-plus": {
-        local: 2.35,
-        regional: 2.60,
-        otr: 2.90,
-        "otr-team": 3.25,
+        fee: 3.5,
+        rateMin: 2.50,
+        rateMax: 3.50,
+        weeklyMin: 9000,
+        weeklyMax: 11000,
       },
     },
   },
@@ -175,28 +173,28 @@ const trailerTypes = [
     id: "power-only",
     name: "Power Only",
     icon: <FaBolt />,
-    weeklyMiles: 2500,
-    fee: 6,
     description: "Tractor only service",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 1.75,
-        regional: 2.00,
-        otr: 2.15,
-        "otr-team": 2.45,
+        fee: 5.5,
+        rateMin: 2.00,
+        rateMax: 3.00,
+        weeklyMin: 3000,
+        weeklyMax: 5000,
       },
       "3-6": {
-        local: 1.85,
-        regional: 2.10,
-        otr: 2.25,
-        "otr-team": 2.60,
+        fee: 4.5,
+        rateMin: 2.00,
+        rateMax: 3.00,
+        weeklyMin: 5000,
+        weeklyMax: 7000,
       },
       "6-plus": {
-        local: 1.95,
-        regional: 2.20,
-        otr: 2.35,
-        "otr-team": 2.75,
+        fee: 3.5,
+        rateMin: 2.00,
+        rateMax: 3.00,
+        weeklyMin: 8000,
+        weeklyMax: 10000,
       },
     },
   },
@@ -205,28 +203,28 @@ const trailerTypes = [
     id: "box-truck",
     name: "Box Truck",
     icon: <FaBoxes />,
-    weeklyMiles: 1800,
-    fee: 7,
     description: "Local and regional deliveries",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 1.55,
-        regional: 1.75,
-        otr: 1.90,
-        "otr-team": 2.15,
+        fee: 5.5,
+        rateMin: 1.80,
+        rateMax: 2.50,
+        weeklyMin: 3000,
+        weeklyMax: 5000,
       },
       "3-6": {
-        local: 1.65,
-        regional: 1.85,
-        otr: 2.00,
-        "otr-team": 2.30,
+        fee: 4.5,
+        rateMin: 1.80,
+        rateMax: 2.50,
+        weeklyMin: 4000,
+        weeklyMax: 6000,
       },
       "6-plus": {
-        local: 1.75,
-        regional: 1.95,
-        otr: 2.10,
-        "otr-team": 2.45,
+        fee: 3.5,
+        rateMin: 1.80,
+        rateMax: 2.50,
+        weeklyMin: 5000,
+        weeklyMax: 8000,
       },
     },
   },
@@ -235,28 +233,28 @@ const trailerTypes = [
     id: "hotshot",
     name: "Hotshot",
     icon: <FaBolt />,
-    weeklyMiles: 2100,
-    fee: 7,
     description: "Expedited freight service",
-
-    prices: {
+    pricing: {
       "1-3": {
-        local: 1.90,
-        regional: 2.15,
-        otr: 2.35,
-        "otr-team": 2.65,
+        fee: 5.5,
+        rateMin: 1.80,
+        rateMax: 2.50,
+        weeklyMin: 3000,
+        weeklyMax: 5000,
       },
       "3-6": {
-        local: 2.00,
-        regional: 2.25,
-        otr: 2.50,
-        "otr-team": 2.80,
+        fee: 4.5,
+        rateMin: 1.80,
+        rateMax: 2.50,
+        weeklyMin: 4000,
+        weeklyMax: 6000,
       },
       "6-plus": {
-        local: 2.10,
-        regional: 2.35,
-        otr: 2.65,
-        "otr-team": 2.95,
+        fee: 3.5,
+        rateMin: 1.80,
+        rateMax: 2.50,
+        weeklyMin: 5000,
+        weeklyMax: 8000,
       },
     },
   },
@@ -270,19 +268,22 @@ const authorityOptions = [
   {
     id: "1-3",
     label: "1–3 Month",
+    subLabel: "Local",
   },
   {
     id: "3-6",
     label: "3–6 Month",
+    subLabel: "Regional",
   },
   {
     id: "6-plus",
     label: "6+ Month",
+    subLabel: "OTR",
   },
 ];
 
 /* =========================================================
-   OPERATION OPTIONS
+   OPERATION OPTIONS (For display only - ranges already include operation type)
 ========================================================= */
 
 const operationOptions = [
@@ -314,6 +315,7 @@ const AnimatedCounter = ({
   suffix = "",
   duration = 900,
   color = INK,
+  isRange = false,
 }) => {
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
@@ -379,6 +381,13 @@ const AnimatedCounter = ({
   }, [value]);
 
   const formatValue = (val) => {
+    if (isRange) {
+      // For range values, format as k (e.g., 6342 -> 6.3k)
+      if (val >= 1000) {
+        return (val / 1000).toFixed(1) + "k";
+      }
+      return Number(val).toFixed(0);
+    }
     return Number(val).toFixed(2);
   };
 
@@ -392,6 +401,71 @@ const AnimatedCounter = ({
     >
       {prefix}
       {formatValue(count)}
+      {suffix}
+    </span>
+  );
+};
+
+/* =========================================================
+   RANGE DISPLAY COMPONENT
+========================================================= */
+
+const RangeDisplay = ({ min, max, prefix = "$", suffix = "", color = INK }) => {
+  const [displayMin, setDisplayMin] = useState(0);
+  const [displayMax, setDisplayMax] = useState(0);
+  const rangeRef = useRef(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          setDisplayMin(min);
+          setDisplayMax(max);
+        }
+      },
+      {
+        threshold: 0.3,
+      }
+    );
+
+    if (rangeRef.current) {
+      observer.observe(rangeRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [min, max, hasAnimated]);
+
+  useEffect(() => {
+    setHasAnimated(false);
+    setDisplayMin(0);
+    setDisplayMax(0);
+  }, [min, max]);
+
+  const formatValue = (val) => {
+    if (val >= 1000) {
+      return (val / 1000).toFixed(1) + "k";
+    }
+    return Number(val).toFixed(2);
+  };
+
+  return (
+    <span
+      ref={rangeRef}
+      className="tn-display text-[32px] font-bold"
+      style={{
+        color,
+      }}
+    >
+      {prefix}
+      {formatValue(displayMin || min)}
+      {suffix} – {prefix}
+      {formatValue(displayMax || max)}
       {suffix}
     </span>
   );
@@ -413,9 +487,7 @@ const ControlButton = ({
     style={{
       backgroundColor: active ? INK : "#FFFFFF",
       color: active ? "#FFFFFF" : STEEL,
-      border: `1px solid ${
-        active ? INK : STEEL_LINE
-      }`,
+      border: `1px solid ${active ? INK : STEEL_LINE}`,
       "--tw-ring-color": SIGNAL,
     }}
     onMouseEnter={(e) => {
@@ -425,8 +497,7 @@ const ControlButton = ({
     }}
     onMouseLeave={(e) => {
       if (!active) {
-        e.currentTarget.style.borderColor =
-          STEEL_LINE;
+        e.currentTarget.style.borderColor = STEEL_LINE;
       }
     }}
   >
@@ -486,110 +557,71 @@ const SectionHeading = ({
 ========================================================= */
 
 const Pricing = () => {
-  const [authorityAge, setAuthorityAge] =
-    useState("6-plus");
-
-  const [trailerType, setTrailerType] =
-    useState("dry-van");
-
-  const [operationType, setOperationType] =
-    useState("otr");
+  const [authorityAge, setAuthorityAge] = useState("6-plus");
+  const [trailerType, setTrailerType] = useState("dry-van");
+  const [operationType, setOperationType] = useState("otr");
 
   /* =======================================================
-     CALCULATE PRICE
-     -------------------------------------------------------
-     NO MULTIPLIERS NOW.
-
-     We directly pick:
-
-     truck
-       ↓
-     authority
-       ↓
-     operation
-       ↓
-     exact price
+     CALCULATE PRICING FROM RANGES
   ======================================================= */
 
   const calculations = useMemo(() => {
     const trailer =
-      trailerTypes.find(
-        (t) => t.id === trailerType
-      ) || trailerTypes[0];
+      trailerTypes.find((t) => t.id === trailerType) || trailerTypes[0];
 
-    const authority =
-      authorityOptions.find(
-        (a) => a.id === authorityAge
-      ) || authorityOptions[2];
+    const pricing = trailer?.pricing?.[authorityAge] || {
+      fee: 3.5,
+      rateMin: 2.00,
+      rateMax: 3.00,
+      weeklyMin: 8000,
+      weeklyMax: 10000,
+    };
 
-    const operation =
-      operationOptions.find(
-        (o) => o.id === operationType
-      ) || operationOptions[2];
-
-    // Get exact price from trailer.prices[authorityAge][operationType]
-    const exactRate =
-      trailer?.prices?.[authorityAge]?.[
-        operationType
-      ] ?? 0;
-
-    const weeklyGross =
-      exactRate * trailer.weeklyMiles;
-
-    const dispatchFee =
-      weeklyGross * (trailer.fee / 100);
-
-    const netWeekly =
-      weeklyGross - dispatchFee;
+    // Calculate average rate for display
+    const avgRate = (pricing.rateMin + pricing.rateMax) / 2;
+    
+    // Calculate average weekly gross
+    const avgWeekly = (pricing.weeklyMin + pricing.weeklyMax) / 2;
+    
+    // Calculate dispatch fee based on average
+    const dispatchFee = avgWeekly * (pricing.fee / 100);
+    
+    // Calculate net weekly
+    const netWeekly = avgWeekly - dispatchFee;
 
     return {
-      feePercentage: trailer.fee,
-      averageRate: exactRate,
-      weeklyGross,
-      dispatchFee,
-      netWeekly,
+      feePercentage: pricing.fee,
+      averageRate: avgRate,
+      rateMin: pricing.rateMin,
+      rateMax: pricing.rateMax,
+      weeklyMin: pricing.weeklyMin,
+      weeklyMax: pricing.weeklyMax,
+      avgWeekly: avgWeekly,
+      dispatchFee: dispatchFee,
+      netWeekly: netWeekly,
       selectedTrailer: trailer,
-      authority,
-      operation,
+      operation: operationOptions.find((o) => o.id === operationType),
     };
-  }, [
-    authorityAge,
-    trailerType,
-    operationType,
-  ]);
+  }, [authorityAge, trailerType, operationType]);
 
   /* =======================================================
      SELECTED LABELS
   ======================================================= */
 
   const getSelectedLabels = () => {
-    const trailer =
-      trailerTypes.find(
-        (t) => t.id === trailerType
-      );
-
-    const authority =
-      authorityOptions.find(
-        (a) => a.id === authorityAge
-      );
-
-    const operation =
-      operationOptions.find(
-        (o) => o.id === operationType
-      );
+    const trailer = trailerTypes.find((t) => t.id === trailerType);
+    const authority = authorityOptions.find((a) => a.id === authorityAge);
+    const operation = operationOptions.find((o) => o.id === operationType);
 
     return {
-      trailerName:
-        trailer?.name || "Dry Van",
-      authorityLabel:
-        authority?.label || "6+ Month",
-      operationLabel:
-        operation?.label || "OTR",
+      trailerName: trailer?.name || "Dry Van",
+      authorityLabel: authority?.label || "6+ Month",
+      authoritySubLabel: authority?.subLabel || "OTR",
+      operationLabel: operation?.label || "OTR",
     };
   };
 
-  const selected =
-    getSelectedLabels();
+  const selected = getSelectedLabels();
 
   return (
     <div
@@ -612,173 +644,109 @@ const Pricing = () => {
       `}</style>
 
       <div className="tn-body">
-
         {/* =================================================
             HERO
         ================================================= */}
 
-        <section
-          className="bg-white"
+      <section
+  className="bg-white"
+  style={{
+    borderBottom: `1px solid ${STEEL_LINE}`,
+  }}
+>
+  <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
+    <div className="pt-8 sm:pt-10">
+      <div className="flex items-center gap-2 text-[12px]">
+        <a href="/" className="transition-colors" style={{ color: STEEL }}>
+          Home
+        </a>
+        <span style={{ color: "#C9C8C1" }}>/</span>
+        <span style={{ color: SIGNAL }} className="font-medium">
+          Pricing
+        </span>
+      </div>
+    </div>
+
+    <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center pt-12 sm:pt-16 pb-12 sm:pb-14">
+      {/* Left Side - Text Content */}
+      <div>
+        <div className="flex items-center gap-2 mb-4">
+          <span
+            className="w-6 h-[3px]"
+            style={{
+              backgroundColor: SIGNAL,
+            }}
+          />
+          <span
+            className="text-[12px] font-semibold"
+            style={{
+              color: STEEL,
+            }}
+          >
+            Rates, fees, and what you take home
+          </span>
+        </div>
+
+        <h1 className="tn-display text-[44px] sm:text-[58px] md:text-[66px] font-bold leading-[0.98] tracking-tight">
+          Pricing built for
+          <br />
+          the driver's seat.
+        </h1>
+
+        <p
+          className="text-[14.5px] sm:text-[15px] leading-7 mt-6 max-w-[520px]"
           style={{
-            borderBottom:
-              `1px solid ${STEEL_LINE}`,
+            color: STEEL,
           }}
         >
-          <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
+          No hidden fees, no fine print that changes after you sign. Pick your
+          equipment, authority age and operation below to see your estimated weekly
+          earnings.
+        </p>
+      </div>
 
-            <div className="pt-8 sm:pt-10">
-              <div className="flex items-center gap-2 text-[12px]">
-
-                <a
-                  href="/"
-                  className="transition-colors"
-                  style={{
-                    color: STEEL,
-                  }}
-                >
-                  Home
-                </a>
-
-                <span
-                  style={{
-                    color: "#C9C8C1",
-                  }}
-                >
-                  /
-                </span>
-
-                <span
-                  style={{
-                    color: SIGNAL,
-                  }}
-                  className="font-medium"
-                >
-                  Pricing
-                </span>
-
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-end pt-12 sm:pt-16 pb-12 sm:pb-14">
-
-              <div>
-
-                <div className="flex items-center gap-2 mb-4">
-
-                  <span
-                    className="w-6 h-[3px]"
-                    style={{
-                      backgroundColor:
-                        SIGNAL,
-                    }}
-                  />
-
-                  <span
-                    className="text-[12px] font-semibold"
-                    style={{
-                      color: STEEL,
-                    }}
-                  >
-                    Rates, fees, and what you take home
-                  </span>
-
-                </div>
-
-                <h1 className="tn-display text-[44px] sm:text-[58px] md:text-[66px] font-bold leading-[0.98] tracking-tight">
-                  Pricing built for
-                  <br />
-                  the driver's seat.
-                </h1>
-
-                <p
-                  className="text-[14.5px] sm:text-[15px] leading-7 mt-6 max-w-[520px]"
-                  style={{
-                    color: STEEL,
-                  }}
-                >
-                  No hidden fees, no fine print that
-                  changes after you sign. Pick your
-                  equipment, authority age and operation
-                  below to see your estimated weekly
-                  earnings.
-                </p>
-
-              </div>
-
-              <div
-                className="grid grid-cols-3 gap-px overflow-hidden rounded-[10px]"
-                style={{
-                  backgroundColor:
-                    STEEL_LINE,
-                  border:
-                    `1px solid ${STEEL_LINE}`,
-                }}
-              >
-
-                {[
-                  {
-                    label: "Equipment types",
-                    value: "7",
-                  },
-                  {
-                    label: "Avg. dispatch fee",
-                    value: "6–7%",
-                  },
-                  {
-                    label: "Contracts",
-                    value: "0",
-                  },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="bg-white px-4 py-5 text-center"
-                  >
-
-                    <div
-                      className="tn-display text-[30px] font-bold"
-                      style={{
-                        color: INK,
-                      }}
-                    >
-                      {stat.value}
-                    </div>
-
-                    <div
-                      className="text-[10.5px] mt-1"
-                      style={{
-                        color: STEEL,
-                      }}
-                    >
-                      {stat.label}
-                    </div>
-
-                  </div>
-                ))}
-
-              </div>
-
-            </div>
-          </div>
-        </section>
+      {/* Right Side - Image */}
+      <div className="relative rounded-[12px] overflow-hidden shadow-lg">
+        <img
+          src="/truck.png"
+          alt="Trans Nova Solutions - Professional trucking services"
+          className="w-full h-auto object-cover"
+          style={{
+            minHeight: "220px",
+            maxHeight: "340px",
+          }}
+          loading="lazy"
+        />
+        
+        {/* Optional: Overlay Badge */}
+        <div
+          className="absolute bottom-3 left-3 px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider"
+          style={{
+            backgroundColor: INK,
+            color: PAPER,
+            opacity: 0.85,
+          }}
+        >
+          🚛 Trans Nova Solutions
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
         {/* =================================================
             CALCULATOR
         ================================================= */}
 
         <section className="py-10 sm:py-14 lg:py-16">
-
           <div className="max-w-[1050px] mx-auto px-5 sm:px-6">
-
             <div
               className="rounded-[14px] overflow-hidden bg-white"
               style={{
-                border:
-                  `1px solid ${STEEL_LINE}`,
-                boxShadow:
-                  "0 1px 2px rgba(21,24,29,0.04)",
+                border: `1px solid ${STEEL_LINE}`,
+                boxShadow: "0 1px 2px rgba(21,24,29,0.04)",
               }}
             >
-
               {/* CALCULATOR HEADER */}
 
               <div
@@ -787,11 +755,8 @@ const Pricing = () => {
                   backgroundColor: INK,
                 }}
               >
-
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-
                   <div>
-
                     <p
                       className="text-[11px] font-semibold mb-2"
                       style={{
@@ -811,83 +776,56 @@ const Pricing = () => {
                         color: "#9CA0A8",
                       }}
                     >
-                      Select your equipment, authority
-                      age and operation type. The exact
-                      rate will update automatically.
+                      Select your equipment and authority age. The estimated range will
+                      update automatically.
                     </p>
-
                   </div>
 
                   <div
                     className="w-12 h-12 shrink-0 flex items-center justify-center rounded-[8px]"
                     style={{
-                      border:
-                        `1.5px solid ${SIGNAL}`,
+                      border: `1.5px solid ${SIGNAL}`,
                       color: SIGNAL,
                     }}
                   >
                     <FaCalculator className="text-lg" />
                   </div>
-
                 </div>
-
               </div>
 
               <div className="p-5 sm:p-7 lg:p-10">
-
                 {/* =================================================
                     AUTHORITY AGE
                 ================================================= */}
 
                 <div className="mb-8">
-
-                  <SectionHeading
-                    label="Authority age"
-                    hint="Select one"
-                  />
+                  <SectionHeading label="Authority age" hint="Select one" />
 
                   <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    {authorityOptions.map((option) => {
+                      const active = authorityAge === option.id;
 
-                    {authorityOptions.map(
-                      (option) => {
-
-                        const active =
-                          authorityAge ===
-                          option.id;
-
-                        return (
-                          <ControlButton
-                            key={option.id}
-                            active={active}
-                            onClick={() =>
-                              setAuthorityAge(
-                                option.id
-                              )
-                            }
-                          >
-                            <div className="flex flex-col items-center">
-                              <span>
-                                {option.label}
-                              </span>
-
-                              <span
-                                className="text-[9px] font-normal mt-0.5"
-                                style={{
-                                  color: active
-                                    ? "#FFFFFF"
-                                    : STEEL,
-                                }}
-                              >
-                                Custom rate
-                              </span>
-                            </div>
-                          </ControlButton>
-                        );
-                      }
-                    )}
-
+                      return (
+                        <ControlButton
+                          key={option.id}
+                          active={active}
+                          onClick={() => setAuthorityAge(option.id)}
+                        >
+                          <div className="flex flex-col items-center">
+                            <span>{option.label}</span>
+                            <span
+                              className="text-[9px] font-normal mt-0.5"
+                              style={{
+                                color: active ? "#FFFFFF" : STEEL,
+                              }}
+                            >
+                              {option.subLabel}
+                            </span>
+                          </div>
+                        </ControlButton>
+                      );
+                    })}
                   </div>
-
                 </div>
 
                 {/* =================================================
@@ -895,105 +833,69 @@ const Pricing = () => {
                 ================================================= */}
 
                 <div className="mb-8">
-
-                  <SectionHeading
-                    label="Trailer type"
-                    hint="Select equipment"
-                  />
+                  <SectionHeading label="Trailer type" hint="Select equipment" />
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+                    {trailerTypes.map((trailer) => {
+                      const active = trailerType === trailer.id;
+                      const pricing = trailer?.pricing?.[authorityAge] || {
+                        rateMin: 2.00,
+                        rateMax: 3.00,
+                      };
+                      const avgRate = (pricing.rateMin + pricing.rateMax) / 2;
 
-                    {trailerTypes.map(
-                      (trailer) => {
-
-                        const active =
-                          trailerType ===
-                          trailer.id;
-
-                        // Show currently selected rate on the truck card
-                        const currentRate =
-                          trailer?.prices?.[
-                            authorityAge
-                          ]?.[operationType] ??
-                          0;
-
-                        return (
-                          <button
-                            key={trailer.id}
-                            type="button"
-                            onClick={() =>
-                              setTrailerType(
-                                trailer.id
-                              )
+                      return (
+                        <button
+                          key={trailer.id}
+                          type="button"
+                          onClick={() => setTrailerType(trailer.id)}
+                          className="group relative rounded-[8px] px-2 py-3 min-h-[100px] flex flex-col items-center justify-center gap-2 transition-all duration-150 focus:outline-none"
+                          style={{
+                            backgroundColor: active ? SIGNAL_TINT : "#FFFFFF",
+                            border: `1px solid ${active ? SIGNAL : STEEL_LINE}`,
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!active) {
+                              e.currentTarget.style.borderColor = SIGNAL;
                             }
-                            className="group relative rounded-[8px] px-2 py-3 min-h-[100px] flex flex-col items-center justify-center gap-2 transition-all duration-150 focus:outline-none"
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!active) {
+                              e.currentTarget.style.borderColor = STEEL_LINE;
+                            }
+                          }}
+                        >
+                          <span
+                            className="text-lg"
                             style={{
-                              backgroundColor:
-                                active
-                                  ? SIGNAL_TINT
-                                  : "#FFFFFF",
-                              border:
-                                `1px solid ${
-                                  active
-                                    ? SIGNAL
-                                    : STEEL_LINE
-                                }`,
-                            }}
-                            onMouseEnter={(e) => {
-                              if (!active) {
-                                e.currentTarget.style.borderColor =
-                                  SIGNAL;
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (!active) {
-                                e.currentTarget.style.borderColor =
-                                  STEEL_LINE;
-                              }
+                              color: active ? SIGNAL : "#B7B6AE",
                             }}
                           >
+                            {trailer.icon}
+                          </span>
 
-                            <span
-                              className="text-lg"
-                              style={{
-                                color: active
-                                  ? SIGNAL
-                                  : "#B7B6AE",
-                              }}
-                            >
-                              {trailer.icon}
-                            </span>
+                          <span
+                            className="text-[10.5px] font-bold text-center leading-tight"
+                            style={{
+                              color: active ? SIGNAL_DARK : STEEL,
+                            }}
+                          >
+                            {trailer.name}
+                          </span>
 
-                            <span
-                              className="text-[10.5px] font-bold text-center leading-tight"
-                              style={{
-                                color: active
-                                  ? SIGNAL_DARK
-                                  : STEEL,
-                              }}
-                            >
-                              {trailer.name}
-                            </span>
-
-                            <span
-                              className="text-[8.5px] font-bold"
-                              style={{
-                                color: active
-                                  ? SIGNAL
-                                  : "#B7B6AE",
-                              }}
-                            >
-                              ${currentRate.toFixed(2)}
-                              /mi
-                            </span>
-
-                          </button>
-                        );
-                      }
-                    )}
-
+                          <span
+                            className="text-[8.5px] font-bold"
+                            style={{
+                              color: active ? SIGNAL : "#B7B6AE",
+                            }}
+                          >
+                            ${pricing.rateMin.toFixed(2)}–$
+                            {pricing.rateMax.toFixed(2)}/mi
+                          </span>
+                        </button>
+                      );
+                    })}
                   </div>
-
                 </div>
 
                 {/* =================================================
@@ -1001,58 +903,33 @@ const Pricing = () => {
                 ================================================= */}
 
                 <div className="mb-9">
-
-                  <SectionHeading
-                    label="Operation type"
-                    hint="Select operation"
-                  />
+                  <SectionHeading label="Operation type" hint="Select operation" />
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+                    {operationOptions.map((option) => {
+                      const active = operationType === option.id;
 
-                    {operationOptions.map(
-                      (option) => {
-
-                        const active =
-                          operationType ===
-                          option.id;
-
-                        return (
-                          <ControlButton
-                            key={option.id}
-                            active={active}
-                            onClick={() =>
-                              setOperationType(
-                                option.id
-                              )
-                            }
-                          >
-
-                            <div className="flex flex-col items-center">
-
-                              <span>
-                                {option.label}
-                              </span>
-
-                              <span
-                                className="text-[9px] font-normal mt-0.5"
-                                style={{
-                                  color: active
-                                    ? "#FFFFFF"
-                                    : STEEL,
-                                }}
-                              >
-                                Custom rate
-                              </span>
-
-                            </div>
-
-                          </ControlButton>
-                        );
-                      }
-                    )}
-
+                      return (
+                        <ControlButton
+                          key={option.id}
+                          active={active}
+                          onClick={() => setOperationType(option.id)}
+                        >
+                          <div className="flex flex-col items-center">
+                            <span>{option.label}</span>
+                            <span
+                              className="text-[9px] font-normal mt-0.5"
+                              style={{
+                                color: active ? "#FFFFFF" : STEEL,
+                              }}
+                            >
+                              Operation
+                            </span>
+                          </div>
+                        </ControlButton>
+                      );
+                    })}
                   </div>
-
                 </div>
 
                 {/* =================================================
@@ -1063,13 +940,10 @@ const Pricing = () => {
                   className="mb-6 p-4 rounded-[10px]"
                   style={{
                     backgroundColor: PAPER,
-                    border:
-                      `1px solid ${STEEL_LINE}`,
+                    border: `1px solid ${STEEL_LINE}`,
                   }}
                 >
-
                   <div className="flex flex-wrap items-center gap-3">
-
                     <span
                       className="text-[11px] font-semibold"
                       style={{
@@ -1082,8 +956,7 @@ const Pricing = () => {
                     <span
                       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold"
                       style={{
-                        backgroundColor:
-                          SIGNAL_TINT,
+                        backgroundColor: SIGNAL_TINT,
                         color: SIGNAL,
                       }}
                     >
@@ -1093,8 +966,7 @@ const Pricing = () => {
                     <span
                       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold"
                       style={{
-                        backgroundColor:
-                          SIGNAL_TINT,
+                        backgroundColor: SIGNAL_TINT,
                         color: SIGNAL,
                       }}
                     >
@@ -1104,16 +976,13 @@ const Pricing = () => {
                     <span
                       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold"
                       style={{
-                        backgroundColor:
-                          SIGNAL_TINT,
+                        backgroundColor: SIGNAL_TINT,
                         color: SIGNAL,
                       }}
                     >
                       {selected.operationLabel}
                     </span>
-
                   </div>
-
                 </div>
 
                 {/* =================================================
@@ -1124,22 +993,18 @@ const Pricing = () => {
                   className="mb-6 rounded-[10px] px-5 py-4"
                   style={{
                     backgroundColor: "#FFF8F4",
-                    border:
-                      `1px solid ${SIGNAL_TINT}`,
+                    border: `1px solid ${SIGNAL_TINT}`,
                   }}
                 >
-
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-
                     <div>
-
                       <p
                         className="text-[10px] uppercase tracking-[0.08em] font-bold"
                         style={{
                           color: SIGNAL,
                         }}
                       >
-                        Current selected rate
+                        Current rate range
                       </p>
 
                       <p
@@ -1148,11 +1013,9 @@ const Pricing = () => {
                           color: STEEL,
                         }}
                       >
-                        {selected.trailerName} •{" "}
-                        {selected.authorityLabel} •{" "}
+                        {selected.trailerName} • {selected.authorityLabel} •{" "}
                         {selected.operationLabel}
                       </p>
-
                     </div>
 
                     <div
@@ -1161,17 +1024,11 @@ const Pricing = () => {
                         color: SIGNAL,
                       }}
                     >
-                      $
-                      {calculations.averageRate.toFixed(
-                        2
-                      )}
-                      <span className="text-[13px] ml-1">
-                        / mile
-                      </span>
+                      ${calculations.rateMin.toFixed(2)}–$
+                      {calculations.rateMax.toFixed(2)}
+                      <span className="text-[13px] ml-1">/ mile</span>
                     </div>
-
                   </div>
-
                 </div>
 
                 {/* =================================================
@@ -1180,40 +1037,29 @@ const Pricing = () => {
 
                 <div
                   style={{
-                    borderTop:
-                      `1px solid ${STEEL_LINE}`,
+                    borderTop: `1px solid ${STEEL_LINE}`,
                   }}
                   className="pt-7"
                 >
-
                   <SectionHeading
                     label="Your estimated earnings"
-                    hint={`For ${
-                      calculations
-                        .selectedTrailer
-                        ?.name ||
-                      "Dry Van"
-                    }`}
+                    hint={`For ${calculations.selectedTrailer?.name || "Dry Van"}`}
                   />
 
                   <div
                     className="grid grid-cols-1 sm:grid-cols-3 rounded-[10px] overflow-hidden"
                     style={{
-                      border:
-                        `1px solid ${STEEL_LINE}`,
+                      border: `1px solid ${STEEL_LINE}`,
                     }}
                   >
-
-                    {/* RATE */}
+                    {/* RATE RANGE */}
 
                     <div
                       className="px-5 py-5"
                       style={{
-                        borderRight:
-                          `1px solid ${STEEL_LINE}`,
+                        borderRight: `1px solid ${STEEL_LINE}`,
                       }}
                     >
-
                       <p
                         className="text-[11px] font-semibold"
                         style={{
@@ -1223,12 +1069,11 @@ const Pricing = () => {
                         Rate per mile
                       </p>
 
-                      <AnimatedCounter
-                        value={
-                          calculations.averageRate
-                        }
+                      <RangeDisplay
+                        min={calculations.rateMin}
+                        max={calculations.rateMax}
                         prefix="$"
-                        duration={900}
+                        color={INK}
                       />
 
                       <p
@@ -1239,7 +1084,6 @@ const Pricing = () => {
                       >
                         Based on your selections
                       </p>
-
                     </div>
 
                     {/* DISPATCH FEE */}
@@ -1247,30 +1091,23 @@ const Pricing = () => {
                     <div
                       className="px-5 py-5"
                       style={{
-                        borderRight:
-                          `1px solid ${STEEL_LINE}`,
+                        borderRight: `1px solid ${STEEL_LINE}`,
                       }}
                     >
-
                       <p
                         className="text-[11px] font-semibold"
                         style={{
                           color: STEEL,
                         }}
                       >
-                        Dispatch fee (
-                        {
-                          calculations.feePercentage
-                        }
-                        %)
+                        Dispatch fee ({calculations.feePercentage}%)
                       </p>
 
                       <AnimatedCounter
-                        value={
-                          calculations.dispatchFee
-                        }
+                        value={calculations.dispatchFee}
                         prefix="$"
                         duration={900}
+                        isRange={true}
                       />
 
                       <p
@@ -1281,19 +1118,16 @@ const Pricing = () => {
                       >
                         Estimated weekly fee
                       </p>
-
                     </div>
 
-                    {/* WEEKLY GROSS */}
+                    {/* WEEKLY GROSS RANGE */}
 
                     <div
                       className="px-5 py-5"
                       style={{
-                        backgroundColor:
-                          SIGNAL_TINT,
+                        backgroundColor: SIGNAL_TINT,
                       }}
                     >
-
                       <p
                         className="text-[11px] font-semibold"
                         style={{
@@ -1303,12 +1137,11 @@ const Pricing = () => {
                         Weekly gross
                       </p>
 
-                      <AnimatedCounter
-                        value={
-                          calculations.weeklyGross
-                        }
+                      <RangeDisplay
+                        min={calculations.weeklyMin}
+                        max={calculations.weeklyMax}
                         prefix="$"
-                        duration={900}
+                        color={SIGNAL_DARK}
                       />
 
                       <p
@@ -1319,9 +1152,7 @@ const Pricing = () => {
                       >
                         Before operating expenses
                       </p>
-
                     </div>
-
                   </div>
 
                   {/* NET WEEKLY */}
@@ -1332,9 +1163,7 @@ const Pricing = () => {
                       backgroundColor: INK,
                     }}
                   >
-
                     <div className="flex items-center gap-2">
-
                       <FaCheckCircle
                         className="text-sm"
                         style={{
@@ -1345,23 +1174,17 @@ const Pricing = () => {
                       <span className="text-[12px] font-semibold text-white">
                         Net weekly, after dispatch fee
                       </span>
-
                     </div>
 
                     <div className="text-white">
-
                       <AnimatedCounter
-                        value={
-                          calculations.netWeekly
-                        }
+                        value={calculations.netWeekly}
                         prefix="$"
                         duration={900}
+                        isRange={true}
                       />
-
                     </div>
-
                   </div>
-
                 </div>
 
                 {/* =================================================
@@ -1369,7 +1192,6 @@ const Pricing = () => {
                 ================================================= */}
 
                 <div className="mt-7">
-
                   <a
                     href="/Outlet"
                     className="w-full flex items-center justify-center gap-2 rounded-[8px] px-6 py-4 text-[13px] font-bold text-white transition-colors duration-150"
@@ -1377,22 +1199,16 @@ const Pricing = () => {
                       backgroundColor: SIGNAL,
                     }}
                     onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        SIGNAL_DARK)
+                      (e.currentTarget.style.backgroundColor = SIGNAL_DARK)
                     }
                     onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        SIGNAL)
+                      (e.currentTarget.style.backgroundColor = SIGNAL)
                     }
                   >
                     Get started
-
                     <FaArrowRight className="text-[11px]" />
-
                   </a>
-
                 </div>
-
               </div>
             </div>
           </div>
@@ -1402,219 +1218,93 @@ const Pricing = () => {
             CONTACT CTA
         ================================================= */}
 
-        <section className="px-5 sm:px-6 pb-12 sm:pb-16">
+     {/* =================================================
+    CONTACT & TRANSPARENT PRICING (Combined)
+================================================= */}
 
-          <div
-            className="max-w-[1050px] mx-auto rounded-[14px] px-6 sm:px-10 lg:px-14 py-9 sm:py-11 relative overflow-hidden"
-            style={{
-              backgroundColor: INK,
-            }}
-          >
+{/* =================================================
+    TRANSPARENT PRICING
+================================================= */}
 
-            <div
-              className="absolute right-0 top-0 h-full w-[6px]"
-              style={{
-                backgroundColor: SIGNAL,
-              }}
-            />
+<section className="pb-14 sm:pb-16">
+  <div className="max-w-[900px] mx-auto px-5 text-center">
+    <div
+      className="w-11 h-11 rounded-[8px] flex items-center justify-center mx-auto mb-5"
+      style={{
+        border: `1.5px solid ${SIGNAL}`,
+        color: SIGNAL,
+      }}
+    >
+      <FaCheckCircle />
+    </div>
 
-            <div className="relative z-10">
+    <h2
+      className="tn-display text-[26px] sm:text-[32px] font-bold"
+      style={{
+        color: INK,
+      }}
+    >
+      Transparent pricing. No hidden fees.
+    </h2>
 
-              <div className="grid lg:grid-cols-[1fr_auto] items-center gap-7">
+    <p
+      className="text-[12.5px] sm:text-[13px] leading-6 max-w-[720px] mx-auto mt-4"
+      style={{
+        color: STEEL,
+      }}
+    >
+      At Trans Nova Solutions, we believe our pricing should be simple and transparent.
+      There are no hidden fees or surprise charges. The calculator above provides an
+      estimate based on your selected equipment, authority age and operation type.
+    </p>
 
-                <div>
+    <p
+      className="text-[12.5px] sm:text-[13px] leading-6 max-w-[720px] mx-auto mt-3"
+      style={{
+        color: STEEL,
+      }}
+    >
+      Actual rates and dispatch fees may vary depending on your individual operation,
+      freight market conditions, lanes, equipment and service agreement.
+    </p>
 
-                  <div className="flex items-center gap-2 mb-3">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
+      <a
+        href="/contact"
+        className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[12px] font-bold text-white transition-colors duration-150"
+        style={{
+          backgroundColor: SIGNAL,
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.backgroundColor = SIGNAL_DARK)
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.backgroundColor = SIGNAL)
+        }
+      >
+        Contact us today
+        <FaArrowRight className="text-[10px]" />
+      </a>
 
-                    <FaTruck
-                      className="text-[13px]"
-                      style={{
-                        color: SIGNAL,
-                      }}
-                    />
-
-                    <span
-                      className="text-[11.5px] font-semibold"
-                      style={{
-                        color: SIGNAL,
-                      }}
-                    >
-                      Need assistance?
-                    </span>
-
-                  </div>
-
-                  <h2 className="tn-display text-[28px] sm:text-[34px] font-bold text-white leading-tight">
-                    Ready to get started?
-                  </h2>
-
-                  <p
-                    className="text-[12.5px] sm:text-[13px] leading-6 mt-3 max-w-[600px]"
-                    style={{
-                      color: "#9CA0A8",
-                    }}
-                  >
-                    Have questions about our pricing or
-                    services? Reach out and we'll walk you
-                    through everything and help you choose
-                    the right solution for your operation.
-                  </p>
-
-                </div>
-
-                <div className="flex flex-col sm:flex-row lg:flex-col gap-2">
-
-                  <a
-                    href="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[11.5px] font-bold text-white transition-colors duration-150"
-                    style={{
-                      backgroundColor: SIGNAL,
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        SIGNAL_DARK)
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor =
-                        SIGNAL)
-                    }
-                  >
-                    Contact us
-                    <FaArrowRight className="text-[9px]" />
-                  </a>
-
-                  <a
-                    href={`tel:${COMPANY_PHONE}`}
-                    className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[11.5px] font-bold text-white transition-colors duration-150"
-                    style={{
-                      border:
-                        "1px solid rgba(255,255,255,0.18)",
-                    }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.borderColor =
-                        SIGNAL)
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.borderColor =
-                        "rgba(255,255,255,0.18)")
-                    }
-                  >
-
-                    <FaPhoneAlt className="text-[9px]" />
-
-                    {COMPANY_PHONE}
-
-                  </a>
-
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================
-            TRANSPARENT PRICING
-        ================================================= */}
-
-        <section className="pb-14 sm:pb-16">
-
-          <div className="max-w-[900px] mx-auto px-5 text-center">
-
-            <div
-              className="w-11 h-11 rounded-[8px] flex items-center justify-center mx-auto mb-5"
-              style={{
-                border:
-                  `1.5px solid ${SIGNAL}`,
-                color: SIGNAL,
-              }}
-            >
-              <FaCheckCircle />
-            </div>
-
-            <h2
-              className="tn-display text-[26px] sm:text-[32px] font-bold"
-              style={{
-                color: INK,
-              }}
-            >
-              Transparent pricing. No hidden fees.
-            </h2>
-
-            <p
-              className="text-[12.5px] sm:text-[13px] leading-6 max-w-[720px] mx-auto mt-4"
-              style={{
-                color: STEEL,
-              }}
-            >
-              At Trans Nova Solutions, we believe our              pricing should be simple and transparent.
-              There are no hidden fees or surprise
-              charges. The calculator above provides an
-              estimate based on your selected equipment,
-              authority age and operation type.
-            </p>
-
-            <p
-              className="text-[12.5px] sm:text-[13px] leading-6 max-w-[720px] mx-auto mt-3"
-              style={{
-                color: STEEL,
-              }}
-            >
-              Actual rates and dispatch fees may vary
-              depending on your individual operation,
-              freight market conditions, lanes, equipment
-              and service agreement.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
-
-              <a
-                href="/contact"
-                className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[12px] font-bold text-white transition-colors duration-150"
-                style={{
-                  backgroundColor: SIGNAL,
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor =
-                    SIGNAL_DARK)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor =
-                    SIGNAL)
-                }
-              >
-                Contact us today
-
-                <FaArrowRight className="text-[10px]" />
-
-              </a>
-
-              <a
-                href="/services"
-                className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[12px] font-bold transition-colors duration-150"
-                style={{
-                  border:
-                    `1px solid ${STEEL_LINE}`,
-                  color: INK,
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.borderColor =
-                    SIGNAL)
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.borderColor =
-                    STEEL_LINE)
-                }
-              >
-                All services
-              </a>
-
-            </div>
-
-          </div>
-        </section>
-
+      <a
+        href="/services"
+        className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[12px] font-bold transition-colors duration-150"
+        style={{
+          border: `1px solid ${STEEL_LINE}`,
+          color: INK,
+        }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.borderColor = SIGNAL)
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.borderColor = STEEL_LINE)
+        }
+      >
+        All services
+      </a>
+    </div>
+  </div>
+</section>
       </div>
     </div>
   );

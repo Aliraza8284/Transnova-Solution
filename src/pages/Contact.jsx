@@ -616,25 +616,45 @@ Your Name`;
             </div>
 
             {/* Social Media */}
-            <div>
-              <p className="font-semibold text-[11px] uppercase text-white/40 tracking-wider mb-3">
-                Follow Us
-              </p>
-              <div className="flex gap-2.5 flex-wrap">
-                {socialMedia.map((item, index) => (
-                  <a
-                    key={index}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={item.label}
-                    className="w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 text-white/70 flex items-center justify-center hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:text-white transition-colors cursor-pointer"
-                  >
-                    <item.icon className="text-[13px]" />
-                  </a>
-                ))}
-              </div>
-            </div>
+           <div>
+  <p className="font-semibold text-[11px] uppercase text-white/40 tracking-wider mb-3">
+    Follow Us
+  </p>
+  <div className="flex gap-2.5 flex-wrap">
+    {socialMedia.map((item, index) => {
+      // Define brand colors for each platform
+      const brandColors = {
+        facebook: "hover:bg-[#1877F2] hover:border-[#1877F2]",
+        instagram: "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF] hover:border-[#DD2A7B]",
+        whatsapp: "hover:bg-[#25D366] hover:border-[#25D366]",
+        linkedin: "hover:bg-[#0A66C2] hover:border-[#0A66C2]",
+        twitter: "hover:bg-[#000000] hover:border-[#000000]",
+        youtube: "hover:bg-[#FF0000] hover:border-[#FF0000]",
+        tiktok: "hover:bg-[#000000] hover:border-[#000000]",
+        snapchat: "hover:bg-[#FFFC00] hover:border-[#FFFC00] hover:text-black",
+        pinterest: "hover:bg-[#E60023] hover:border-[#E60023]",
+        reddit: "hover:bg-[#FF4500] hover:border-[#FF4500]",
+        github: "hover:bg-[#181717] hover:border-[#181717]",
+      };
+
+      // Get the brand color class based on item label or fallback to orange
+      const brandClass = brandColors[item.label?.toLowerCase()] || "hover:bg-[#FF6B35] hover:border-[#FF6B35]";
+
+      return (
+        <a
+          key={index}
+          href={item.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={item.label}
+          className={`w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 text-white/70 flex items-center justify-center ${brandClass} hover:text-white transition-colors cursor-pointer`}
+        >
+          <item.icon className="text-[13px]" />
+        </a>
+      );
+    })}
+  </div>
+</div>
           </div>
 
           {/* RIGHT — Form */}

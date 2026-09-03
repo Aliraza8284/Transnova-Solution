@@ -41,7 +41,7 @@ const blogPosts = [
     date: "March 29, 2026",
     readTime: "8 min read",
     title: "How to Start a Trucking Business in the USA (Step-by-Step Guide for 2026)",
-    image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80",
+    image: "/box.avif",
     description: "Learn how to start a trucking business in the USA in 2026. Complete guide covering MC/DOT registration, dispatch, compliance, equipment and building a successful trucking operation.",
     content: `
       <p>Starting a trucking business in the United States is a rewarding venture that offers independence and financial growth. However, navigating the regulatory landscape, securing equipment, and building a client base requires careful planning and execution.</p>
@@ -105,7 +105,7 @@ const blogPosts = [
     date: "March 22, 2026",
     readTime: "7 min read",
     title: "Truck Dispatch Services in the USA: How Owner-Operators Can Increase Revenue and Reduce Downtime",
-    image: "https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&w=800&q=80",
+    image: "mbox.avif",
     description: "Looking for truck dispatch services in the USA? Discover how professional dispatch helps owner-operators secure better-paying loads, reduce empty miles and keep their trucks moving.",
     content: `
       <p>For owner-operators and small fleet owners, time is money. Every hour spent searching for loads, negotiating rates, or dealing with paperwork is an hour not spent on the road generating revenue. This is where professional truck dispatch services become invaluable.</p>
@@ -161,7 +161,7 @@ const blogPosts = [
     date: "March 15, 2026",
     readTime: "9 min read",
     title: "Best Truck Dispatch Services for Owner-Operators in the USA: How to Choose the Right Partner for Maximum Profit",
-    image: "https://images.unsplash.com/photo-1544449792-3e8be7d2d572?auto=format&fit=crop&w=800&q=80",
+    image: "/logistics.jpg",
     description: "Find the right truck dispatch service for your operation. Learn what to look for in a dispatch partner, including communication, rate negotiation, load planning and carrier support.",
     content: `
       <p>Choosing the right dispatch service can be the difference between a profitable trucking operation and one that struggles to stay afloat. With so many options available, how do you identify the best partner for your business?</p>

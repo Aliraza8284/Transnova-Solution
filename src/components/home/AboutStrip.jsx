@@ -175,7 +175,7 @@ const AboutScript = () => {
   ];
 
   return (
-    <main className="bg-[#FAF9F6] font-manrope text-[#111111] overflow-hidden">
+    <main className="bg-[#FAF9F6] font-manrope text-[#0A0A0A] overflow-hidden">
 
       {/* ==========================================
           LOCAL ANIMATION STYLES
@@ -263,6 +263,17 @@ const AboutScript = () => {
             font-size: 5px !important;
           }
         }
+
+        /* Dark black color overrides */
+        .text-dark-black {
+          color: #0A0A0A !important;
+        }
+        .bg-dark-black {
+          background-color: #0A0A0A !important;
+        }
+        .border-dark-black {
+          border-color: #0A0A0A !important;
+        }
       `}</style>
 
       {/* ==========================================
@@ -288,7 +299,7 @@ const AboutScript = () => {
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.08] tracking-[-0.5px] sm:tracking-[-1px]">
                 Trans <span className="text-[#FF6B35]">NOVA</span>
                 <br />
-                <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-[#111111]/80 block mt-1 sm:mt-2">
+                <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-[#0A0A0A]/80 block mt-1 sm:mt-2">
                   One Company. <span className="text-[#FF6B35]">Endless Solutions.</span>
                 </span>
               </h1>
@@ -312,14 +323,14 @@ const AboutScript = () => {
               <div className="flex flex-wrap gap-3 sm:gap-4 pt-1 sm:pt-2">
                 <Link
                   to="/contact"
-                  className="group inline-flex items-center gap-2 bg-[#111111] text-white px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide hover:bg-[#FF6B35] transition-all duration-300 hover:shadow-lg hover:shadow-[#FF6B35]/25 active:scale-95"
+                  className="group inline-flex items-center gap-2 bg-[#0A0A0A] text-white px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide hover:bg-[#FF6B35] transition-all duration-300 hover:shadow-lg hover:shadow-[#FF6B35]/25 active:scale-95"
                 >
                   Let's Connect
                   <FaArrowRight className="text-[10px] sm:text-xs transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
                 <Link
                   to="/services"
-                  className="group inline-flex items-center gap-2 border-2 border-[#111111] text-[#111111] px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide hover:bg-[#111111] hover:text-white transition-all duration-300"
+                  className="group inline-flex items-center gap-2 border-2 border-[#0A0A0A] text-[#0A0A0A] px-5 sm:px-6 md:px-7 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide hover:bg-[#0A0A0A] hover:text-white transition-all duration-300"
                 >
                   Our Services
                 </Link>
@@ -403,12 +414,12 @@ const AboutScript = () => {
 
         {/* Sub-heading */}
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12">
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0A0A0A] leading-tight">
             Driven by Reliability.
             <br />
             <span className="text-[#FF6B35]">Committed to Your Success.</span>
           </h3>
-          <p className="text-gray-700 text-sm sm:text-base md:text-lg mt-3 sm:mt-4 max-w-2xl mx-auto px-2">
+          <p className="text-[#0A0A0A] text-sm sm:text-base md:text-lg mt-3 sm:mt-4 max-w-2xl mx-auto px-2">
             At TransNova Solutions, we go beyond transportation. We build strong
             partnerships, provide dependable support, and deliver results that
             move your business forward.
@@ -437,8 +448,8 @@ const AboutScript = () => {
                 </svg>
               </div>
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-gray-900">RELIABLE & TRUSTED</h4>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-[#0A0A0A]">RELIABLE & TRUSTED</h4>
+            <p className="text-[#0A0A0A] text-xs sm:text-sm mt-1.5 sm:mt-2">
               Consistent service you can count on, every time.
             </p>
           </div>
@@ -463,8 +474,8 @@ const AboutScript = () => {
                 </svg>
               </div>
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-gray-900">24/7 SUPPORT</h4>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-[#0A0A0A]">24/7 SUPPORT</h4>
+            <p className="text-[#0A0A0A] text-xs sm:text-sm mt-1.5 sm:mt-2">
               Our team is always here to keep your business moving.
             </p>
           </div>
@@ -489,8 +500,8 @@ const AboutScript = () => {
                 </svg>
               </div>
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-gray-900">GROWTH FOCUSED</h4>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-[#0A0A0A]">GROWTH FOCUSED</h4>
+            <p className="text-[#0A0A0A] text-xs sm:text-sm mt-1.5 sm:mt-2">
               Solutions designed to help you scale and succeed.
             </p>
           </div>
@@ -515,8 +526,8 @@ const AboutScript = () => {
                 </svg>
               </div>
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-gray-900">EXPERIENCED TEAM</h4>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-[#0A0A0A]">EXPERIENCED TEAM</h4>
+            <p className="text-[#0A0A0A] text-xs sm:text-sm mt-1.5 sm:mt-2">
               Skilled professionals with years of industry expertise.
             </p>
           </div>
@@ -541,8 +552,8 @@ const AboutScript = () => {
                 </svg>
               </div>
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-gray-900">NATIONWIDE COVERAGE</h4>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-[#0A0A0A]">NATIONWIDE COVERAGE</h4>
+            <p className="text-[#0A0A0A] text-xs sm:text-sm mt-1.5 sm:mt-2">
               Freight and logistics support across the United States.
             </p>
           </div>
@@ -567,8 +578,8 @@ const AboutScript = () => {
                 </svg>
               </div>
             </div>
-            <h4 className="text-lg sm:text-xl font-bold text-gray-900">COST EFFECTIVE</h4>
-            <p className="text-gray-600 text-xs sm:text-sm mt-1.5 sm:mt-2">
+            <h4 className="text-lg sm:text-xl font-bold text-[#0A0A0A]">COST EFFECTIVE</h4>
+            <p className="text-[#0A0A0A] text-xs sm:text-sm mt-1.5 sm:mt-2">
               Maximizing efficiency and reducing your operating costs.
             </p>
           </div>

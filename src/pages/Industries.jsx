@@ -21,7 +21,7 @@ const industries = [
       </>
     ),
     image:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=85",
+      "/logistics.jpg",
     icon: <FaTruck />,
     description:
       "Streamlined logistics and transportation solutions that ensure timely delivery and operational efficiency.",
@@ -35,7 +35,7 @@ const industries = [
       </>
     ),
     image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=85",
+      "/tower.jpeg",
     icon: <FaBroadcastTower />,
     description:
       "Reliable communication solutions for a connected world, keeping your business always ahead.",
@@ -44,7 +44,7 @@ const industries = [
   {
     title: "Healthcare",
     image:
-      "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=900&q=85",
+      "/health.jpg",
     icon: <FaHeartbeat />,
     description:
       "Comprehensive support and management solutions designed for the healthcare industry.",
@@ -58,7 +58,7 @@ const industries = [
       </>
     ),
     image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=85",
+      "/office.jpg",
     icon: <FaUniversity />,
     description:
       "Secure and efficient financial support solutions to help you manage, grow, and succeed.",

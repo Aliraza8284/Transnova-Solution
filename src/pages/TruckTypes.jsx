@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FaTruck,
   FaPhoneAlt,
@@ -22,7 +22,7 @@ const COMPANY_ADDRESS =
   "1209 Mountain Road PL NE STE 12783, Albuquerque, NM 87110, USA";
 
 /* =========================================================
-   TRUCK TYPES
+   TRUCK TYPES WITH CORRECT IMAGE PATHS
 ========================================================= */
 
 const truckTypes = [
@@ -31,8 +31,7 @@ const truckTypes = [
     category: "Enclosed Freight",
     badge: "Most Popular",
     icon: <FaTruck />,
-    image:
-      "https://taplogisticservices.com/storage/54/truck-dry-van.webp",
+    image: "/dry.webp",
     description:
       "A dependable enclosed trailer solution for general freight that needs protection from weather and road conditions. Ideal for retail goods, electronics, and packaged products.",
     freight: [
@@ -50,8 +49,7 @@ const truckTypes = [
     category: "Open Deck Freight",
     badge: "Heavy Haul",
     icon: <FaTrailer />,
-    image:
-      "https://taplogisticservices.com/storage/55/truck-flatbed.webp",
+    image: "/flat.webp",
     description:
       "Open-deck transportation for oversized, heavy and irregular freight that requires flexible loading access. Perfect for construction materials and industrial equipment.",
     freight: [
@@ -69,8 +67,7 @@ const truckTypes = [
     category: "Refrigerated Freight",
     badge: "Temperature Control",
     icon: <FaSnowflake />,
-    image:
-      "https://taplogisticservices.com/storage/57/truck-reefer.webp",
+    image: "/reefer.webp",
     description:
       "Temperature-controlled transportation designed to keep sensitive and perishable freight within the required range. Essential for food, pharmaceuticals, and floral products.",
     freight: [
@@ -88,8 +85,7 @@ const truckTypes = [
     category: "Low-Profile Deck",
     badge: "Tall Cargo",
     icon: <FaRulerVertical />,
-    image:
-      "https://taplogisticservices.com/storage/58/truck-step-deck.webp",
+    image: "/step.webp",
     description:
       "A lower deck configuration that provides additional clearance for taller machinery and oversized cargo. Ideal for agricultural equipment and modular buildings.",
     freight: [
@@ -107,8 +103,7 @@ const truckTypes = [
     category: "Tractor-Only Service",
     badge: "Drop & Hook",
     icon: <FaBolt />,
-    image:
-      "https://taplogisticservices.com/storage/56/truck-power-only.webp",
+    image: "/power.webp",
     description:
       "Flexible tractor-only transportation for customers and carriers who already have trailers or pre-loaded freight. Efficient for drop trailer programs and intermodal operations.",
     freight: [
@@ -126,8 +121,7 @@ const truckTypes = [
     category: "Light & Local Loads",
     badge: "City Freight",
     icon: <FaBoxes />,
-    image:
-      "https://taplogisticservices.com/storage/media/pujEFmUvo6TgHmoFX5viM47xO5wjJlkl6g8tElbm.jpg",
+    image: "/Box truck.jpg",
     description:
       "A practical option for lighter freight, local deliveries and regional transportation in metropolitan areas. Perfect for retail deliveries and palletized goods.",
     freight: [
@@ -145,8 +139,7 @@ const truckTypes = [
     category: "Expedited Freight",
     badge: "Fast Turnaround",
     icon: <FaBolt />,
-    image:
-      "https://taplogisticservices.com/storage/media/ajKZxe135Vdxtr3tKhOCiMzpklx53J6OOFAlnyLj.jpg",
+    image: "/Hot shot.jpg",
     description:
       "Fast transportation for urgent and partial loads where speed, flexibility and regional coverage matter. Ideal for time-critical shipments and construction materials.",
     freight: [
@@ -165,16 +158,104 @@ const truckTypes = [
 ========================================================= */
 
 const TruckTypes = () => {
-  return (
-    <div className="min-h-screen bg-[#f8f9fa] text-[#171717] pt-[72px]">
+  // =========================================================
+  // COPY PROTECTION - Disable Right Click & Keyboard Shortcuts
+  // =========================================================
 
+  useEffect(() => {
+    // Disable right-click context menu
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Disable keyboard shortcuts for copying
+    const handleKeyDown = (e) => {
+      // Prevent Ctrl+C, Ctrl+U, Ctrl+S
+      if (
+        e.ctrlKey &&
+        ["c", "u", "s", "p", "a"].includes(e.key.toLowerCase())
+      ) {
+        e.preventDefault();
+        return false;
+      }
+
+      // Prevent Cmd+C, Cmd+U, Cmd+S (Mac)
+      if (
+        e.metaKey &&
+        ["c", "u", "s", "p", "a"].includes(e.key.toLowerCase())
+      ) {
+        e.preventDefault();
+        return false;
+      }
+
+      // Prevent F12 (DevTools)
+      if (e.key === "F12") {
+        e.preventDefault();
+        return false;
+      }
+
+      // Prevent Print Screen
+      if (e.key === "PrintScreen") {
+        e.preventDefault();
+        return false;
+      }
+
+      return true;
+    };
+
+    // Disable drag events
+    const handleDragStart = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Disable copy event
+    const handleCopy = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Disable cut event
+    const handleCut = (e) => {
+      e.preventDefault();
+      return false;
+    };
+
+    // Add event listeners
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("dragstart", handleDragStart);
+    document.addEventListener("copy", handleCopy);
+    document.addEventListener("cut", handleCut);
+
+    // Cleanup event listeners
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("dragstart", handleDragStart);
+      document.removeEventListener("copy", handleCopy);
+      document.removeEventListener("cut", handleCut);
+    };
+  }, []);
+
+  return (
+    <div
+      className="min-h-screen bg-[#f8f9fa] text-[#171717] pt-[72px]"
+      style={{
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        MozUserSelect: "none",
+        msUserSelect: "none",
+        WebkitTouchCallout: "none",
+      }}
+    >
       {/* =====================================================
           HERO SECTION
       ====================================================== */}
 
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
-
           {/* Breadcrumb */}
           <div className="pt-8 sm:pt-10">
             <div className="flex items-center gap-2 text-[12px]">
@@ -187,15 +268,12 @@ const TruckTypes = () => {
 
               <span className="text-gray-300">/</span>
 
-              <span className="text-[#f15a24] font-medium">
-                Truck Types
-              </span>
+              <span className="text-[#f15a24] font-medium">Truck Types</span>
             </div>
           </div>
 
           {/* Hero Content */}
           <div className="max-w-[820px] mx-auto text-center pt-12 sm:pt-16 pb-12 sm:pb-14">
-
             <div className="inline-flex items-center gap-2 bg-[#fff3ee] text-[#f15a24] px-4 py-2 rounded-full text-[11px] sm:text-[12px] font-semibold mb-5">
               <FaTruck className="text-sm" />
               Comprehensive Fleet Solutions
@@ -204,9 +282,7 @@ const TruckTypes = () => {
             <h1 className="text-[36px] sm:text-[46px] md:text-[54px] font-extrabold tracking-tight leading-[1.08]">
               Choose the Right Truck
               <br />
-              <span className="text-[#f15a24]">
-                for Every Shipment
-              </span>
+              <span className="text-[#f15a24]">for Every Shipment</span>
             </h1>
 
             <div className="w-14 h-[3px] bg-[#f15a24] mx-auto mt-6 mb-6 rounded-full"></div>
@@ -218,7 +294,6 @@ const TruckTypes = () => {
               units, we ensure your cargo reaches its destination efficiently
               and safely.
             </p>
-
           </div>
         </div>
       </section>
@@ -232,24 +307,16 @@ const TruckTypes = () => {
       ====================================================== */}
 
       <section className="py-10 sm:py-12 lg:py-14">
-
         <div className="w-[95%] mx-auto px-4 sm:px-6 lg:px-8">
-
           {/* Section Header */}
           <div className="text-center mb-8 sm:mb-10">
-
             <h2 className="text-[28px] sm:text-[34px] md:text-[38px] font-bold text-[#1A1A1A]">
-              Our{" "}
-              <span className="text-[#f15a24]">
-                Equipment
-              </span>{" "}
-              Types
+              Our <span className="text-[#f15a24]">Equipment</span> Types
             </h2>
 
             <p className="text-gray-500 text-[13px] sm:text-[14px] mt-2">
               Select the right truck for your freight needs
             </p>
-
           </div>
 
           {/* =================================================
@@ -257,11 +324,8 @@ const TruckTypes = () => {
           ================================================== */}
 
           <div className="w-[100%] mx-auto">
-
             <div className="space-y-8 lg:space-y-9">
-
               {truckTypes.map((truck, index) => {
-
                 const isEven = index % 2 === 0;
 
                 return (
@@ -281,7 +345,6 @@ const TruckTypes = () => {
                       hover:-translate-y-1
                     "
                   >
-
                     {/* =================================================
                         CARD MAIN ROW - HEIGHT INCREASED
                     ================================================== */}
@@ -296,9 +359,8 @@ const TruckTypes = () => {
                         lg:h-[500px]
                       `}
                     >
-
                       {/* =================================================
-                          IMAGE - HEIGHT INCREASED
+                          IMAGE - HEIGHT INCREASED WITH PROTECTION
                       ================================================== */}
 
                       <div
@@ -311,9 +373,13 @@ const TruckTypes = () => {
                           lg:h-full
                           overflow-hidden
                           shrink-0
+                          image-protected
                         "
+                        style={{
+                          pointerEvents: "none",
+                          WebkitUserDrag: "none",
+                        }}
                       >
-
                         <img
                           src={truck.image}
                           alt={truck.name}
@@ -325,26 +391,66 @@ const TruckTypes = () => {
                             transition-transform
                             duration-700
                           "
+                          draggable="false"
+                          style={{
+                            pointerEvents: "none",
+                            WebkitUserDrag: "none",
+                            userSelect: "none",
+                            WebkitUserSelect: "none",
+                          }}
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                            const parent = e.target.parentElement;
+                            const fallback = document.createElement("div");
+                            fallback.className =
+                              "w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm font-semibold";
+                            fallback.textContent = truck.name;
+                            parent.appendChild(fallback);
+                          }}
                         />
+
+                        {/* Watermark Overlay */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <span
+                            className="text-white/5 text-4xl font-bold tracking-widest rotate-[-25deg] select-none pointer-events-none"
+                            style={{
+                              userSelect: "none",
+                              WebkitUserSelect: "none",
+                              pointerEvents: "none",
+                            }}
+                          >
+                            {COMPANY_NAME}
+                          </span>
+                        </div>
+
+                        {/* Bottom Watermark Text */}
+                        <div
+                          className="absolute bottom-3 right-4 pointer-events-none z-10"
+                          style={{
+                            userSelect: "none",
+                            WebkitUserSelect: "none",
+                          }}
+                        >
+                          <span
+                            className="text-white/20 text-[8px] font-bold tracking-wider"
+                            style={{
+                              textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+                            }}
+                          >
+                            © {COMPANY_NAME}
+                          </span>
+                        </div>
 
                         {/* Image Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
 
                         {/* Mobile Badge */}
                         <div className="absolute left-4 top-4 lg:hidden">
-
                           <div className="inline-flex items-center gap-1.5 bg-white/95 text-[#f15a24] px-3 py-1.5 rounded-full text-[10px] font-bold shadow-md backdrop-blur-sm">
-
                             {truck.icon}
-
-                            <span>
-                              {truck.badge}
-                            </span>
-
+                            <span>{truck.badge}</span>
                           </div>
-
                         </div>
-
                       </div>
 
                       {/* =================================================
@@ -363,17 +469,15 @@ const TruckTypes = () => {
                           flex-col
                           justify-center
                         "
+                        style={{
+                          userSelect: "none",
+                          WebkitUserSelect: "none",
+                        }}
                       >
-
                         {/* Desktop Badge */}
                         <div className="hidden lg:inline-flex items-center gap-2 bg-[#fff3ee] text-[#f15a24] px-3 py-1 rounded-full text-[10px] font-bold w-fit mb-2">
-
                           {truck.icon}
-
-                          <span>
-                            {truck.badge}
-                          </span>
-
+                          <span>{truck.badge}</span>
                         </div>
 
                         {/* Category */}
@@ -440,7 +544,6 @@ const TruckTypes = () => {
                           "
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-[#f15a24]"></span>
-
                           Common Freight Types
                         </h3>
 
@@ -455,51 +558,35 @@ const TruckTypes = () => {
                             mb-3
                           "
                         >
-                          {truck.freight.map(
-                            (item, freightIndex) => (
-                              <div
-                                key={freightIndex}
+                          {truck.freight.map((item, freightIndex) => (
+                            <div
+                              key={freightIndex}
+                              className="
+                                flex
+                                items-center
+                                gap-2
+                                text-[11px]
+                                sm:text-[12px]
+                                text-gray-600
+                              "
+                            >
+                              <FaCheckCircle
                                 className="
-                                  flex
-                                  items-center
-                                  gap-2
-                                  text-[11px]
-                                  sm:text-[12px]
-                                  text-gray-600
+                                  text-[#f15a24]
+                                  text-[9px]
+                                  shrink-0
                                 "
-                              >
-
-                                <FaCheckCircle
-                                  className="
-                                    text-[#f15a24]
-                                    text-[9px]
-                                    shrink-0
-                                  "
-                                />
-
-                                <span>
-                                  {item}
-                                </span>
-
-                              </div>
-                            )
-                          )}
+                              />
+                              <span>{item}</span>
+                            </div>
+                          ))}
                         </div>
 
                         {/* =================================================
                             BUTTONS
                         ================================================== */}
 
-                        <div
-                          className="
-                            flex
-                            flex-col
-                            sm:flex-row
-                            gap-2
-                            mt-1
-                          "
-                        >
-
+                        <div className="flex flex-col sm:flex-row gap-2 mt-1">
                           {/* Get Quote */}
                           <a
                             href="/Outlet"
@@ -522,9 +609,7 @@ const TruckTypes = () => {
                             "
                           >
                             Get a Quote
-
                             <FaArrowRight className="text-[9px]" />
-
                           </a>
 
                           {/* Call */}
@@ -548,33 +633,25 @@ const TruckTypes = () => {
                               transition
                             "
                           >
-
                             <FaPhoneAlt className="text-[9px]" />
-
                             Call Us
-
                           </a>
-
                         </div>
-
                       </div>
-
                     </div>
                   </article>
                 );
               })}
-
             </div>
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          CTA SECTION
+          CTA SECTION - NO CONTACT, ONLY SERVICES
       ====================================================== */}
 
       <section className="px-5 sm:px-6 pb-14 sm:pb-20">
-
         <div
           className="
             max-w-[1140px]
@@ -592,9 +669,7 @@ const TruckTypes = () => {
             shadow-2xl
           "
         >
-
           {/* Decorative Elements */}
-
           <div
             className="
               absolute
@@ -634,9 +709,7 @@ const TruckTypes = () => {
           />
 
           {/* CTA Content */}
-
           <div className="relative z-10 max-w-[720px]">
-
             <div
               className="
                 inline-flex
@@ -680,24 +753,14 @@ const TruckTypes = () => {
               "
             >
               Our experienced logistics team will assess your freight
-              requirements and recommend the most efficient equipment
-              solution for your specific needs and route.
+              requirements and recommend the most efficient equipment solution
+              for your specific needs and route.
             </p>
 
-            {/* CTA Buttons */}
-
-            <div
-              className="
-                flex
-                flex-col
-                sm:flex-row
-                gap-3
-                mt-7
-              "
-            >
-
+            {/* CTA Buttons - Only Services */}
+            <div className="flex flex-col sm:flex-row gap-3 mt-7">
               <a
-                href="/contact"
+                href="/services"
                 className="
                   inline-flex
                   items-center
@@ -716,165 +779,31 @@ const TruckTypes = () => {
                   hover:shadow-xl
                 "
               >
-                Talk to a Dispatcher
-
-                <FaArrowRight className="text-[11px]" />
-
-              </a>
-
-              <a
-                href="/services"
-                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  gap-2
-                  border
-                  border-white/20
-                  hover:border-white/50
-                  text-white
-                  px-6
-                  py-3.5
-                  rounded-lg
-                  text-[13px]
-                  font-bold
-                  transition
-                "
-              >
                 Explore All Services
+                <FaArrowRight className="text-[11px]" />
               </a>
-
             </div>
-
           </div>
         </div>
       </section>
 
       {/* =====================================================
-          FOOTER
+          COPYRIGHT NOTICE - Hidden but helps with legal protection
       ====================================================== */}
 
-      <footer
-        className="
-          bg-[#111111]
-          text-white
-          border-t
-          border-white/10
-        "
+      <div
+        className="text-center py-2 text-[8px] text-gray-300"
+        style={{
+          userSelect: "none",
+          WebkitUserSelect: "none",
+        }}
       >
-
-        <div
-          className="
-            max-w-[1240px]
-            mx-auto
-            px-5
-            sm:px-6
-            lg:px-8
-            py-8
-          "
-        >
-
-          <div
-            className="
-              flex
-              flex-col
-              sm:flex-row
-              items-center
-              justify-between
-              gap-4
-            "
-          >
-
-            {/* Logo */}
-
-            <div className="flex items-center gap-2.5">
-
-              <div
-                className="
-                  w-8
-                  h-8
-                  rounded-lg
-                  bg-[#f15a24]
-                  flex
-                  items-center
-                  justify-center
-                  text-white
-                "
-              >
-                <FaTruck className="text-sm" />
-              </div>
-
-              <span
-                className="
-                  font-extrabold
-                  text-sm
-                  tracking-tight
-                "
-              >
-                Trans Nova Solutions
-              </span>
-
-            </div>
-
-            {/* Copyright */}
-
-            <p
-              className="
-                text-[10px]
-                sm:text-[11px]
-                text-gray-500
-                text-center
-              "
-            >
-              &copy; {new Date().getFullYear()} {COMPANY_NAME}. All rights reserved.
-            </p>
-
-            {/* Footer Links */}
-
-            <div className="flex items-center gap-4">
-
-              <a
-                href="/privacy"
-                className="
-                  text-[10px]
-                  text-gray-500
-                  hover:text-white
-                  transition
-                "
-              >
-                Privacy
-              </a>
-
-              <a
-                href="/terms"
-                className="
-                  text-[10px]
-                  text-gray-500
-                  hover:text-white
-                  transition
-                "
-              >
-                Terms
-              </a>
-
-              <a
-                href="/contact"
-                className="
-                  text-[10px]
-                  text-gray-500
-                  hover:text-white
-                  transition
-                "
-              >
-                Contact
-              </a>
-
-            </div>
-
-          </div>
-        </div>
-      </footer>
-
+        <span>
+          © {new Date().getFullYear()} {COMPANY_NAME}. All Rights Reserved.
+        </span>
+        <span className="mx-2">|</span>
+        <span>All content and images are protected by copyright law.</span>
+      </div>
     </div>
   );
 };
