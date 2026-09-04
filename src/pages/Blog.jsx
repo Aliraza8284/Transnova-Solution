@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import useCopyProtection from '../Hooks/useCopyProtection';
 
 import {
@@ -8,6 +8,7 @@ import {
   FaClock,
   FaTruck,
   FaArrowRight,
+  FaEnvelope,
 } from "react-icons/fa";
 
 /* =========================================================
@@ -30,6 +31,27 @@ const STEEL = "#5B5F66";
 const STEEL_LINE = "#E2E1DC";
 const SIGNAL = "#D9480F";
 const SIGNAL_DARK = "#B33D0C";
+
+/* =========================================================
+   EMAIL CONFIGURATION
+========================================================= */
+
+const getMailToLink = () => {
+  const subject = encodeURIComponent("Inquiry about Trans Nova Solutions Services");
+  const body = encodeURIComponent(
+    "Hello Trans Nova Solutions Team,\n\n" +
+    "I would like to get more information about your dispatch and logistics services.\n\n" +
+    "Please let me know about:\n" +
+    "- Your dispatch services\n" +
+    "- Pricing and fees\n" +
+    "- Availability\n\n" +
+    "Thank you,\n" +
+    "[Your Name]\n" +
+    "[Your Phone Number]\n" +
+    "[Your MC Number if applicable]"
+  );
+  return `mailto:${COMPANY_EMAIL}?subject=${subject}&body=${body}`;
+};
 
 /* =========================================================
    BLOG ARTICLES DATA - Complete with all fields
@@ -256,14 +278,14 @@ const BlogList = () => {
       <section className="bg-white" style={{ borderBottom: `1px solid ${STEEL_LINE}` }}>
         <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
           <div className="pt-8 sm:pt-10">
-            <div className="flex items-center gap-2 text-[12px]">
-              <a href="/" className="transition-colors" style={{ color: STEEL }}>Home</a>
+            <div className="flex items-center gap-2 text-[16px]">
+              <Link to="/" className="transition-colors" style={{ color: STEEL }}>Home</Link>
               <span style={{ color: "#C9C8C1" }}>/</span>
               <span style={{ color: SIGNAL }} className="font-medium">Blog</span>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-end pt-12 sm:pt-16 pb-12 sm:pb-14">
+          <div className="grid lg:grid-cols-[1fr_1fr] gap-10 items-end pt-12 sm:pt-16 pb-12 sm:pb-14">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <span className="w-6 h-[3px]" style={{ backgroundColor: SIGNAL }} />
@@ -286,24 +308,26 @@ const BlogList = () => {
               </p>
             </div>
 
-            <div
-              className="grid grid-cols-3 gap-px overflow-hidden rounded-[10px]"
-              style={{ backgroundColor: STEEL_LINE, border: `1px solid ${STEEL_LINE}` }}
-            >
-              {[
-                { label: "Articles", value: `${blogPosts.length}` },
-                { label: "Avg. read time", value: "8 min" },
-                { label: "Topics covered", value: "3" },
-              ].map((stat) => (
-                <div key={stat.label} className="bg-white px-4 py-5 text-center">
-                  <div className="calibri-heading text-[30px] font-bold" style={{ color: INK }}>
-                    {stat.value}
-                  </div>
-                  <div className="text-[10.5px] mt-1" style={{ color: STEEL }}>
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+            {/* IMAGE */}
+            <div className="relative overflow-hidden rounded-[10px]" style={{ border: `1px solid ${STEEL_LINE}` }}>
+              <img
+                src="/maintruck.avif"
+                alt="Truck on highway"
+                className="w-full h-full object-cover min-h-[200px] max-h-[270px]"
+                draggable="false"
+                style={{
+                  pointerEvents: 'none',
+                  WebkitUserDrag: 'none',
+                  userSelect: 'none'
+                }}
+                onContextMenu={(e) => e.preventDefault()}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <span className="inline-block text-white text-sm font-bold bg-black/50 backdrop-blur-sm px-4 py-2 rounded-lg">
+                  🚛 Trans Nova Solutions
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -423,11 +447,25 @@ const BlogList = () => {
                 load planning and rate negotiation while you focus on
                 keeping your trucks moving.
               </p>
+
+              {/* Email Contact with mailto */}
+              <div className="flex items-center gap-2 mt-4">
+                <FaEnvelope className="text-[12px]" style={{ color: SIGNAL }} />
+                <a 
+                  href={getMailToLink()}
+                  className="text-[12px] transition-colors hover:underline"
+                  style={{ color: "#9CA0A8" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = SIGNAL)}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA0A8")}
+                >
+                  {COMPANY_EMAIL}
+                </a>
+              </div>
             </div>
 
             <div className="shrink-0">
-              <a
-                href="/contact"
+              <Link
+                to="/contact"
                 className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3.5 text-[12px] font-bold text-white transition-colors duration-150"
                 style={{ backgroundColor: SIGNAL }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = SIGNAL_DARK)}
@@ -435,7 +473,7 @@ const BlogList = () => {
               >
                 Talk to us
                 <FaArrowRight className="text-[10px]" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -461,6 +499,7 @@ const BlogArticle = () => {
   // ==========================================
   useCopyProtection();
 
+  const navigate = useNavigate();
   const { slug } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -676,12 +715,28 @@ const BlogArticle = () => {
               <p className="text-sm text-[#9CA0A8] mt-3 mb-6 max-w-xl">
                 Talk to our dispatch team about your trucking operation and available services.
               </p>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-2 bg-[#D9480F] hover:bg-[#B33D0C] text-white px-6 py-3 rounded-lg font-bold text-sm transition"
-              >
-                Talk to us
-              </Link>
+              
+              {/* Email Contact in Article CTA */}
+              <div className="flex flex-wrap items-center gap-4 mb-6">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 bg-[#D9480F] hover:bg-[#B33D0C] text-white px-6 py-3 rounded-lg font-bold text-sm transition"
+                >
+                  Talk to us
+                </Link>
+                <div className="flex items-center gap-2">
+                  <FaEnvelope className="text-[12px]" style={{ color: "#9CA0A8" }} />
+                  <a 
+                    href={getMailToLink()}
+                    className="text-sm transition-colors hover:underline"
+                    style={{ color: "#9CA0A8" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#D9480F")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA0A8")}
+                  >
+                    {COMPANY_EMAIL}
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>

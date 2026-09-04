@@ -1,20 +1,27 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import useCopyProtection from "../Hooks/useCopyProtection";
+
 import {
   FaTruck,
-  FaPhoneAlt,
-  FaArrowRight,
   FaSnowflake,
   FaRulerVertical,
   FaTrailer,
   FaBoxes,
   FaBolt,
+  FaArrowRight,
+  FaRoute,
+  FaGasPump,
   FaCheckCircle,
+  FaPhoneAlt,
   FaCalculator,
+  FaChartLine,
+  FaShieldAlt,
+  FaClock,
 } from "react-icons/fa";
 
 /* =========================================================
-   TRANS NOVA COMPANY INFORMATION
+   COMPANY INFORMATION
 ========================================================= */
 
 const COMPANY_NAME = "Trans Nova Solutions";
@@ -27,529 +34,167 @@ const COMPANY_ADDRESS =
    DESIGN TOKENS
 ========================================================= */
 
-const INK = "#15181D";
-const PAPER = "#FAF9F7";
-const STEEL = "#5B5F66";
-const STEEL_LINE = "#E2E1DC";
-const SIGNAL = "#D9480F";
-const SIGNAL_DARK = "#B33D0C";
-const SIGNAL_TINT = "#FBE7DB";
+const COLORS = {
+  navy: "#101820",
+  navyLight: "#182631",
+  orange: "#E85D04",
+  orangeDark: "#C2410C",
+  orangeSoft: "#FFF1E8",
+  cream: "#F8FAFC",
+  white: "#FFFFFF",
+  text: "#17202A",
+  muted: "#64748B",
+  border: "#E2E8F0",
+  green: "#15803D",
+};
 
 /* =========================================================
-   TRAILER TYPES WITH RANGE-BASED PRICING
+   HELPER - Format numbers to k format
+========================================================= */
+
+const formatNumber = (num) => {
+  if (num >= 1000) {
+    return (num / 1000).toFixed(1) + "k";
+  }
+  return num.toString();
+};
+
+/* =========================================================
+   TRAILER TYPES WITH UPDATED VALUES
    ---------------------------------------------------------
-   Every truck has RANGES for:
-   - Rate per mile (min - max)
-   - Weekly gross (min - max)
-   - Dispatch fee percentage
-   
-   Based on Authority Age:
-   1-3 Month: Local
-   3-6 Month: Regional  
-   6+ Month: OTR / OTR Team
+   Box Truck: 8% fee, $5k-8k weekly gross
+   Hotshot: 8% fee, $6k-8k weekly gross
+   All other equipment: 5% fee, $10k-12k weekly gross
 ========================================================= */
 
 const trailerTypes = [
   {
     id: "dry-van",
     name: "Dry Van",
+    code: "DV",
     icon: <FaTruck />,
-    description: "Enclosed trailer for general freight",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 2.00,
-        rateMax: 3.00,
-        weeklyMin: 3000,
-        weeklyMax: 5000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 2.00,
-        rateMax: 3.00,
-        weeklyMin: 5000,
-        weeklyMax: 7000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 2.00,
-        rateMax: 3.00,
-        weeklyMin: 8000,
-        weeklyMax: 10000,
-      },
-    },
+    description: "General freight",
+    fee: 5,
+    weeklyMin: 10000,
+    weeklyMax: 12000,
+    rateMin: 2.0,
+    rateMax: 3.0,
   },
-
   {
     id: "flatbed",
     name: "Flatbed",
+    code: "FB",
     icon: <FaTrailer />,
-    description: "Open deck for oversized loads",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 3000,
-        weeklyMax: 5000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 5000,
-        weeklyMax: 7000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 8000,
-        weeklyMax: 10000,
-      },
-    },
+    description: "Oversized loads",
+    fee: 5,
+    weeklyMin: 10000,
+    weeklyMax: 12000,
+    rateMin: 2.5,
+    rateMax: 3.5,
   },
-
   {
     id: "reefer",
     name: "Reefer",
+    code: "RF",
     icon: <FaSnowflake />,
-    description: "Temperature controlled freight",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 4000,
-        weeklyMax: 6000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 6000,
-        weeklyMax: 7000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 9000,
-        weeklyMax: 11000,
-      },
-    },
+    description: "Temp controlled",
+    fee: 5,
+    weeklyMin: 10000,
+    weeklyMax: 12000,
+    rateMin: 2.5,
+    rateMax: 3.5,
   },
-
   {
     id: "step-deck",
     name: "Step Deck",
+    code: "SD",
     icon: <FaRulerVertical />,
-    description: "Low profile for tall cargo",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 4000,
-        weeklyMax: 6000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 6000,
-        weeklyMax: 7000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 2.50,
-        rateMax: 3.50,
-        weeklyMin: 9000,
-        weeklyMax: 11000,
-      },
-    },
+    description: "Tall cargo",
+    fee: 5,
+    weeklyMin: 10000,
+    weeklyMax: 12000,
+    rateMin: 2.5,
+    rateMax: 3.5,
   },
-
   {
     id: "power-only",
     name: "Power Only",
+    code: "PO",
     icon: <FaBolt />,
-    description: "Tractor only service",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 2.00,
-        rateMax: 3.00,
-        weeklyMin: 3000,
-        weeklyMax: 5000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 2.00,
-        rateMax: 3.00,
-        weeklyMin: 5000,
-        weeklyMax: 7000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 2.00,
-        rateMax: 3.00,
-        weeklyMin: 8000,
-        weeklyMax: 10000,
-      },
-    },
+    description: "Tractor only",
+    fee: 5,
+    weeklyMin: 10000,
+    weeklyMax: 12000,
+    rateMin: 2.0,
+    rateMax: 3.0,
   },
-
   {
     id: "box-truck",
     name: "Box Truck",
+    code: "BX",
     icon: <FaBoxes />,
-    description: "Local and regional deliveries",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 1.80,
-        rateMax: 2.50,
-        weeklyMin: 3000,
-        weeklyMax: 5000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 1.80,
-        rateMax: 2.50,
-        weeklyMin: 4000,
-        weeklyMax: 6000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 1.80,
-        rateMax: 2.50,
-        weeklyMin: 5000,
-        weeklyMax: 8000,
-      },
-    },
+    description: "Local deliveries",
+    fee: 8,
+    weeklyMin: 5000,
+    weeklyMax: 8000,
+    rateMin: 1.8,
+    rateMax: 2.5,
   },
-
   {
     id: "hotshot",
     name: "Hotshot",
-    icon: <FaBolt />,
-    description: "Expedited freight service",
-    pricing: {
-      "1-3": {
-        fee: 5.5,
-        rateMin: 1.80,
-        rateMax: 2.50,
-        weeklyMin: 3000,
-        weeklyMax: 5000,
-      },
-      "3-6": {
-        fee: 4.5,
-        rateMin: 1.80,
-        rateMax: 2.50,
-        weeklyMin: 4000,
-        weeklyMax: 6000,
-      },
-      "6-plus": {
-        fee: 3.5,
-        rateMin: 1.80,
-        rateMax: 2.50,
-        weeklyMin: 5000,
-        weeklyMax: 8000,
-      },
-    },
+    code: "HS",
+    icon: <FaGasPump />,
+    description: "Expedited freight",
+    fee: 8,
+    weeklyMin: 6000,
+    weeklyMax: 8000,
+    rateMin: 1.8,
+    rateMax: 2.5,
   },
 ];
 
 /* =========================================================
-   AUTHORITY OPTIONS
+   OPTIONS
 ========================================================= */
 
 const authorityOptions = [
-  {
-    id: "1-3",
-    label: "1–3 Month",
-    subLabel: "Local",
-  },
-  {
-    id: "3-6",
-    label: "3–6 Month",
-    subLabel: "Regional",
-  },
-  {
-    id: "6-plus",
-    label: "6+ Month",
-    subLabel: "OTR",
-  },
+  { id: "1-3", label: "1-3 Month", short: "1-3 mo", subLabel: "Local" },
+  { id: "3-6", label: "3-6 Month", short: "3-6 mo", subLabel: "Regional" },
+  { id: "6-plus", label: "6+ Month", short: "6+ mo", subLabel: "OTR" },
 ];
-
-/* =========================================================
-   OPERATION OPTIONS (For display only - ranges already include operation type)
-========================================================= */
 
 const operationOptions = [
-  {
-    id: "local",
-    label: "Local",
-  },
-  {
-    id: "regional",
-    label: "Regional",
-  },
-  {
-    id: "otr",
-    label: "OTR",
-  },
-  {
-    id: "otr-team",
-    label: "OTR Team",
-  },
+  { id: "local", label: "Local" },
+  { id: "regional", label: "Regional" },
+  { id: "otr", label: "OTR" },
+  { id: "otr-team", label: "OTR Team" },
 ];
 
 /* =========================================================
-   ANIMATED COUNTER
+   SMALL COMPONENTS
 ========================================================= */
 
-const AnimatedCounter = ({
-  value,
-  prefix = "$",
-  suffix = "",
-  duration = 900,
-  color = INK,
-  isRange = false,
-}) => {
-  const [count, setCount] = useState(0);
-  const countRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-
-          let startTime = null;
-          const startValue = 0;
-          const endValue = value;
-
-          const animate = (timestamp) => {
-            if (!startTime) startTime = timestamp;
-
-            const progress = Math.min(
-              (timestamp - startTime) / duration,
-              1
-            );
-
-            const easedProgress =
-              1 - Math.pow(1 - progress, 3);
-
-            const currentValue =
-              startValue +
-              (endValue - startValue) * easedProgress;
-
-            setCount(currentValue);
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            } else {
-              setCount(endValue);
-            }
-          };
-
-          requestAnimationFrame(animate);
-        }
-      },
-      {
-        threshold: 0.3,
-      }
-    );
-
-    if (countRef.current) {
-      observer.observe(countRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [value, duration, hasAnimated]);
-
-  // Reset animation when selected price changes
-  useEffect(() => {
-    setHasAnimated(false);
-    setCount(0);
-  }, [value]);
-
-  const formatValue = (val) => {
-    if (isRange) {
-      // For range values, format as k (e.g., 6342 -> 6.3k)
-      if (val >= 1000) {
-        return (val / 1000).toFixed(1) + "k";
-      }
-      return Number(val).toFixed(0);
-    }
-    return Number(val).toFixed(2);
-  };
-
-  return (
+const SectionLabel = ({ number, title }) => (
+  <div className="flex items-start gap-2 mb-2">
     <span
-      ref={countRef}
-      className="tn-display text-[32px] font-bold"
+      className="flex items-center justify-center w-5 h-5 rounded text-[9px] font-bold shrink-0"
       style={{
-        color,
+        backgroundColor: COLORS.orangeSoft,
+        color: COLORS.orange,
       }}
     >
-      {prefix}
-      {formatValue(count)}
-      {suffix}
+      {number}
     </span>
-  );
-};
 
-/* =========================================================
-   RANGE DISPLAY COMPONENT
-========================================================= */
-
-const RangeDisplay = ({ min, max, prefix = "$", suffix = "", color = INK }) => {
-  const [displayMin, setDisplayMin] = useState(0);
-  const [displayMax, setDisplayMax] = useState(0);
-  const rangeRef = useRef(null);
-  const [hasAnimated, setHasAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-
-        if (entry.isIntersecting && !hasAnimated) {
-          setHasAnimated(true);
-          setDisplayMin(min);
-          setDisplayMax(max);
-        }
-      },
-      {
-        threshold: 0.3,
-      }
-    );
-
-    if (rangeRef.current) {
-      observer.observe(rangeRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [min, max, hasAnimated]);
-
-  useEffect(() => {
-    setHasAnimated(false);
-    setDisplayMin(0);
-    setDisplayMax(0);
-  }, [min, max]);
-
-  const formatValue = (val) => {
-    if (val >= 1000) {
-      return (val / 1000).toFixed(1) + "k";
-    }
-    return Number(val).toFixed(2);
-  };
-
-  return (
-    <span
-      ref={rangeRef}
-      className="tn-display text-[32px] font-bold"
-      style={{
-        color,
-      }}
-    >
-      {prefix}
-      {formatValue(displayMin || min)}
-      {suffix} – {prefix}
-      {formatValue(displayMax || max)}
-      {suffix}
-    </span>
-  );
-};
-
-/* =========================================================
-   CONTROL BUTTON
-========================================================= */
-
-const ControlButton = ({
-  active,
-  onClick,
-  children,
-}) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className="relative rounded-[6px] px-3 py-3 text-[12px] font-semibold tracking-[0.1px] transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-    style={{
-      backgroundColor: active ? INK : "#FFFFFF",
-      color: active ? "#FFFFFF" : STEEL,
-      border: `1px solid ${active ? INK : STEEL_LINE}`,
-      "--tw-ring-color": SIGNAL,
-    }}
-    onMouseEnter={(e) => {
-      if (!active) {
-        e.currentTarget.style.borderColor = SIGNAL;
-      }
-    }}
-    onMouseLeave={(e) => {
-      if (!active) {
-        e.currentTarget.style.borderColor = STEEL_LINE;
-      }
-    }}
-  >
-    {children}
-
-    {active && (
-      <span
-        className="absolute left-0 bottom-0 h-[3px] w-full rounded-b-[6px]"
-        style={{
-          backgroundColor: SIGNAL,
-        }}
-      />
-    )}
-  </button>
-);
-
-/* =========================================================
-   SECTION HEADING
-========================================================= */
-
-const SectionHeading = ({
-  label,
-  hint,
-}) => (
-  <div className="flex items-center justify-between mb-3">
-    <div className="flex items-center gap-2">
-      <span
-        className="w-1.5 h-1.5 rounded-full"
-        style={{
-          backgroundColor: SIGNAL,
-        }}
-      />
-
+    <div>
       <h3
-        className="text-[13px] font-bold"
-        style={{
-          color: INK,
-        }}
+        className="text-xs font-bold"
+        style={{ color: COLORS.text }}
       >
-        {label}
+        {title}
       </h3>
     </div>
-
-    <span
-      className="text-[10.5px]"
-      style={{
-        color: "#9B9B94",
-      }}
-    >
-      {hint}
-    </span>
   </div>
 );
 
@@ -558,671 +203,798 @@ const SectionHeading = ({
 ========================================================= */
 
 const Pricing = () => {
-  // ==========================================
-  // COPY PROTECTION
-  // ==========================================
   useCopyProtection();
 
   const [authorityAge, setAuthorityAge] = useState("6-plus");
   const [trailerType, setTrailerType] = useState("dry-van");
   const [operationType, setOperationType] = useState("otr");
 
-  /* =======================================================
-     CALCULATE PRICING FROM RANGES
-  ======================================================= */
+  const today = new Date().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  const selectedTrailer = useMemo(
+    () => trailerTypes.find((item) => item.id === trailerType) || trailerTypes[0],
+    [trailerType]
+  );
+
+  const selectedAuthority = authorityOptions.find(
+    (item) => item.id === authorityAge
+  );
+
+  const selectedOperation = operationOptions.find(
+    (item) => item.id === operationType
+  );
 
   const calculations = useMemo(() => {
-    const trailer =
-      trailerTypes.find((t) => t.id === trailerType) || trailerTypes[0];
-
-    const pricing = trailer?.pricing?.[authorityAge] || {
-      fee: 3.5,
-      rateMin: 2.00,
-      rateMax: 3.00,
-      weeklyMin: 8000,
-      weeklyMax: 10000,
-    };
-
-    // Calculate average rate for display
-    const avgRate = (pricing.rateMin + pricing.rateMax) / 2;
-    
-    // Calculate average weekly gross
-    const avgWeekly = (pricing.weeklyMin + pricing.weeklyMax) / 2;
-    
-    // Calculate dispatch fee based on average
-    const dispatchFee = avgWeekly * (pricing.fee / 100);
-    
-    // Calculate net weekly
-    const netWeekly = avgWeekly - dispatchFee;
+    const { fee, weeklyMin, weeklyMax, rateMin, rateMax } = selectedTrailer;
+    const avgWeekly = (weeklyMin + weeklyMax) / 2;
+    const dispatchFee = avgWeekly * (fee / 100);
 
     return {
-      feePercentage: pricing.fee,
-      averageRate: avgRate,
-      rateMin: pricing.rateMin,
-      rateMax: pricing.rateMax,
-      weeklyMin: pricing.weeklyMin,
-      weeklyMax: pricing.weeklyMax,
-      avgWeekly: avgWeekly,
-      dispatchFee: dispatchFee,
-      netWeekly: netWeekly,
-      selectedTrailer: trailer,
-      operation: operationOptions.find((o) => o.id === operationType),
+      feePercentage: fee,
+      rateMin,
+      rateMax,
+      weeklyMin,
+      weeklyMax,
+      netMin: weeklyMin * (1 - fee / 100),
+      netMax: weeklyMax * (1 - fee / 100),
+      dispatchFee,
     };
-  }, [authorityAge, trailerType, operationType]);
-
-  /* =======================================================
-     SELECTED LABELS
-  ======================================================= */
-
-  const getSelectedLabels = () => {
-    const trailer = trailerTypes.find((t) => t.id === trailerType);
-    const authority = authorityOptions.find((a) => a.id === authorityAge);
-    const operation = operationOptions.find((o) => o.id === operationType);
-
-    return {
-      trailerName: trailer?.name || "Dry Van",
-      authorityLabel: authority?.label || "6+ Month",
-      authoritySubLabel: authority?.subLabel || "OTR",
-      operationLabel: operation?.label || "OTR",
-    };
-  };
-
-  const selected = getSelectedLabels();
+  }, [selectedTrailer]);
 
   return (
     <div
       className="min-h-screen pt-[72px]"
       style={{
-        backgroundColor: PAPER,
-        color: INK,
-        userSelect: 'none',
-        WebkitUserSelect: 'none',
-        MozUserSelect: 'none',
-        msUserSelect: 'none',
-        WebkitTouchCallout: 'none'
+        backgroundColor: COLORS.cream,
+        color: COLORS.text,
+        userSelect: "none",
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap');
-
-        .tn-display {
-          font-family: 'Roboto', Arial, sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 
         .tn-body {
-          font-family: 'Roboto', Arial, sans-serif;
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        .tn-heading {
+          font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .tn-card {
+          transition: all 0.2s ease;
+        }
+
+        .tn-card:hover {
+          transform: translateY(-2px);
+        }
+
+        .tn-select-card {
+          transition: all 0.2s ease;
+        }
+
+        .tn-select-card:hover {
+          transform: translateY(-1px);
+        }
+
+        .tn-equipment-card {
+          transition: all 0.2s ease;
+          cursor: pointer;
+        }
+
+        .tn-equipment-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
       `}</style>
 
       <div className="tn-body">
+
         {/* =================================================
             HERO
         ================================================= */}
 
-      <section
-  className="bg-white"
-  style={{
-    borderBottom: `1px solid ${STEEL_LINE}`,
-  }}
->
-  <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
-    <div className="pt-8 sm:pt-10">
-      <div className="flex items-center gap-2 text-[12px]">
-        <a href="/" className="transition-colors" style={{ color: STEEL }}>
-          Home
-        </a>
-        <span style={{ color: "#C9C8C1" }}>/</span>
-        <span style={{ color: SIGNAL }} className="font-medium">
-          Pricing
-        </span>
-      </div>
-    </div>
-
-    <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center pt-12 sm:pt-16 pb-12 sm:pb-14">
-      {/* Left Side - Text Content */}
-      <div>
-        <div className="flex items-center gap-2 mb-4">
-          <span
-            className="w-6 h-[3px]"
+        <section
+          className="relative overflow-hidden"
+          style={{ backgroundColor: COLORS.navy }}
+        >
+          <div
+            className="absolute -top-40 -right-40 w-[420px] h-[420px] rounded-full opacity-20"
             style={{
-              backgroundColor: SIGNAL,
+              background: `radial-gradient(circle, ${COLORS.orange}, transparent 65%)`,
             }}
           />
-          <span
-            className="text-[12px] font-semibold"
+
+          <div
+            className="absolute -bottom-40 -left-40 w-[380px] h-[380px] rounded-full opacity-10"
             style={{
-              color: STEEL,
+              background: `radial-gradient(circle, ${COLORS.orange}, transparent 65%)`,
             }}
-          >
-            Rates, fees, and what you take home
-          </span>
-        </div>
+          />
 
-        <h1 className="tn-display text-[44px] sm:text-[58px] md:text-[66px] font-bold leading-[0.98] tracking-tight">
-          Pricing built for
-          <br />
-          the driver's seat.
-        </h1>
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-10">
 
-        <p
-          className="text-[14.5px] sm:text-[15px] leading-7 mt-6 max-w-[520px]"
-          style={{
-            color: STEEL,
-          }}
-        >
-          No hidden fees, no fine print that changes after you sign. Pick your
-          equipment, authority age and operation below to see your estimated weekly
-          earnings.
-        </p>
-      </div>
+            {/* Breadcrumb */}
+            <div className="flex items-center gap-2 text-[10px] mb-4">
+              <Link
+                to="/"
+                className="hover:text-white transition-colors"
+                style={{ color: "#94A3B8" }}
+              >
+                Home
+              </Link>
+              <span style={{ color: "#475569" }}>/</span>
+              <span style={{ color: COLORS.orange }}>Pricing</span>
+            </div>
 
-      {/* Right Side - Image */}
-      <div className="relative rounded-[12px] overflow-hidden shadow-lg">
-        <img
-          src="/truck.png"
-          alt="Trans Nova Solutions - Professional trucking services"
-          className="w-full h-auto object-cover"
-          style={{
-            minHeight: "220px",
-            maxHeight: "340px",
-          }}
-          loading="lazy"
-          draggable="false"
-          onContextMenu={(e) => e.preventDefault()}
-        />
-        
-        {/* Optional: Overlay Badge */}
-        <div
-          className="absolute bottom-3 left-3 px-3 py-1.5 rounded-[6px] text-[10px] font-bold uppercase tracking-wider"
-          style={{
-            backgroundColor: INK,
-            color: PAPER,
-            opacity: 0.85,
-          }}
-        >
-          🚛 Trans Nova Solutions
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+            <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 lg:gap-10 items-center">
+
+              {/* Hero Content */}
+              <div>
+                <div
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-3 text-[9px] font-semibold"
+                  style={{
+                    backgroundColor: "rgba(232,93,4,0.12)",
+                    color: "#FDBA74",
+                    border: "1px solid rgba(232,93,4,0.25)",
+                  }}
+                >
+                  <FaCalculator className="text-[8px]" />
+                  Transparent Pricing
+                </div>
+
+                <h1
+                  className="tn-heading text-2xl sm:text-3xl lg:text-4xl font-bold leading-[1.08] text-white"
+                >
+                  Know your numbers.
+                  <br />
+                  <span style={{ color: COLORS.orange }}>
+                    Plan your growth.
+                  </span>
+                </h1>
+
+                <p
+                  className="mt-3 max-w-xl text-xs leading-5"
+                  style={{ color: "#CBD5E1" }}
+                >
+                  Estimate your average weekly gross based on your equipment 
+                  and operation type.
+                </p>
+
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {[
+                    { icon: <FaCheckCircle className="text-[9px]" />, text: "Transparent fees" },
+                    { icon: <FaCheckCircle className="text-[9px]" />, text: "Flexible options" },
+                    { icon: <FaCheckCircle className="text-[9px]" />, text: "Driver focused" },
+                  ].map((item) => (
+                    <div
+                      key={item.text}
+                      className="flex items-center gap-1 text-[9px] font-medium"
+                      style={{ color: "#CBD5E1" }}
+                    >
+                      <span style={{ color: COLORS.orange }}>
+                        {item.icon}
+                      </span>
+                      {item.text}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Hero Stats Card */}
+              <div
+                className="rounded-lg p-3.5"
+                style={{
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(8px)",
+                }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <p
+                      className="text-[9px] font-semibold uppercase tracking-wider"
+                      style={{ color: "#94A3B8" }}
+                    >
+                      Estimate
+                    </p>
+                    <h2 className="tn-heading text-sm font-bold text-white mt-0.5">
+                      Overview
+                    </h2>
+                  </div>
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center"
+                    style={{
+                      backgroundColor: "rgba(232,93,4,0.15)",
+                      color: "#FDBA74",
+                    }}
+                  >
+                    <FaChartLine className="text-xs" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div
+                    className="rounded-lg p-2.5"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    <p className="text-[9px]" style={{ color: "#94A3B8" }}>
+                      Fee
+                    </p>
+                    <p className="text-lg font-bold text-white mt-0.5">5-8%</p>
+                  </div>
+
+                  <div
+                    className="rounded-lg p-2.5"
+                    style={{
+                      backgroundColor: "rgba(255,255,255,0.06)",
+                    }}
+                  >
+                    <p className="text-[9px]" style={{ color: "#94A3B8" }}>
+                      Equipment
+                    </p>
+                    <p className="text-lg font-bold text-white mt-0.5">7</p>
+                  </div>
+
+                  <div
+                    className="col-span-2 rounded-lg p-2.5 flex items-center justify-between"
+                    style={{
+                      backgroundColor: COLORS.orange,
+                    }}
+                  >
+                    <div>
+                      <p className="text-[8px] text-orange-100">
+                        Weekly gross
+                      </p>
+                      <p className="text-base font-bold text-white mt-0.5">
+                        $5k - $12k
+                      </p>
+                    </div>
+                    <FaTruck className="text-xl text-white/70" />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
 
         {/* =================================================
             CALCULATOR
         ================================================= */}
 
-        <section className="py-10 sm:py-14 lg:py-16">
-          <div className="max-w-[1050px] mx-auto px-5 sm:px-6">
-            <div
-              className="rounded-[14px] overflow-hidden bg-white"
-              style={{
-                border: `1px solid ${STEEL_LINE}`,
-                boxShadow: "0 1px 2px rgba(21,24,29,0.04)",
-              }}
-            >
-              {/* CALCULATOR HEADER */}
+        <section className="py-4 sm:py-6 lg:py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
+            <div className="grid lg:grid-cols-[1.35fr_0.65fr] gap-4 lg:gap-5 items-start">
+
+              {/* LEFT: FORM */}
               <div
-                className="px-6 sm:px-8 lg:px-10 py-7 sm:py-8"
+                className="rounded-lg overflow-hidden"
                 style={{
-                  backgroundColor: INK,
+                  backgroundColor: COLORS.white,
+                  border: `1px solid ${COLORS.border}`,
+                  boxShadow: "0 2px 8px rgba(15,23,42,0.04)",
                 }}
               >
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
+                {/* Card Header */}
+                <div
+                  className="px-3 sm:px-4 py-2.5 flex items-center justify-between"
+                  style={{ borderBottom: `1px solid ${COLORS.border}` }}
+                >
                   <div>
                     <p
-                      className="text-[11px] font-semibold mb-2"
-                      style={{
-                        color: SIGNAL,
-                      }}
+                      className="text-[9px] font-semibold uppercase tracking-wider"
+                      style={{ color: COLORS.orange }}
                     >
-                      Earnings estimator
+                      Pricing builder
                     </p>
-
-                    <h2 className="tn-display text-[30px] sm:text-[36px] font-bold text-white leading-none">
-                      Dispatch calculator
+                    <h2
+                      className="tn-heading text-sm font-bold mt-0.5"
+                      style={{ color: COLORS.text }}
+                    >
+                      Build your estimate
                     </h2>
+                  </div>
+                  <div
+                    className="hidden sm:flex items-center gap-1 text-[9px] font-medium"
+                    style={{ color: COLORS.muted }}
+                  >
+                    <FaClock className="text-[8px]" />
+                    {today}
+                  </div>
+                </div>
 
-                    <p
-                      className="text-[12.5px] sm:text-[13px] mt-2 max-w-[420px]"
-                      style={{
-                        color: "#9CA0A8",
-                      }}
-                    >
-                      Select your equipment and authority age. The estimated range will
-                      update automatically.
-                    </p>
+                <div className="p-3 sm:p-4 lg:p-5">
+
+                  {/* AUTHORITY */}
+                  <div className="mb-4">
+                    <SectionLabel
+                      number="01"
+                      title="CHOOSE AUTHORITY AGE"
+                    />
+
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {authorityOptions.map((option) => {
+                        const active = authorityAge === option.id;
+
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => setAuthorityAge(option.id)}
+                            className="tn-select-card text-center rounded-lg py-2 px-2"
+                            style={{
+                              backgroundColor: active
+                                ? COLORS.navy
+                                : COLORS.white,
+                              border: `1.5px solid ${
+                                active ? COLORS.orange : COLORS.border
+                              }`,
+                            }}
+                          >
+                            <p
+                              className="text-[9px] font-bold"
+                              style={{
+                                color: active
+                                  ? COLORS.white
+                                  : COLORS.text,
+                              }}
+                            >
+                              {option.label}
+                            </p>
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
 
+                  {/* EQUIPMENT */}
+                  <div className="mb-4">
+                    <SectionLabel
+                      number="02"
+                      title="CHOOSE EQUIPMENT TYPE"
+                    />
+
+                    <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-1.5">
+                      {trailerTypes.map((trailer) => {
+                        const active = trailerType === trailer.id;
+                        const isBoxTruck = trailer.id === "box-truck";
+                        const isHotshot = trailer.id === "hotshot";
+                        const feeDisplay = isBoxTruck || isHotshot ? "8%" : "5%";
+
+                        return (
+                          <button
+                            key={trailer.id}
+                            type="button"
+                            onClick={() => setTrailerType(trailer.id)}
+                            className="tn-equipment-card text-center rounded-lg py-2 px-1.5 relative"
+                            style={{
+                              backgroundColor: active
+                                ? COLORS.orangeSoft
+                                : COLORS.white,
+                              border: `1.5px solid ${
+                                active ? COLORS.orange : COLORS.border
+                              }`,
+                            }}
+                          >
+                            <div className="flex flex-col items-center gap-0.5">
+                              <span
+                                className="text-sm"
+                                style={{
+                                  color: active
+                                    ? COLORS.orange
+                                    : COLORS.muted,
+                                }}
+                              >
+                                {trailer.icon}
+                              </span>
+                              <span
+                                className="text-[8px] font-bold"
+                                style={{ color: COLORS.text }}
+                              >
+                                {trailer.name}
+                              </span>
+                              <span
+                                className="text-[7px]"
+                                style={{ color: COLORS.muted }}
+                              >
+                                {trailer.code}
+                              </span>
+                              <span
+                                className="text-[7px] font-bold mt-0.5 px-1.5 py-0.5 rounded"
+                                style={{
+                                  backgroundColor: (isBoxTruck || isHotshot) 
+                                    ? "#FEF3C7" 
+                                    : "#D1FAE5",
+                                  color: (isBoxTruck || isHotshot) 
+                                    ? "#D97706" 
+                                    : "#059669",
+                                }}
+                              >
+                                {feeDisplay}
+                              </span>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* OPERATION */}
+                  <div className="mb-4">
+                    <SectionLabel
+                      number="03"
+                      title="CHOOSE OPERATION TYPE"
+                    />
+
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                      {operationOptions.map((option) => {
+                        const active = operationType === option.id;
+
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            onClick={() => setOperationType(option.id)}
+                            className="tn-select-card text-center rounded-lg py-2 px-2"
+                            style={{
+                              backgroundColor: active
+                                ? COLORS.navy
+                                : COLORS.white,
+                              border: `1.5px solid ${
+                                active ? COLORS.orange : COLORS.border
+                              }`,
+                            }}
+                          >
+                            <p
+                              className="text-[9px] font-bold"
+                              style={{
+                                color: active
+                                  ? COLORS.white
+                                  : COLORS.text,
+                              }}
+                            >
+                              {option.label}
+                            </p>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* MOBILE SUMMARY */}
                   <div
-                    className="w-12 h-12 shrink-0 flex items-center justify-center rounded-[8px]"
+                    className="lg:hidden rounded-lg p-2.5 mb-3"
                     style={{
-                      border: `1.5px solid ${SIGNAL}`,
-                      color: SIGNAL,
+                      backgroundColor: COLORS.cream,
+                      border: `1px solid ${COLORS.border}`,
                     }}
                   >
-                    <FaCalculator className="text-lg" />
+                    <div className="flex items-center justify-between mb-1.5">
+                      <p className="text-[8px] font-bold uppercase tracking-wider">
+                        Selection
+                      </p>
+                      <FaCheckCircle
+                        className="text-[9px]"
+                        style={{ color: COLORS.green }}
+                      />
+                    </div>
+                    <div className="flex flex-wrap gap-1">
+                      {[selectedTrailer.name, selectedAuthority?.short, selectedOperation?.label].map(
+                        (item) => (
+                          <span
+                            key={item}
+                            className="px-1.5 py-0.5 rounded text-[8px] font-semibold"
+                            style={{
+                              backgroundColor: COLORS.white,
+                              color: COLORS.text,
+                              border: `1px solid ${COLORS.border}`,
+                            }}
+                          >
+                            {item}
+                          </span>
+                        )
+                      )}
+                    </div>
                   </div>
+
+                  {/* RESULT */}
+                  <div
+                    className="rounded-lg overflow-hidden"
+                    style={{
+                      border: `1px solid ${COLORS.border}`,
+                    }}
+                  >
+                    <div
+                      className="px-3 py-2 flex items-center justify-between"
+                      style={{
+                        backgroundColor: COLORS.navy,
+                      }}
+                    >
+                      <div>
+                        <p
+                          className="text-[7px] uppercase tracking-wider font-semibold"
+                          style={{ color: "#94A3B8" }}
+                        >
+                          Estimate
+                        </p>
+                        <p className="text-[9px] font-bold text-white mt-0.5">
+                          {selectedTrailer.name} · {selectedAuthority?.short}
+                        </p>
+                      </div>
+                      <FaChartLine
+                        className="text-sm"
+                        style={{ color: "#FDBA74" }}
+                      />
+                    </div>
+
+                    <div
+                      className="p-3"
+                      style={{ backgroundColor: COLORS.white }}
+                    >
+                      <div className="grid grid-cols-2 gap-2">
+
+                        <div
+                          className="rounded-lg p-2"
+                          style={{
+                            backgroundColor: COLORS.cream,
+                            border: `1px solid ${COLORS.border}`,
+                          }}
+                        >
+                          <p
+                            className="text-[8px]"
+                            style={{ color: COLORS.muted }}
+                          >
+                            Rate / mile
+                          </p>
+                          <p className="mt-0.5 text-xs font-bold">
+                            ${selectedTrailer.rateMin.toFixed(1)} - ${selectedTrailer.rateMax.toFixed(1)}
+                          </p>
+                        </div>
+
+                        <div
+                          className="rounded-lg p-2"
+                          style={{
+                            backgroundColor: COLORS.cream,
+                            border: `1px solid ${COLORS.border}`,
+                          }}
+                        >
+                          <p
+                            className="text-[8px]"
+                            style={{ color: COLORS.muted }}
+                          >
+                            Weekly gross
+                          </p>
+                          <p className="mt-0.5 text-xs font-bold">
+                            ${formatNumber(selectedTrailer.weeklyMin)} - ${formatNumber(selectedTrailer.weeklyMax)}
+                          </p>
+                        </div>
+
+                      </div>
+
+                      <div
+                        className="flex items-center justify-between py-2 mt-2"
+                        style={{
+                          borderTop: `1px solid ${COLORS.border}`,
+                        }}
+                      >
+                        <div>
+                          <p
+                            className="text-[8px]"
+                            style={{ color: COLORS.muted }}
+                          >
+                            Dispatch fee
+                          </p>
+                          <p
+                            className="text-[9px] font-semibold mt-0.5"
+                            style={{ color: COLORS.text }}
+                          >
+                            {selectedTrailer.fee}%
+                          </p>
+                        </div>
+                        <p
+                          className="text-sm font-bold"
+                          style={{ color: COLORS.orange }}
+                        >
+                          -${formatNumber(calculations.dispatchFee)}
+                        </p>
+                      </div>
+
+                      <div
+                        className="rounded-lg p-2.5 mt-2 flex items-center justify-between"
+                        style={{
+                          backgroundColor: COLORS.orangeSoft,
+                        }}
+                      >
+                        <div>
+                          <p
+                            className="text-[8px] font-semibold"
+                            style={{ color: COLORS.orangeDark }}
+                          >
+                            Net weekly
+                          </p>
+                          <p
+                            className="text-[7px] mt-0.5"
+                            style={{ color: COLORS.muted }}
+                          >
+                            After fee
+                          </p>
+                        </div>
+                        <span className="text-sm font-bold" style={{ color: COLORS.orangeDark }}>
+                          ${formatNumber(calculations.netMin)} - ${formatNumber(calculations.netMax)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <Link
+                    to="/Outlet"
+                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-[10px] font-bold text-white transition-all duration-200"
+                    style={{
+                      backgroundColor: COLORS.orange,
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = COLORS.orangeDark;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = COLORS.orange;
+                    }}
+                  >
+                    Start application
+                    <FaArrowRight className="text-[8px]" />
+                  </Link>
+
+                 
+
                 </div>
               </div>
 
-              <div className="p-5 sm:p-7 lg:p-10">
-                {/* =================================================
-                    AUTHORITY AGE
-                ================================================= */}
-
-                <div className="mb-8">
-                  <SectionHeading label="Authority age" hint="Select one" />
-
-                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                    {authorityOptions.map((option) => {
-                      const active = authorityAge === option.id;
-
-                      return (
-                        <ControlButton
-                          key={option.id}
-                          active={active}
-                          onClick={() => setAuthorityAge(option.id)}
-                        >
-                          <div className="flex flex-col items-center">
-                            <span>{option.label}</span>
-                            <span
-                              className="text-[9px] font-normal mt-0.5"
-                              style={{
-                                color: active ? "#FFFFFF" : STEEL,
-                              }}
-                            >
-                              {option.subLabel}
-                            </span>
-                          </div>
-                        </ControlButton>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* =================================================
-                    TRAILER TYPE
-                ================================================= */}
-
-                <div className="mb-8">
-                  <SectionHeading label="Trailer type" hint="Select equipment" />
-
-                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-                    {trailerTypes.map((trailer) => {
-                      const active = trailerType === trailer.id;
-                      const pricing = trailer?.pricing?.[authorityAge] || {
-                        rateMin: 2.00,
-                        rateMax: 3.00,
-                      };
-                      const avgRate = (pricing.rateMin + pricing.rateMax) / 2;
-
-                      return (
-                        <button
-                          key={trailer.id}
-                          type="button"
-                          onClick={() => setTrailerType(trailer.id)}
-                          className="group relative rounded-[8px] px-2 py-3 min-h-[100px] flex flex-col items-center justify-center gap-2 transition-all duration-150 focus:outline-none"
-                          style={{
-                            backgroundColor: active ? SIGNAL_TINT : "#FFFFFF",
-                            border: `1px solid ${active ? SIGNAL : STEEL_LINE}`,
-                          }}
-                          onMouseEnter={(e) => {
-                            if (!active) {
-                              e.currentTarget.style.borderColor = SIGNAL;
-                            }
-                          }}
-                          onMouseLeave={(e) => {
-                            if (!active) {
-                              e.currentTarget.style.borderColor = STEEL_LINE;
-                            }
-                          }}
-                        >
-                          <span
-                            className="text-lg"
-                            style={{
-                              color: active ? SIGNAL : "#B7B6AE",
-                            }}
-                          >
-                            {trailer.icon}
-                          </span>
-
-                          <span
-                            className="text-[10.5px] font-bold text-center leading-tight"
-                            style={{
-                              color: active ? SIGNAL_DARK : STEEL,
-                            }}
-                          >
-                            {trailer.name}
-                          </span>
-
-                          <span
-                            className="text-[8.5px] font-bold"
-                            style={{
-                              color: active ? SIGNAL : "#B7B6AE",
-                            }}
-                          >
-                            ${pricing.rateMin.toFixed(2)}–$
-                            {pricing.rateMax.toFixed(2)}/mi
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* =================================================
-                    OPERATION TYPE
-                ================================================= */}
-
-                <div className="mb-9">
-                  <SectionHeading label="Operation type" hint="Select operation" />
-
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-                    {operationOptions.map((option) => {
-                      const active = operationType === option.id;
-
-                      return (
-                        <ControlButton
-                          key={option.id}
-                          active={active}
-                          onClick={() => setOperationType(option.id)}
-                        >
-                          <div className="flex flex-col items-center">
-                            <span>{option.label}</span>
-                            <span
-                              className="text-[9px] font-normal mt-0.5"
-                              style={{
-                                color: active ? "#FFFFFF" : STEEL,
-                              }}
-                            >
-                              Operation
-                            </span>
-                          </div>
-                        </ControlButton>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* =================================================
-                    SELECTED CONFIGURATION
-                ================================================= */}
+              {/* RIGHT: SUMMARY SIDEBAR */}
+              <div className="hidden lg:block space-y-3">
 
                 <div
-                  className="mb-6 p-4 rounded-[10px]"
+                  className="rounded-lg p-3.5"
                   style={{
-                    backgroundColor: PAPER,
-                    border: `1px solid ${STEEL_LINE}`,
+                    backgroundColor: COLORS.white,
+                    border: `1px solid ${COLORS.border}`,
+                    boxShadow: "0 2px 8px rgba(15,23,42,0.04)",
                   }}
                 >
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span
-                      className="text-[11px] font-semibold"
+                  <div className="flex items-center gap-2 mb-3">
+                    <div
+                      className="w-6 h-6 rounded-lg flex items-center justify-center"
                       style={{
-                        color: STEEL,
+                        backgroundColor: COLORS.orangeSoft,
+                        color: COLORS.orange,
                       }}
                     >
-                      Selected:
-                    </span>
-
-                    <span
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold"
-                      style={{
-                        backgroundColor: SIGNAL_TINT,
-                        color: SIGNAL,
-                      }}
-                    >
-                      {selected.trailerName}
-                    </span>
-
-                    <span
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold"
-                      style={{
-                        backgroundColor: SIGNAL_TINT,
-                        color: SIGNAL,
-                      }}
-                    >
-                      {selected.authorityLabel}
-                    </span>
-
-                    <span
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold"
-                      style={{
-                        backgroundColor: SIGNAL_TINT,
-                        color: SIGNAL,
-                      }}
-                    >
-                      {selected.operationLabel}
-                    </span>
-                  </div>
-                </div>
-
-                {/* =================================================
-                    CURRENT RATE DISPLAY
-                ================================================= */}
-
-                <div
-                  className="mb-6 rounded-[10px] px-5 py-4"
-                  style={{
-                    backgroundColor: "#FFF8F4",
-                    border: `1px solid ${SIGNAL_TINT}`,
-                  }}
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <FaRoute className="text-[10px]" />
+                    </div>
                     <div>
                       <p
-                        className="text-[10px] uppercase tracking-[0.08em] font-bold"
-                        style={{
-                          color: SIGNAL,
-                        }}
+                        className="text-[8px] font-semibold uppercase tracking-wider"
+                        style={{ color: COLORS.orange }}
                       >
-                        Current rate range
+                        Selection
                       </p>
-
-                      <p
-                        className="text-[11px] mt-1"
-                        style={{
-                          color: STEEL,
-                        }}
+                      <h3
+                        className="tn-heading text-xs font-bold"
+                        style={{ color: COLORS.text }}
                       >
-                        {selected.trailerName} • {selected.authorityLabel} •{" "}
-                        {selected.operationLabel}
-                      </p>
-                    </div>
-
-                    <div
-                      className="tn-display text-[30px] font-bold"
-                      style={{
-                        color: SIGNAL,
-                      }}
-                    >
-                      ${calculations.rateMin.toFixed(2)}–$
-                      {calculations.rateMax.toFixed(2)}
-                      <span className="text-[13px] ml-1">/ mile</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* =================================================
-                    RESULTS
-                ================================================= */}
-
-                <div
-                  style={{
-                    borderTop: `1px solid ${STEEL_LINE}`,
-                  }}
-                  className="pt-7"
-                >
-                  <SectionHeading
-                    label="Your estimated earnings"
-                    hint={`For ${calculations.selectedTrailer?.name || "Dry Van"}`}
-                  />
-
-                  <div
-                    className="grid grid-cols-1 sm:grid-cols-3 rounded-[10px] overflow-hidden"
-                    style={{
-                      border: `1px solid ${STEEL_LINE}`,
-                    }}
-                  >
-                    {/* RATE RANGE */}
-
-                    <div
-                      className="px-5 py-5"
-                      style={{
-                        borderRight: `1px solid ${STEEL_LINE}`,
-                      }}
-                    >
-                      <p
-                        className="text-[11px] font-semibold"
-                        style={{
-                          color: STEEL,
-                        }}
-                      >
-                        Rate per mile
-                      </p>
-
-                      <RangeDisplay
-                        min={calculations.rateMin}
-                        max={calculations.rateMax}
-                        prefix="$"
-                        color={INK}
-                      />
-
-                      <p
-                        className="text-[10.5px] mt-1"
-                        style={{
-                          color: "#9B9B94",
-                        }}
-                      >
-                        Based on your selections
-                      </p>
-                    </div>
-
-                    {/* DISPATCH FEE */}
-
-                    <div
-                      className="px-5 py-5"
-                      style={{
-                        borderRight: `1px solid ${STEEL_LINE}`,
-                      }}
-                    >
-                      <p
-                        className="text-[11px] font-semibold"
-                        style={{
-                          color: STEEL,
-                        }}
-                      >
-                        Dispatch fee ({calculations.feePercentage}%)
-                      </p>
-
-                      <AnimatedCounter
-                        value={calculations.dispatchFee}
-                        prefix="$"
-                        duration={900}
-                        isRange={true}
-                      />
-
-                      <p
-                        className="text-[10.5px] mt-1"
-                        style={{
-                          color: "#9B9B94",
-                        }}
-                      >
-                        Estimated weekly fee
-                      </p>
-                    </div>
-
-                    {/* WEEKLY GROSS RANGE */}
-
-                    <div
-                      className="px-5 py-5"
-                      style={{
-                        backgroundColor: SIGNAL_TINT,
-                      }}
-                    >
-                      <p
-                        className="text-[11px] font-semibold"
-                        style={{
-                          color: SIGNAL_DARK,
-                        }}
-                      >
-                        Weekly gross
-                      </p>
-
-                      <RangeDisplay
-                        min={calculations.weeklyMin}
-                        max={calculations.weeklyMax}
-                        prefix="$"
-                        color={SIGNAL_DARK}
-                      />
-
-                      <p
-                        className="text-[10.5px] mt-1"
-                        style={{
-                          color: "#B87A55",
-                        }}
-                      >
-                        Before operating expenses
-                      </p>
+                        Your setup
+                      </h3>
                     </div>
                   </div>
 
-                  {/* NET WEEKLY */}
-
-                  <div
-                    className="mt-4 rounded-[10px] px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                    style={{
-                      backgroundColor: INK,
-                    }}
-                  >
-                    <div className="flex items-center gap-2">
-                      <FaCheckCircle
-                        className="text-sm"
-                        style={{
-                          color: SIGNAL,
-                        }}
-                      />
-
-                      <span className="text-[12px] font-semibold text-white">
-                        Net weekly, after dispatch fee
+                  <div className="space-y-2">
+                    <div
+                      className="flex items-center justify-between pb-1.5"
+                      style={{ borderBottom: `1px solid ${COLORS.border}` }}
+                    >
+                      <span className="text-[8px]" style={{ color: COLORS.muted }}>
+                        Equipment
+                      </span>
+                      <span className="text-[9px] font-bold" style={{ color: COLORS.text }}>
+                        {selectedTrailer.name}
                       </span>
                     </div>
 
-                    <div className="text-white">
-                      <AnimatedCounter
-                        value={calculations.netWeekly}
-                        prefix="$"
-                        duration={900}
-                        isRange={true}
-                      />
+                    <div
+                      className="flex items-center justify-between pb-1.5"
+                      style={{ borderBottom: `1px solid ${COLORS.border}` }}
+                    >
+                      <span className="text-[8px]" style={{ color: COLORS.muted }}>
+                        Authority
+                      </span>
+                      <span className="text-[9px] font-bold" style={{ color: COLORS.text }}>
+                        {selectedAuthority?.short}
+                      </span>
+                    </div>
+
+                    <div
+                      className="flex items-center justify-between pb-1.5"
+                      style={{ borderBottom: `1px solid ${COLORS.border}` }}
+                    >
+                      <span className="text-[8px]" style={{ color: COLORS.muted }}>
+                        Operation
+                      </span>
+                      <span className="text-[9px] font-bold" style={{ color: COLORS.text }}>
+                        {selectedOperation?.label}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-[8px]" style={{ color: COLORS.muted }}>
+                        Fee
+                      </span>
+                      <span className="text-[9px] font-bold" style={{ color: COLORS.orange }}>
+                        {selectedTrailer.fee}%
+                      </span>
+                    </div>
+
+                    <div
+                      className="flex items-center justify-between pt-1.5 mt-1.5"
+                      style={{ borderTop: `2px solid ${COLORS.border}` }}
+                    >
+                      <span className="text-[8px]" style={{ color: COLORS.muted }}>
+                        Weekly gross
+                      </span>
+                      <span className="text-[9px] font-bold" style={{ color: COLORS.text }}>
+                        {formatNumber(selectedTrailer.weeklyMin)} - {formatNumber(selectedTrailer.weeklyMax)}
+                      </span>
                     </div>
                   </div>
                 </div>
 
-                {/* =================================================
-                    GET STARTED
-                ================================================= */}
-
-                <div className="mt-7">
-                  <a
-                    href="/Outlet"
-                    className="w-full flex items-center justify-center gap-2 rounded-[8px] px-6 py-4 text-[13px] font-bold text-white transition-colors duration-150"
+                <div
+                  className="rounded-lg p-3.5"
+                  style={{
+                    backgroundColor: COLORS.navy,
+                  }}
+                >
+                  <div
+                    className="w-7 h-7 rounded-lg flex items-center justify-center mb-2.5"
                     style={{
-                      backgroundColor: SIGNAL,
+                      backgroundColor: "rgba(232,93,4,0.15)",
+                      color: "#FDBA74",
                     }}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor = SIGNAL_DARK)
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor = SIGNAL)
-                    }
                   >
-                    Get started
-                    <FaArrowRight className="text-[11px]" />
-                  </a>
+                    <FaShieldAlt className="text-xs" />
+                  </div>
+
+                  <h3 className="tn-heading text-sm font-bold text-white">
+                    Clear pricing.
+                    <br />
+                    No hidden fees.
+                  </h3>
+
+                  <p
+                    className="text-[9px] leading-4 mt-1.5"
+                    style={{ color: "#94A3B8" }}
+                  >
+                    Fee is a percentage of your gross revenue.
+                  </p>
+
+                  <div
+                    className="flex items-center gap-1 mt-2 text-[8px] font-semibold"
+                    style={{ color: "#FDBA74" }}
+                  >
+                    <FaCheckCircle className="text-[8px]" />
+                    Driver-first
+                  </div>
                 </div>
+
               </div>
+
             </div>
           </div>
         </section>
@@ -1231,102 +1003,71 @@ const Pricing = () => {
             CONTACT CTA
         ================================================= */}
 
-     {/* =================================================
-    CONTACT & TRANSPARENT PRICING (Combined)
-================================================= */}
+        <section className="py-4 sm:py-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
-{/* =================================================
-    TRANSPARENT PRICING
-================================================= */}
+            <div
+              className="relative overflow-hidden rounded-lg px-4 sm:px-6 lg:px-8 py-4 sm:py-5"
+              style={{ backgroundColor: COLORS.navy }}
+            >
+              <div
+                className="absolute -right-20 -top-20 w-64 h-64 rounded-full opacity-20"
+                style={{
+                  background: `radial-gradient(circle, ${COLORS.orange}, transparent 65%)`,
+                }}
+              />
 
-<section className="pb-14 sm:pb-16">
-  <div className="max-w-[900px] mx-auto px-5 text-center">
-    <div
-      className="w-11 h-11 rounded-[8px] flex items-center justify-center mx-auto mb-5"
-      style={{
-        border: `1.5px solid ${SIGNAL}`,
-        color: SIGNAL,
-      }}
-    >
-      <FaCheckCircle />
-    </div>
+              <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
 
-    <h2
-      className="tn-display text-[26px] sm:text-[32px] font-bold"
-      style={{
-        color: INK,
-      }}
-    >
-      Transparent pricing. No hidden fees.
-    </h2>
+                <div>
+                  <p
+                    className="text-[8px] font-bold uppercase tracking-wider"
+                    style={{ color: "#FDBA74" }}
+                  >
+                    Ready to start?
+                  </p>
+                  <h2 className="tn-heading text-base sm:text-lg font-bold text-white mt-0.5">
+                    Build your profitable route
+                  </h2>
+                </div>
 
-    <p
-      className="text-[12.5px] sm:text-[13px] leading-6 max-w-[720px] mx-auto mt-4"
-      style={{
-        color: STEEL,
-      }}
-    >
-      At Trans Nova Solutions, we believe our pricing should be simple and transparent.
-      There are no hidden fees or surprise charges. The calculator above provides an
-      estimate based on your selected equipment, authority age and operation type.
-    </p>
+                <div className="flex flex-col sm:flex-row gap-1.5 shrink-0">
+                  <a
+                    href={`tel:${COMPANY_PHONE}`}
+                    className="inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-[9px] font-bold transition-all duration-200"
+                    style={{
+                      backgroundColor: COLORS.orange,
+                      color: COLORS.white,
+                    }}
+                  >
+                    <FaPhoneAlt className="text-[8px]" />
+                    Call dispatch
+                  </a>
+                  <Link
+                    to="/contact"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-[9px] font-bold transition-all duration-200"
+                    style={{
+                      border: "1px solid #334155",
+                      color: COLORS.white,
+                    }}
+                  >
+                    Contact us
+                    <FaArrowRight className="text-[8px]" />
+                  </Link>
+                </div>
 
-    <p
-      className="text-[12.5px] sm:text-[13px] leading-6 max-w-[720px] mx-auto mt-3"
-      style={{
-        color: STEEL,
-      }}
-    >
-      Actual rates and dispatch fees may vary depending on your individual operation,
-      freight market conditions, lanes, equipment and service agreement.
-    </p>
+              </div>
+            </div>
 
-    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-7">
-      <a
-        href="/contact"
-        className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[12px] font-bold text-white transition-colors duration-150"
-        style={{
-          backgroundColor: SIGNAL,
-        }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.backgroundColor = SIGNAL_DARK)
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.backgroundColor = SIGNAL)
-        }
-      >
-        Contact us today
-        <FaArrowRight className="text-[10px]" />
-      </a>
+          </div>
+        </section>
 
-      <a
-        href="/services"
-        className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3 text-[12px] font-bold transition-colors duration-150"
-        style={{
-          border: `1px solid ${STEEL_LINE}`,
-          color: INK,
-        }}
-        onMouseEnter={(e) =>
-          (e.currentTarget.style.borderColor = SIGNAL)
-        }
-        onMouseLeave={(e) =>
-          (e.currentTarget.style.borderColor = STEEL_LINE)
-        }
-      >
-        All services
-      </a>
-    </div>
-  </div>
-</section>
-      </div>
+        {/* =================================================
+            FOOTER NOTE
+        ================================================= */}
 
-      {/* ==========================================
-          WATERMARK (Optional)
-      ========================================== */}
-      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
-        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
-          © Trans Nova Solutions
-        </span>
+      
+
       </div>
     </div>
   );

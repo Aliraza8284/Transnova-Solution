@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import useCopyProtection from "../Hooks/useCopyProtection";
 import {
   FaTruck,
@@ -182,20 +183,20 @@ const TruckTypes = () => {
       <section className="bg-white border-b border-gray-100">
         <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
-          <div className="pt-8 sm:pt-10">
-            <div className="flex items-center gap-2 text-[12px]">
-              <a
-                href="/"
-                className="text-gray-500 hover:text-[#f15a24] transition"
-              >
-                Home
-              </a>
+        <div className="pt-8 sm:pt-10">
+  <div className="flex items-center gap-2 text-[12px]">
+    <Link
+      to="/"
+      className="text-gray-500 hover:text-[#f15a24] transition"
+    >
+      Home
+    </Link>
 
-              <span className="text-gray-300">/</span>
+    <span className="text-gray-300">/</span>
 
-              <span className="text-[#f15a24] font-medium">Truck Types</span>
-            </div>
-          </div>
+    <span className="text-[#f15a24] font-medium">Truck Types</span>
+  </div>
+</div>
 
           {/* Hero Content */}
           <div className="max-w-[820px] mx-auto text-center pt-12 sm:pt-16 pb-12 sm:pb-14">

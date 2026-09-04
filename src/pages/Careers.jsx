@@ -199,7 +199,7 @@ const benefitsList = [
 // ==========================================
 
 const Careers = () => {
-  
+
   // ==========================================
   // STATES
   // ==========================================
@@ -323,131 +323,86 @@ const Careers = () => {
   // HANDLE JOB APPLICATION SUBMIT
   // ==========================================
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    try {
-      const formData = new FormData(e.target);
+  try {
+    const formData = new FormData(e.target);
 
-      const emailData = {
-        to_email: "business@transnova.solutions",
-        to_name: "HR Team",
+    // ==========================================
+    // EMAILJS VARIABLES - FUNCTION KE ANDAR DEFINE KAREIN
+    // ==========================================
+    const EMAILJS_SERVICE_ID = "service_sgu29ri";
+    const EMAILJS_TEMPLATE_ID = "template_9x04exk";
+    const EMAILJS_PUBLIC_KEY = "EVMb4J8IF2wYjzqpW";
 
-        job_title: formData.get("selectedJob"),
+    // Fix phone number
+    let phoneNumber = formData.get("phone") || "";
+    phoneNumber = phoneNumber.replace(/\s/g, "").replace(/-/g, "").replace(/\+/g, "");
 
-        employment_type:
-          employmentType === "fulltime"
-            ? "Full-time"
-            : "Contract-based",
+    const emailData = {
+      to_email: "info@transnova.solutions",
+      to_name: "HR Team",
+      title: formData.get("selectedJob"),
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: countryCode + phoneNumber,
+      city: formData.get("city"),
+      experience: formData.get("experience"),
+      language: formData.get("language"),
+      level: formData.get("level"),
+      salary: formData.get("salary") + " " + formData.get("currency"),
+      start_date: formData.get("start_date"),
+      additional_info: formData.get("additional_info") || "Not provided",
+      submitted_at: new Date().toLocaleString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+    };
 
-        candidate_name: formData.get("name"),
-        candidate_email: formData.get("email"),
+    console.log("📤 Sending email with data:", emailData);
 
-        candidate_phone:
-          countryCode + formData.get("phone"),
+    // ==========================================
+    // SEND EMAIL VIA EMAILJS
+    // ==========================================
+    const response = await emailjs.send(
+      EMAILJS_SERVICE_ID,
+      EMAILJS_TEMPLATE_ID,
+      emailData,
+      EMAILJS_PUBLIC_KEY
+    );
 
-        candidate_city: formData.get("city"),
-        experience: formData.get("experience"),
-        language: formData.get("language"),
-        expertise_level: formData.get("level"),
+    console.log("✅ Email sent successfully:", response);
 
-        expected_salary:
-          formData.get("salary") +
-          " " +
-          formData.get("currency"),
+    // Success - show toast and success popup
+    closeModal();
+    showToast("Your application was submitted! We'll contact you soon.", "success", "✅");
 
-        start_date: formData.get("start_date"),
+    setTimeout(() => {
+      setIsSuccessOpen(true);
+      document.body.style.overflow = "hidden";
+    }, 800);
 
-        additional_details:
-          formData.get("additional_info"),
+  } catch (error) {
+    console.error("❌ EmailJS Error:", error);
+    console.error("Error Text:", error?.text || "No text");
+    console.error("Error Status:", error?.status || "No status");
+    console.error("Error Details:", JSON.stringify(error, null, 2));
 
-        applied_date: new Date().toLocaleString(
-          "en-US",
-          {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-          }
-        ),
-      };
-
-      // ==========================================
-      // EMAILJS
-      // ==========================================
-
-      const EMAILJS_SERVICE_ID = "service_mwoqwbs";
-      const EMAILJS_TEMPLATE_ID = "template_zb04utt";
-      const EMAILJS_PUBLIC_KEY = "hkyeEuonkAKSiQj7d";
-
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        emailData,
-        EMAILJS_PUBLIC_KEY
-      );
-
-      // ==========================================
-      // BACKEND SAVE
-      // ==========================================
-
-      try {
-        const backendResponse = await fetch(
-          "http://localhost:5000/api/save-application",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(emailData),
-          }
-        );
-
-        if (!backendResponse.ok) {
-          console.warn(
-            "Backend returned an error."
-          );
-        }
-      } catch (backendError) {
-        console.warn(
-          "Backend save skipped:",
-          backendError
-        );
-      }
-
-      closeModal();
-
-      showToast(
-        "Your application was submitted! We'll contact you as soon as possible.",
-        "success",
-        "✅"
-      );
-
-      setTimeout(() => {
-        setIsSuccessOpen(true);
-        document.body.style.overflow = "hidden";
-      }, 800);
-
-    } catch (error) {
-      console.error(
-        "❌ Job application submission error:",
-        error?.text ||
-          error?.message ||
-          error
-      );
-
-      showToast(
-        "Submission failed. Please try again.",
-        "error",
-        "❌"
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    showToast(
+      "Email submission failed. Please try again or contact support.",
+      "error",
+      "❌"
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   // ==========================================
   // RENDER
@@ -462,11 +417,10 @@ const Careers = () => {
 
       {toast.show && (
         <div
-          className={`fixed top-5 left-1/2 -translate-x-1/2 z-[999999] w-[calc(100%-30px)] max-w-md px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-slideDown ${
-            toast.type === "success"
+          className={`fixed top-5 left-1/2 -translate-x-1/2 z-[999999] w-[calc(100%-30px)] max-w-md px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-slideDown ${toast.type === "success"
               ? "bg-[#111111] border-2 border-[#FF6B35]"
               : "bg-[#111111] border-2 border-red-500"
-          }`}
+            }`}
         >
           <span className="text-2xl">
             {toast.icon}
@@ -548,7 +502,7 @@ const Careers = () => {
       </section>
 
 
-        <section className="py-16 px-6 lg:px-12 max-w-7xl mx-auto">
+      <section className="py-16 px-6 lg:px-12 max-w-7xl mx-auto">
 
         <div className="text-center mb-12">
 
@@ -575,13 +529,12 @@ const Careers = () => {
             <div
               key={index}
               data-index={index}
-              className={`benefit-card bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 text-center border border-[#EDEAE4] ${
-                animatedBenefits.includes(
-                  String(index)
-                )
+              className={`benefit-card bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 text-center border border-[#EDEAE4] ${animatedBenefits.includes(
+                String(index)
+              )
                   ? "animate-fadeInUp"
                   : "opacity-0"
-              }`}
+                }`}
               style={{
                 animationDelay: `${index * 150}ms`,
               }}
@@ -612,850 +565,843 @@ const Careers = () => {
           ADDED BELOW HERO
       ========================================== */}
 
-     <section
-  id="jobs"
-  className="px-6 lg:px-12 max-w-7xl mx-auto mt-8"
->
-  <div className="bg-white rounded-3xl border border-[#EDEAE4] shadow-sm p-6 sm:p-8">
+      <section
+        id="jobs"
+        className="px-6 lg:px-12 max-w-7xl mx-auto mt-8"
+      >
+        <div className="bg-white rounded-3xl border border-[#EDEAE4] shadow-sm p-6 sm:p-8">
 
-    {/* SECTION HEADER */}
+          {/* SECTION HEADER */}
 
-    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
 
-      <div>
+            <div>
 
-        <p className="text-[#FF6B35] text-xs font-bold uppercase tracking-[2px] mb-2">
-          Current Opportunities
-        </p>
+              <p className="text-[#FF6B35] text-xs font-bold uppercase tracking-[2px] mb-2">
+                Current Opportunities
+              </p>
 
-        <h2 className="text-2xl sm:text-3xl font-bold text-[#111111]">
-          Explore Our{" "}
-          <span className="text-[#FF6B35]">
-            Open Roles
-          </span>
-        </h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#111111]">
+                Explore Our{" "}
+                <span className="text-[#FF6B35]">
+                  Open Roles
+                </span>
+              </h2>
 
-        <p className="text-[#777777] text-sm mt-2">
-          Find a role that matches your skills
-          and career goals.
-        </p>
-
-      </div>
-
-      {/* JOB COUNT */}
-
-      <p className="text-[#777777] text-sm bg-[#FAF9F6] px-4 py-2 rounded-full border border-[#EDEAE4] w-fit">
-        {jobList.length} Jobs Available
-      </p>
-
-    </div>
-
-    {/* ALL JOB CARDS */}
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-      {jobList.map((job, index) => (
-
-        <div
-          key={index}
-          data-index={index}
-          className={`job-card group rounded-2xl border border-[#EDEAE4] bg-[#FAF9F6] p-5 hover:bg-white hover:border-[#FF6B35]/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${
-            animatedJobs.includes(String(index))
-              ? "animate-fadeInUp"
-              : "opacity-0"
-          }`}
-          style={{
-            animationDelay: `${index * 100}ms`,
-          }}
-        >
-
-          {/* JOB ICON + TITLE */}
-
-          <div className="flex items-start gap-3 mb-4">
-
-            <div className="w-10 h-10 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center text-[#FF6B35] group-hover:bg-[#FF6B35] group-hover:text-white transition-all duration-300">
-
-              <FaBriefcase />
-
-            </div>
-
-            <div className="min-w-0">
-
-              <h3 className="font-bold text-[#111111] text-base leading-tight group-hover:text-[#FF6B35] transition-colors">
-
-                {job.title}
-
-              </h3>
-
-              <p className="text-xs text-[#777777] mt-1">
-
-                {job.industry}
-
+              <p className="text-[#777777] text-sm mt-2">
+                Find a role that matches your skills
+                and career goals.
               </p>
 
             </div>
 
-          </div>
+            {/* JOB COUNT */}
 
-          {/* JOB META */}
-
-          <div className="flex flex-wrap gap-2 mb-4">
-
-            <span className="text-[10px] font-semibold bg-white border border-[#EDEAE4] text-[#555555] px-2.5 py-1 rounded-full">
-
-              {job.type}
-
-            </span>
-
-            <span className="text-[10px] font-semibold bg-[#FF6B35]/10 text-[#FF6B35] px-2.5 py-1 rounded-full">
-
-              {job.inhouse}
-
-            </span>
+            <p className="text-[#777777] text-sm bg-[#FAF9F6] px-4 py-2 rounded-full border border-[#EDEAE4] w-fit">
+              {jobList.length} Jobs Available
+            </p>
 
           </div>
 
-          {/* JOB DESCRIPTION */}
+          {/* ALL JOB CARDS */}
 
-          <p className="text-xs text-[#666666] leading-relaxed line-clamp-3 mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-            {job.desc}
+            {jobList.map((job, index) => (
 
-          </p>
+              <div
+                key={index}
+                data-index={index}
+                className={`job-card group rounded-2xl border border-[#EDEAE4] bg-[#FAF9F6] p-5 hover:bg-white hover:border-[#FF6B35]/40 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ${animatedJobs.includes(String(index))
+                    ? "animate-fadeInUp"
+                    : "opacity-0"
+                  }`}
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                }}
+              >
 
-          {/* APPLY BUTTON */}
+                {/* JOB ICON + TITLE */}
 
-          <button
-            onClick={() =>
-              openApplyModal(job.title)
-            }
-            className="w-full flex items-center justify-center gap-2 bg-[#111111] text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-[#FF6B35] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-          >
+                <div className="flex items-start gap-3 mb-4">
 
-            Apply Now
+                  <div className="w-10 h-10 shrink-0 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center text-[#FF6B35] group-hover:bg-[#FF6B35] group-hover:text-white transition-all duration-300">
 
-            <FaArrowRight className="text-[10px]" />
+                    <FaBriefcase />
 
-          </button>
+                  </div>
+
+                  <div className="min-w-0">
+
+                    <h3 className="font-bold text-[#111111] text-base leading-tight group-hover:text-[#FF6B35] transition-colors">
+
+                      {job.title}
+
+                    </h3>
+
+                    <p className="text-xs text-[#777777] mt-1">
+
+                      {job.industry}
+
+                    </p>
+
+                  </div>
+
+                </div>
+
+                {/* JOB META */}
+
+                <div className="flex flex-wrap gap-2 mb-4">
+
+                  <span className="text-[10px] font-semibold bg-white border border-[#EDEAE4] text-[#555555] px-2.5 py-1 rounded-full">
+
+                    {job.type}
+
+                  </span>
+
+                  <span className="text-[10px] font-semibold bg-[#FF6B35]/10 text-[#FF6B35] px-2.5 py-1 rounded-full">
+
+                    {job.inhouse}
+
+                  </span>
+
+                </div>
+
+                {/* JOB DESCRIPTION */}
+
+                <p className="text-xs text-[#666666] leading-relaxed line-clamp-3 mb-4">
+
+                  {job.desc}
+
+                </p>
+
+                {/* APPLY BUTTON */}
+
+                <button
+                  onClick={() =>
+                    openApplyModal(job.title)
+                  }
+                  className="w-full flex items-center justify-center gap-2 bg-[#111111] text-white py-2.5 rounded-xl text-xs font-semibold hover:bg-[#FF6B35] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+                >
+
+                  Apply Now
+
+                  <FaArrowRight className="text-[10px]" />
+
+                </button>
+
+              </div>
+
+            ))}
+
+          </div>
 
         </div>
-
-      ))}
-
-    </div>
-
-  </div>
-</section>
+      </section>
 
       {/* ==========================================
           BENEFITS
       ========================================== */}
 
-    
+
       {/* ==========================================
           ALL JOBS
       ========================================== */}
 
-    
+
 
       {/* ==========================================
           JOB APPLICATION MODAL — 2 STEP
       ========================================== */}
 
-     {isModalOpen && (
-  <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-5 animate-fadeIn">
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-5 animate-fadeIn">
 
-    {/* MODAL — 85% WIDTH */}
-    <div className="bg-[#111111] w-[95%] sm:w-[90%] lg:w-[85%] max-w-none max-h-[94vh] overflow-y-auto rounded-3xl shadow-2xl border border-[#2A2A2A] animate-slideUp">
+          {/* MODAL — 85% WIDTH */}
+          <div className="bg-[#111111] w-[95%] sm:w-[90%] lg:w-[85%] max-w-none max-h-[94vh] overflow-y-auto rounded-3xl shadow-2xl border border-[#2A2A2A] animate-slideUp">
 
-      {/* TOP BAR */}
-      <div className="sticky top-0 z-30 bg-[#111111]/95 backdrop-blur-md border-b border-[#2A2A2A] px-5 sm:px-8 py-4 flex items-center justify-between">
+            {/* TOP BAR */}
+            <div className="sticky top-0 z-30 bg-[#111111]/95 backdrop-blur-md border-b border-[#2A2A2A] px-5 sm:px-8 py-4 flex items-center justify-between">
 
-        <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3">
 
-          <div className="w-10 h-10 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/20 flex items-center justify-center">
-            <FaBriefcase className="text-[#FF6B35]" />
-          </div>
+                <div className="w-10 h-10 rounded-xl bg-[#FF6B35]/10 border border-[#FF6B35]/20 flex items-center justify-center">
+                  <FaBriefcase className="text-[#FF6B35]" />
+                </div>
 
-          <div>
-            <p className="text-white font-semibold text-sm">
-              {selectedJob}
-            </p>
+                <div>
+                  <p className="text-white font-semibold text-sm">
+                    {selectedJob}
+                  </p>
 
-            <p className="text-[#777777] text-xs">
-              Step {applicationStep} of 2 ·{" "}
-              {applicationStep === 1
-                ? "Employment type"
-                : "Your details"}
-            </p>
-          </div>
+                  <p className="text-[#777777] text-xs">
+                    Step {applicationStep} of 2 ·{" "}
+                    {applicationStep === 1
+                      ? "Employment type"
+                      : "Your details"}
+                  </p>
+                </div>
 
-        </div>
+              </div>
 
-        <button
-          onClick={closeModal}
-          className="w-10 h-10 rounded-xl border border-[#333333] text-[#999999] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:rotate-90 flex items-center justify-center transition-all duration-300"
-        >
-          <FaTimes />
-        </button>
+              <button
+                onClick={closeModal}
+                className="w-10 h-10 rounded-xl border border-[#333333] text-[#999999] hover:text-white hover:bg-[#FF6B35] hover:border-[#FF6B35] hover:rotate-90 flex items-center justify-center transition-all duration-300"
+              >
+                <FaTimes />
+              </button>
 
-      </div>
+            </div>
 
-      {/* PROGRESS BAR */}
-      <div className="flex gap-2 px-5 sm:px-8 pt-4">
+            {/* PROGRESS BAR */}
+            <div className="flex gap-2 px-5 sm:px-8 pt-4">
 
-        <div
-          className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-            applicationStep >= 1
-              ? "bg-[#FF6B35]"
-              : "bg-[#2A2A2A]"
-          }`}
-        />
+              <div
+                className={`h-1 flex-1 rounded-full transition-all duration-500 ${applicationStep >= 1
+                    ? "bg-[#FF6B35]"
+                    : "bg-[#2A2A2A]"
+                  }`}
+              />
 
-        <div
-          className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-            applicationStep >= 2
-              ? "bg-[#FF6B35]"
-              : "bg-[#2A2A2A]"
-          }`}
-        />
+              <div
+                className={`h-1 flex-1 rounded-full transition-all duration-500 ${applicationStep >= 2
+                    ? "bg-[#FF6B35]"
+                    : "bg-[#2A2A2A]"
+                  }`}
+              />
 
-      </div>
+            </div>
 
-      {/* ==========================================
+            {/* ==========================================
           STEP 1 — EMPLOYMENT TYPE
       ========================================== */}
 
-      {applicationStep === 1 && (
+            {applicationStep === 1 && (
 
-        <div
-          key="jobstep1"
-          className="p-6 sm:p-8 lg:p-10 animate-step"
-        >
+              <div
+                key="jobstep1"
+                className="p-6 sm:p-8 lg:p-10 animate-step"
+              >
 
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-            How would you like to{" "}
-            <span className="text-[#FF6B35]">
-              work with us?
-            </span>
-          </h3>
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                  How would you like to{" "}
+                  <span className="text-[#FF6B35]">
+                    work with us?
+                  </span>
+                </h3>
 
-          <p className="text-[#888888] text-sm mb-6 max-w-xl">
-            Choose the engagement type that fits
-            you best for the{" "}
-            {selectedJob} role.
-          </p>
+                <p className="text-[#888888] text-sm mb-6 max-w-xl">
+                  Choose the engagement type that fits
+                  you best for the{" "}
+                  {selectedJob} role.
+                </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
 
-            {/* FULL TIME */}
-            <button
-              type="button"
-              onClick={() =>
-                setEmploymentType("fulltime")
-              }
-              className={`relative text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 ${
-                employmentType === "fulltime"
-                  ? "bg-[#1C1C1C] border-[#FF6B35]"
-                  : "bg-[#141414] border-[#2A2A2A] hover:border-[#3A3A3A]"
-              }`}
-            >
+                  {/* FULL TIME */}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setEmploymentType("fulltime")
+                    }
+                    className={`relative text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 ${employmentType === "fulltime"
+                        ? "bg-[#1C1C1C] border-[#FF6B35]"
+                        : "bg-[#141414] border-[#2A2A2A] hover:border-[#3A3A3A]"
+                      }`}
+                  >
 
-              <span
-                className={`absolute top-4 right-4 w-4 h-4 rounded-full border transition-all duration-300 ${
-                  employmentType === "fulltime"
-                    ? "border-[#FF6B35] bg-[#FF6B35] scale-110"
-                    : "border-[#3A3A3A]"
-                }`}
-              />
+                    <span
+                      className={`absolute top-4 right-4 w-4 h-4 rounded-full border transition-all duration-300 ${employmentType === "fulltime"
+                          ? "border-[#FF6B35] bg-[#FF6B35] scale-110"
+                          : "border-[#3A3A3A]"
+                        }`}
+                    />
 
-              <FaClock className="text-[#FF6B35] text-xl mb-3" />
+                    <FaClock className="text-[#FF6B35] text-xl mb-3" />
 
-              <p className="text-white font-semibold text-base mb-1">
-                Full-time
-              </p>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Full-time
+                    </p>
 
-              <p className="text-[#888888] text-xs leading-relaxed">
-                I'm looking for a permanent,
-                full-time role.
-              </p>
+                    <p className="text-[#888888] text-xs leading-relaxed">
+                      I'm looking for a permanent,
+                      full-time role.
+                    </p>
 
-            </button>
+                  </button>
 
-            {/* CONTRACT */}
-            <button
-              type="button"
-              onClick={() =>
-                setEmploymentType("contract")
-              }
-              className={`relative text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 ${
-                employmentType === "contract"
-                  ? "bg-[#1C1C1C] border-[#FF6B35]"
-                  : "bg-[#141414] border-[#2A2A2A] hover:border-[#3A3A3A]"
-              }`}
-            >
+                  {/* CONTRACT */}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setEmploymentType("contract")
+                    }
+                    className={`relative text-left p-5 rounded-2xl border transition-all duration-300 cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:shadow-black/30 ${employmentType === "contract"
+                        ? "bg-[#1C1C1C] border-[#FF6B35]"
+                        : "bg-[#141414] border-[#2A2A2A] hover:border-[#3A3A3A]"
+                      }`}
+                  >
 
-              <span
-                className={`absolute top-4 right-4 w-4 h-4 rounded-full border transition-all duration-300 ${
-                  employmentType === "contract"
-                    ? "border-[#FF6B35] bg-[#FF6B35] scale-110"
-                    : "border-[#3A3A3A]"
-                }`}
-              />
+                    <span
+                      className={`absolute top-4 right-4 w-4 h-4 rounded-full border transition-all duration-300 ${employmentType === "contract"
+                          ? "border-[#FF6B35] bg-[#FF6B35] scale-110"
+                          : "border-[#3A3A3A]"
+                        }`}
+                    />
 
-              <FaFileAlt className="text-[#FF6B35] text-xl mb-3" />
+                    <FaFileAlt className="text-[#FF6B35] text-xl mb-3" />
 
-              <p className="text-white font-semibold text-base mb-1">
-                Contract-based
-              </p>
+                    <p className="text-white font-semibold text-base mb-1">
+                      Contract-based
+                    </p>
 
-              <p className="text-[#888888] text-xs leading-relaxed">
-                I'm open to a fixed-term or
-                project contract.
-              </p>
+                    <p className="text-[#888888] text-xs leading-relaxed">
+                      I'm open to a fixed-term or
+                      project contract.
+                    </p>
 
-            </button>
+                  </button>
 
-          </div>
+                </div>
 
-          <button
-            type="button"
-            disabled={!employmentType}
-            onClick={() =>
-              setApplicationStep(2)
-            }
-            className={`${BTN_PRIMARY} w-full`}
-          >
-            Continue
-            <FaArrowRight className="text-xs" />
-          </button>
+                <button
+                  type="button"
+                  disabled={!employmentType}
+                  onClick={() =>
+                    setApplicationStep(2)
+                  }
+                  className={`${BTN_PRIMARY} w-full`}
+                >
+                  Continue
+                  <FaArrowRight className="text-xs" />
+                </button>
 
-        </div>
-      )}
+              </div>
+            )}
 
-      {/* ==========================================
+            {/* ==========================================
           STEP 2 — CANDIDATE DETAILS
       ========================================== */}
 
-      {applicationStep === 2 && (
+            {applicationStep === 2 && (
 
-        <div
-          key="jobstep2"
-          className="p-5 sm:p-8 lg:p-10 animate-step"
-        >
+              <div
+                key="jobstep2"
+                className="p-5 sm:p-8 lg:p-10 animate-step"
+              >
 
-          <button
-            type="button"
-            onClick={() =>
-              setApplicationStep(1)
-            }
-            className="inline-flex items-center gap-2 text-[#888888] hover:text-[#FF6B35] hover:-translate-x-1 text-xs font-semibold mb-5 transition-all duration-200 cursor-pointer"
-          >
-            <FaArrowLeft className="text-[10px]" />
-            Back
-          </button>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setApplicationStep(1)
+                  }
+                  className="inline-flex items-center gap-2 text-[#888888] hover:text-[#FF6B35] hover:-translate-x-1 text-xs font-semibold mb-5 transition-all duration-200 cursor-pointer"
+                >
+                  <FaArrowLeft className="text-[10px]" />
+                  Back
+                </button>
 
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-            Tell us about{" "}
-            <span className="text-[#FF6B35]">
-              yourself
-            </span>
-          </h3>
-
-          <p className="text-[#888888] text-sm mb-6">
-            Applying for{" "}
-            <span className="text-white font-medium">
-              {selectedJob}
-            </span>{" "}
-            ·{" "}
-            {employmentType === "fulltime"
-              ? "Full-time"
-              : "Contract-based"}
-          </p>
-
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4"
-          >
-
-            {/* FULL NAME */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                Full Name
-                <span className="text-[#FF6B35] ml-1">
-                  *
-                </span>
-              </label>
-
-              <div className="relative">
-
-                <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  placeholder="Enter your full name"
-                  className={`${INPUT_CLS} pl-11`}
-                />
-
-              </div>
-
-            </div>
-
-            {/* EMAIL */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                Email
-                <span className="text-[#FF6B35] ml-1">
-                  *
-                </span>
-              </label>
-
-              <div className="relative">
-
-                <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="john@example.com"
-                  className={`${INPUT_CLS} pl-11`}
-                />
-
-              </div>
-
-            </div>
-
-            {/* PHONE */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                Phone / WhatsApp
-                <span className="text-[#FF6B35] ml-1">
-                  *
-                </span>
-              </label>
-
-              <div className="flex gap-2">
-
-                <div className="relative">
-
-                  <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                  <select
-                    value={countryCode}
-                    onChange={(e) =>
-                      setCountryCode(
-                        e.target.value
-                      )
-                    }
-                    required
-                    className={`${SELECT_CLS} w-[115px] pl-9 pr-2`}
-                  >
-
-                    <option value="">
-                      Code
-                    </option>
-
-                    {countriesList.map(
-                      (country, index) => (
-                        <option
-                          key={index}
-                          value={country.code}
-                        >
-                          {country.flag}{" "}
-                          {country.code}
-                        </option>
-                      )
-                    )}
-
-                  </select>
-
-                </div>
-
-                <input
-                  type="tel"
-                  name="phone"
-                  required
-                  placeholder="3001234567"
-                  className={`${INPUT_CLS} flex-1 min-w-0`}
-                />
-
-              </div>
-
-            </div>
-
-            {/* CITY */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                City & Country
-                <span className="text-[#FF6B35] ml-1">
-                  *
-                </span>
-              </label>
-
-              <div className="relative">
-
-                <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                <input
-                  type="text"
-                  name="city"
-                  required
-                  placeholder="Houston, USA / Karachi, Pakistan"
-                  className={`${INPUT_CLS} pl-11`}
-                />
-
-              </div>
-
-            </div>
-
-            {/* EXPERIENCE + LANGUAGE */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-              {/* EXPERIENCE */}
-              <div>
-
-                <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                  Years of Experience
-                  <span className="text-[#FF6B35] ml-1">
-                    *
+                <h3 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+                  Tell us about{" "}
+                  <span className="text-[#FF6B35]">
+                    yourself
                   </span>
-                </label>
+                </h3>
 
-                <div className="relative">
+                <p className="text-[#888888] text-sm mb-6">
+                  Applying for{" "}
+                  <span className="text-white font-medium">
+                    {selectedJob}
+                  </span>{" "}
+                  ·{" "}
+                  {employmentType === "fulltime"
+                    ? "Full-time"
+                    : "Contract-based"}
+                </p>
 
-                  <FaChartLine className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                  <select
-                    name="experience"
-                    required
-                    className={`${SELECT_CLS} pl-11`}
-                  >
-
-                    <option value="">
-                      Select experience
-                    </option>
-
-                    <option value="0-1">
-                      0-1 Years
-                    </option>
-
-                    <option value="2-3">
-                      2-3 Years
-                    </option>
-
-                    <option value="4-6">
-                      4-6 Years
-                    </option>
-
-                    <option value="7-10">
-                      7-10 Years
-                    </option>
-
-                    <option value="10+">
-                      10+ Years
-                    </option>
-
-                  </select>
-
-                </div>
-
-              </div>
-
-              {/* LANGUAGE */}
-              <div>
-
-                <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                  Language Expertise
-                  <span className="text-[#FF6B35] ml-1">
-                    *
-                  </span>
-                </label>
-
-                <div className="relative">
-
-                  <FaLanguage className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                  <select
-                    name="language"
-                    required
-                    className={`${SELECT_CLS} pl-11`}
-                  >
-
-                    <option value="">
-                      Select language
-                    </option>
-
-                    <option value="English">
-                      English
-                    </option>
-
-                    <option value="Spanish">
-                      Spanish
-                    </option>
-
-                    <option value="French">
-                      French
-                    </option>
-
-                    <option value="Arabic">
-                      Arabic
-                    </option>
-
-                    <option value="Urdu">
-                      Urdu
-                    </option>
-
-                  </select>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* EXPERTISE LEVEL */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                Expertise Level
-                <span className="text-[#FF6B35] ml-1">
-                  *
-                </span>
-              </label>
-
-              <div className="relative">
-
-                <FaStar className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                <select
-                  name="level"
-                  required
-                  className={`${SELECT_CLS} pl-11`}
+                <form
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
                 >
 
-                  <option value="">
-                    Select expertise level
-                  </option>
+                  {/* FULL NAME */}
+                  <div>
 
-                  <option value="Beginner">
-                    Beginner
-                  </option>
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      Full Name
+                      <span className="text-[#FF6B35] ml-1">
+                        *
+                      </span>
+                    </label>
 
-                  <option value="Intermediate">
-                    Intermediate
-                  </option>
+                    <div className="relative">
 
-                  <option value="Advanced">
-                    Advanced
-                  </option>
+                      <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
 
-                  <option value="Expert">
-                    Expert
-                  </option>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        placeholder="Enter your full name"
+                        className={`${INPUT_CLS} pl-11`}
+                      />
 
-                </select>
+                    </div>
 
-              </div>
+                  </div>
 
-            </div>
+                  {/* EMAIL */}
+                  <div>
 
-            {/* SALARY + CURRENCY */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      Email
+                      <span className="text-[#FF6B35] ml-1">
+                        *
+                      </span>
+                    </label>
 
-              {/* SALARY */}
-              <div>
+                    <div className="relative">
 
-                <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                  Expected Salary
-                  <span className="text-[#FF6B35] ml-1">
-                    *
-                  </span>
-                </label>
+                      <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
 
-                <div className="relative">
+                      <input
+                        type="email"
+                        name="email"
+                        required
+                        placeholder="john@example.com"
+                        className={`${INPUT_CLS} pl-11`}
+                      />
 
-                  <FaDollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+                    </div>
 
+                  </div>
+
+                  {/* PHONE */}
+                  <div>
+
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      Phone / WhatsApp
+                      <span className="text-[#FF6B35] ml-1">
+                        *
+                      </span>
+                    </label>
+
+                    <div className="flex gap-2">
+
+                      <div className="relative">
+
+                        <FaPhone className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                        <select
+                          value={countryCode}
+                          onChange={(e) =>
+                            setCountryCode(
+                              e.target.value
+                            )
+                          }
+                          required
+                          className={`${SELECT_CLS} w-[115px] pl-9 pr-2`}
+                        >
+
+                          <option value="">
+                            Code
+                          </option>
+
+                          {countriesList.map(
+                            (country, index) => (
+                              <option
+                                key={index}
+                                value={country.code}
+                              >
+                                {country.flag}{" "}
+                                {country.code}
+                              </option>
+                            )
+                          )}
+
+                        </select>
+
+                      </div>
+
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="3001234567"
+                        className={`${INPUT_CLS} flex-1 min-w-0`}
+                      />
+
+                    </div>
+
+                  </div>
+
+                  {/* CITY */}
+                  <div>
+
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      City & Country
+                      <span className="text-[#FF6B35] ml-1">
+                        *
+                      </span>
+                    </label>
+
+                    <div className="relative">
+
+                      <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                      <input
+                        type="text"
+                        name="city"
+                        required
+                        placeholder="Houston, USA / Karachi, Pakistan"
+                        className={`${INPUT_CLS} pl-11`}
+                      />
+
+                    </div>
+
+                  </div>
+
+                  {/* EXPERIENCE + LANGUAGE */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* EXPERIENCE */}
+                    <div>
+
+                      <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                        Years of Experience
+                        <span className="text-[#FF6B35] ml-1">
+                          *
+                        </span>
+                      </label>
+
+                      <div className="relative">
+
+                        <FaChartLine className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                        <select
+                          name="experience"
+                          required
+                          className={`${SELECT_CLS} pl-11`}
+                        >
+
+                          <option value="">
+                            Select experience
+                          </option>
+
+                          <option value="0-1">
+                            0-1 Years
+                          </option>
+
+                          <option value="2-3">
+                            2-3 Years
+                          </option>
+
+                          <option value="4-6">
+                            4-6 Years
+                          </option>
+
+                          <option value="7-10">
+                            7-10 Years
+                          </option>
+
+                          <option value="10+">
+                            10+ Years
+                          </option>
+
+                        </select>
+
+                      </div>
+
+                    </div>
+
+                    {/* LANGUAGE */}
+                    <div>
+
+                      <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                        Language Expertise
+                        <span className="text-[#FF6B35] ml-1">
+                          *
+                        </span>
+                      </label>
+
+                      <div className="relative">
+
+                        <FaLanguage className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                        <select
+                          name="language"
+                          required
+                          className={`${SELECT_CLS} pl-11`}
+                        >
+
+                          <option value="">
+                            Select language
+                          </option>
+
+                          <option value="English">
+                            English
+                          </option>
+
+                          <option value="Spanish">
+                            Spanish
+                          </option>
+
+                          <option value="French">
+                            French
+                          </option>
+
+                          <option value="Arabic">
+                            Arabic
+                          </option>
+
+                          <option value="Urdu">
+                            Urdu
+                          </option>
+
+                        </select>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* EXPERTISE LEVEL */}
+                  <div>
+
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      Expertise Level
+                      <span className="text-[#FF6B35] ml-1">
+                        *
+                      </span>
+                    </label>
+
+                    <div className="relative">
+
+                      <FaStar className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                      <select
+                        name="level"
+                        required
+                        className={`${SELECT_CLS} pl-11`}
+                      >
+
+                        <option value="">
+                          Select expertise level
+                        </option>
+
+                        <option value="Beginner">
+                          Beginner
+                        </option>
+
+                        <option value="Intermediate">
+                          Intermediate
+                        </option>
+
+                        <option value="Advanced">
+                          Advanced
+                        </option>
+
+                        <option value="Expert">
+                          Expert
+                        </option>
+
+                      </select>
+
+                    </div>
+
+                  </div>
+
+                  {/* SALARY + CURRENCY */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* SALARY */}
+                    <div>
+
+                      <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                        Expected Salary
+                        <span className="text-[#FF6B35] ml-1">
+                          *
+                        </span>
+                      </label>
+
+                      <div className="relative">
+
+                        <FaDollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                        <input
+                          type="number"
+                          name="salary"
+                          min="0"
+                          max="200000"
+                          required
+                          placeholder="e.g. 60000"
+                          className={`${INPUT_CLS} pl-11`}
+                        />
+
+                      </div>
+
+                    </div>
+
+                    {/* CURRENCY */}
+                    <div>
+
+                      <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                        Currency
+                        <span className="text-[#FF6B35] ml-1">
+                          *
+                        </span>
+                      </label>
+
+                      <div className="relative">
+
+                        <FaMoneyBillWave className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                        <select
+                          name="currency"
+                          required
+                          className={`${SELECT_CLS} pl-11`}
+                        >
+
+                          <option value="">
+                            Select currency
+                          </option>
+
+                          <option value="USD">
+                            USD ($)
+                          </option>
+
+                          <option value="PKR">
+                            PKR (Rs)
+                          </option>
+
+                        </select>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* START DATE */}
+                  <div>
+
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      Available Start Date
+                      <span className="text-[#FF6B35] ml-1">
+                        *
+                      </span>
+                    </label>
+
+                    <div className="relative">
+
+                      <FaCalendarCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+
+                      <input
+                        type="date"
+                        name="start_date"
+                        min={
+                          new Date()
+                            .toISOString()
+                            .split("T")[0]
+                        }
+                        required
+                        className={`${SELECT_CLS} pl-11`}
+                      />
+
+                    </div>
+
+                  </div>
+
+                  {/* ADDITIONAL INFORMATION */}
+                  <div>
+
+                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                      Cover Letter / Additional
+                      Information{" "}
+                      <span className="text-[#555555] ml-1">
+                        (Optional)
+                      </span>
+                    </label>
+
+                    <div className="relative">
+
+                      <FaPencilAlt className="absolute left-4 top-4 text-[#666666] text-sm pointer-events-none" />
+
+                      <textarea
+                        name="additional_info"
+                        rows="4"
+                        placeholder="Tell us why you're the perfect fit for this position..."
+                        className={`${INPUT_CLS} pl-11 resize-none`}
+                      />
+
+                    </div>
+
+                  </div>
+
+                  {/* HIDDEN JOB */}
                   <input
-                    type="number"
-                    name="salary"
-                    min="0"
-                    max="200000"
-                    required
-                    placeholder="e.g. 60000"
-                    className={`${INPUT_CLS} pl-11`}
+                    type="hidden"
+                    name="selectedJob"
+                    value={selectedJob}
                   />
 
-                </div>
+                  {/* BUTTONS */}
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2">
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setApplicationStep(1)
+                      }
+                      className={`${BTN_SECONDARY} sm:w-40`}
+                    >
+                      <FaArrowLeft className="text-xs" />
+                      Back
+                    </button>
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className={`${BTN_PRIMARY} flex-1 py-3.5 font-bold`}
+                    >
+
+                      {isSubmitting ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          Submitting Application...
+                        </>
+                      ) : (
+                        <>
+                          Submit Application
+                          <FaArrowRight />
+                        </>
+                      )}
+
+                    </button>
+
+                  </div>
+
+                  {/* SECURITY */}
+                  <div className="flex items-center justify-center gap-2 text-[#555555] text-xs pt-1">
+
+                    <FaShieldAlt />
+
+                    <span>
+                      Your information is kept
+                      confidential and secure.
+                    </span>
+
+                  </div>
+
+                </form>
 
               </div>
+            )}
 
-              {/* CURRENCY */}
-              <div>
-
-                <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                  Currency
-                  <span className="text-[#FF6B35] ml-1">
-                    *
-                  </span>
-                </label>
-
-                <div className="relative">
-
-                  <FaMoneyBillWave className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                  <select
-                    name="currency"
-                    required
-                    className={`${SELECT_CLS} pl-11`}
-                  >
-
-                    <option value="">
-                      Select currency
-                    </option>
-
-                    <option value="USD">
-                      USD ($)
-                    </option>
-
-                    <option value="PKR">
-                      PKR (Rs)
-                    </option>
-
-                  </select>
-
-                </div>
-
-              </div>
-
-            </div>
-
-            {/* START DATE */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                Available Start Date
-                <span className="text-[#FF6B35] ml-1">
-                  *
-                </span>
-              </label>
-
-              <div className="relative">
-
-                <FaCalendarCheck className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-
-                <input
-                  type="date"
-                  name="start_date"
-                  min={
-                    new Date()
-                      .toISOString()
-                      .split("T")[0]
-                  }
-                  required
-                  className={`${SELECT_CLS} pl-11`}
-                />
-
-              </div>
-
-            </div>
-
-            {/* ADDITIONAL INFORMATION */}
-            <div>
-
-              <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                Cover Letter / Additional
-                Information{" "}
-                <span className="text-[#555555] ml-1">
-                  (Optional)
-                </span>
-              </label>
-
-              <div className="relative">
-
-                <FaPencilAlt className="absolute left-4 top-4 text-[#666666] text-sm pointer-events-none" />
-
-                <textarea
-                  name="additional_info"
-                  rows="4"
-                  placeholder="Tell us why you're the perfect fit for this position..."
-                  className={`${INPUT_CLS} pl-11 resize-none`}
-                />
-
-              </div>
-
-            </div>
-
-            {/* HIDDEN JOB */}
-            <input
-              type="hidden"
-              name="selectedJob"
-              value={selectedJob}
-            />
-
-            {/* BUTTONS */}
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
-
-              <button
-                type="button"
-                onClick={() =>
-                  setApplicationStep(1)
-                }
-                className={`${BTN_SECONDARY} sm:w-40`}
-              >
-                <FaArrowLeft className="text-xs" />
-                Back
-              </button>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={`${BTN_PRIMARY} flex-1 py-3.5 font-bold`}
-              >
-
-                {isSubmitting ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                    Submitting Application...
-                  </>
-                ) : (
-                  <>
-                    Submit Application
-                    <FaArrowRight />
-                  </>
-                )}
-
-              </button>
-
-            </div>
-
-            {/* SECURITY */}
-            <div className="flex items-center justify-center gap-2 text-[#555555] text-xs pt-1">
-
-              <FaShieldAlt />
-
-              <span>
-                Your information is kept
-                confidential and secure.
-              </span>
-
-            </div>
-
-          </form>
-
+          </div>
         </div>
       )}
-
-    </div>
-  </div>
-)}
 
       {/* ==========================================
           SUCCESS POPUP

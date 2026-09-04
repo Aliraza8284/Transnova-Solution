@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
   FaTruck,
@@ -144,22 +145,26 @@ const Industries = () => {
               "
             >
               {/* Breadcrumb */}
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-2
-                  text-[11px]
-                  sm:text-[13px]
-                  lg:text-sm
-                  mb-4
-                  sm:mb-6
-                "
-              >
-                <span className="text-[#444]">Home</span>
-                <span className="text-[#999]">/</span>
-                <span className="text-[#f15a24] font-medium">Industries</span>
-              </div>
+            <div
+  className="
+    flex
+    items-center
+    gap-2
+    text-[11px]
+    sm:text-[13px]
+    lg:text-sm
+    mb-4
+    sm:mb-6
+  "
+>
+  <Link to="/" className="text-[#444] hover:text-[#f15a24] transition-colors duration-200">
+    Home
+  </Link>
+  <span className="text-[#999]">/</span>
+  <Link to="/industries" className="text-[#f15a24] font-medium hover:text-[#d44a1e] transition-colors duration-200">
+    Industries
+  </Link>
+</div>
 
               {/* Heading */}
               <h1
@@ -253,7 +258,7 @@ const Industries = () => {
               "
             >
               <img
-                src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=90"
+                src="/box.avif"
                 alt="Logistics and transportation"
                 className="
                   w-full
@@ -276,7 +281,7 @@ const Industries = () => {
                   inset-0
                   bg-gradient-to-r
                   from-white
-                  via-white/50
+                  via-white/0
                   to-transparent
                 "
               />
@@ -291,7 +296,7 @@ const Industries = () => {
                   sm:h-[45%]
                   bg-gradient-to-t
                   from-white
-                  via-white/20
+                  via-white/0
                   to-transparent
                 "
               />

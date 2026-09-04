@@ -185,7 +185,7 @@ const Outlet = () => {
             const formData = new FormData(e.target);
 
             // Format accessories for display
-            const accessoriesDisplay = accessories.length > 0 
+            const accessoriesDisplay = accessories.length > 0
                 ? accessories.map(item => `<span class="accessory-tag">${item}</span>`).join(" ")
                 : '<span class="accessory-tag empty">No accessories selected</span>';
 
@@ -237,6 +237,10 @@ const Outlet = () => {
                 home_state: formData.get("home_state") || "Not specified",
                 agreement_date: formData.get("agreement_date") || "Not specified",
 
+                // === MC & DOT NUMBER - NEW ===
+                mc_number: formData.get("mc_number") || "Not specified",
+                dot_number: formData.get("dot_number") || "Not specified",
+
                 // === EQUIPMENT DETAILS ===
                 truck_type: formData.get("truck_type") || "Not specified",
                 trailer_length: formData.get("trailer_length") || "Not specified",
@@ -255,6 +259,8 @@ Company: ${formData.get("company_name") || "Not specified"}
 Email: ${formData.get("email") || ""}
 Phone: ${formData.get("phone") || ""}
 Operator Type: ${operatorDisplay}
+MC Number: ${formData.get("mc_number") || "Not specified"}
+DOT Number: ${formData.get("dot_number") || "Not specified"}
 Truck Type: ${formData.get("truck_type") || "Not specified"}
 Trailer Length: ${formData.get("trailer_length") || "Not specified"}
 Accessories: ${accessories.join(", ") || "None selected"}
@@ -289,6 +295,8 @@ Applied: ${submittedAt}
                         home_address: formData.get("home_address") || "Not specified",
                         home_state: formData.get("home_state") || "Not specified",
                         agreement_date: formData.get("agreement_date") || "Not specified",
+                        mc_number: formData.get("mc_number") || "Not specified",
+                        dot_number: formData.get("dot_number") || "Not specified",
                         truck_type: formData.get("truck_type") || "Not specified",
                         trailer_length: formData.get("trailer_length") || "Not specified",
                         accessories: accessories.join(", ") || "None selected",
@@ -329,7 +337,7 @@ Applied: ${submittedAt}
     // ==========================================
 
     return (
-        <div 
+        <div
             className="bg-[#FAF9F6] min-h-screen font-manrope pb-16 overflow-x-hidden"
             style={{
                 userSelect: 'none',
@@ -782,6 +790,44 @@ Applied: ${submittedAt}
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            {/* ===== MC & DOT NUMBER FIELDS - NEW ===== */}
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                                                        MC Number<span className="text-[#FF6B35] ml-1">*</span>
+                                                    </label>
+                                                    <div className="relative">
+                                                        <FaTruck className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+                                                        <input
+                                                            type="text"
+                                                            name="mc_number"
+                                                            required
+                                                            placeholder="MC-123456"
+                                                            className={`${INPUT_CLS} pl-11`}
+                                                        />
+                                                    </div>
+                                                    <p className="text-[#666666] text-[10px] mt-1">Motor Carrier Number (issued by FMCSA)</p>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                                                        DOT Number<span className="text-[#FF6B35] ml-1">*</span>
+                                                    </label>
+                                                    <div className="relative">
+                                                        <FaShieldAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+                                                        <input
+                                                            type="text"
+                                                            name="dot_number"
+                                                            required
+                                                            placeholder="DOT-1234567"
+                                                            className={`${INPUT_CLS} pl-11`}
+                                                        />
+                                                    </div>
+                                                    <p className="text-[#666666] text-[10px] mt-1">USDOT Number (issued by FMCSA)</p>
+                                                </div>
+                                            </div>
+                                            {/* ===== END MC & DOT NUMBER FIELDS ===== */}
+
                                         </div>
 
                                         <div className="animate-field" style={{ animationDelay: "180ms" }}>
