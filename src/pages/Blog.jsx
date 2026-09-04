@@ -55,6 +55,7 @@ const getMailToLink = () => {
 
 /* =========================================================
    BLOG ARTICLES DATA - Complete with all fields
+   ✅ FIXED: Images with proper paths
 ========================================================= */
 
 const blogPosts = [
@@ -129,7 +130,7 @@ const blogPosts = [
     date: "March 22, 2026",
     readTime: "7 min read",
     title: "Truck Dispatch Services in the USA: How Owner-Operators Can Increase Revenue and Reduce Downtime",
-    image: "mbox.avif",
+    image: "/mbox.avif",
     description: "Looking for truck dispatch services in the USA? Discover how professional dispatch helps owner-operators secure better-paying loads, reduce empty miles and keep their trucks moving.",
     content: `
       <p>For owner-operators and small fleet owners, time is money. Every hour spent searching for loads, negotiating rates, or dealing with paperwork is an hour not spent on the road generating revenue. This is where professional truck dispatch services become invaluable.</p>
@@ -239,6 +240,7 @@ const blogPosts = [
 
 /* =========================================================
    BLOG LIST COMPONENT
+   ✅ FIXED: Images loading on mobile
 ========================================================= */
 
 const BlogList = () => {
@@ -246,6 +248,12 @@ const BlogList = () => {
   // COPY PROTECTION
   // ==========================================
   useCopyProtection();
+
+  // ✅ Image fallback handler
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = "/fallback.jpg";
+  };
 
   return (
     <div 
@@ -308,7 +316,7 @@ const BlogList = () => {
               </p>
             </div>
 
-            {/* IMAGE */}
+            {/* ✅ HERO IMAGE - Fixed with fallback */}
             <div className="relative overflow-hidden rounded-[10px]" style={{ border: `1px solid ${STEEL_LINE}` }}>
               <img
                 src="/maintruck.avif"
@@ -320,6 +328,7 @@ const BlogList = () => {
                   WebkitUserDrag: 'none',
                   userSelect: 'none'
                 }}
+                onError={handleImageError}
                 onContextMenu={(e) => e.preventDefault()}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -343,7 +352,7 @@ const BlogList = () => {
                 className="group bg-white rounded-[14px] overflow-hidden flex flex-col transition-transform duration-300 hover:-translate-y-1"
                 style={{ border: `1px solid ${STEEL_LINE}`, boxShadow: "0 1px 2px rgba(21,24,29,0.04)" }}
               >
-                {/* IMAGE */}
+                {/* ✅ IMAGE - Fixed with fallback */}
                 <div className="relative h-[210px] sm:h-[220px] overflow-hidden" style={{ backgroundColor: "#EDECE7" }}>
                   <img
                     src={post.image}
@@ -355,6 +364,7 @@ const BlogList = () => {
                       WebkitUserDrag: 'none',
                       userSelect: 'none'
                     }}
+                    onError={handleImageError}
                     onContextMenu={(e) => e.preventDefault()}
                   />
                   <div className="absolute left-4 top-4">
@@ -491,6 +501,7 @@ const BlogList = () => {
 
 /* =========================================================
    BLOG ARTICLE COMPONENT
+   ✅ FIXED: Images loading on mobile
 ========================================================= */
 
 const BlogArticle = () => {
@@ -504,6 +515,12 @@ const BlogArticle = () => {
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  // ✅ Image fallback handler
+  const handleImageError = (e) => {
+    e.target.onerror = null;
+    e.target.src = "/fallback.jpg";
+  };
 
   useEffect(() => {
     const fetchArticle = () => {
@@ -669,7 +686,7 @@ const BlogArticle = () => {
         </div>
       </section>
 
-      {/* IMAGE */}
+      {/* ✅ ARTICLE IMAGE - Fixed with fallback */}
       <section className="px-5 sm:px-6">
         <div className="max-w-[1120px] mx-auto">
           <div className="rounded-2xl overflow-hidden h-[260px] sm:h-[400px] lg:h-[520px]">
@@ -683,6 +700,7 @@ const BlogArticle = () => {
                 WebkitUserDrag: 'none',
                 userSelect: 'none'
               }}
+              onError={handleImageError}
               onContextMenu={(e) => e.preventDefault()}
             />
           </div>
@@ -742,12 +760,8 @@ const BlogArticle = () => {
         </div>
       </section>
 
-      {/* WATERMARK */}
-      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
-        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
-          © Trans Nova Solutions
-        </span>
-      </div>
+  
+     
     </div>
   );
 };

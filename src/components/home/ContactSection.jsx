@@ -222,7 +222,7 @@ const ContactSection = () => {
 
                   {/* Primary Button - Join Our Team */}
                   <Link
-                    to="/careers"
+                    to="/Outlet"
                     className="group relative inline-flex items-center justify-center gap-2 w-full sm:min-w-[160px] px-6 py-2.5 rounded-lg bg-gradient-to-r from-[#FF6B35] to-[#E85C2D] text-white text-[11px] font-bold uppercase tracking-[1px] transition-all duration-300 hover:shadow-xl hover:shadow-[#FF6B35]/25 hover:-translate-y-0.5 active:scale-95 overflow-hidden"
                   >
                     <span className="absolute inset-0 bg-gradient-to-r from-[#FF6B35]/0 via-white/15 to-[#FF6B35]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />

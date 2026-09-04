@@ -98,10 +98,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const shouldBeWhite = isScrolled || !isHome;
+  // ✅ Background logic: Dark when scrolled OR not on home page
+  const shouldBeDark = isScrolled || !isHome;
 
   const getNavbarBg = () => {
-    if (shouldBeWhite) {
+    if (shouldBeDark) {
       return 'bg-[#1A1A1A]/95 backdrop-blur-md shadow-lg shadow-black/30';
     } else {
       return 'bg-transparent';
@@ -118,7 +119,7 @@ const Navbar = () => {
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${getNavbarBg()}`}
         style={{
           transform: isScrolled ? 'translateY(4px)' : 'translateY(0)',
-          boxShadow: shouldBeWhite
+          boxShadow: shouldBeDark
             ? '0 8px 30px rgba(0,0,0,0.3), 0 2px 10px rgba(0,0,0,0.15)'
             : 'none',
           transition: 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
@@ -153,7 +154,7 @@ const Navbar = () => {
             </div>
           </NavLink>
 
-          {/* DESKTOP MENU - With proper gaps */}
+          {/* DESKTOP MENU */}
           <div className="hidden lg:flex lg:flex-1 lg:justify-center h-full items-center">
             {menuItems.map((item) => (
               <NavLink
@@ -183,7 +184,7 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* GET A QUOTE BUTTON - Desktop - Links to Fleet Services */}
+          {/* GET A QUOTE BUTTON - Desktop */}
           <div className="hidden lg:block">
             <NavLink
               to="/Outlet"
@@ -236,7 +237,7 @@ const Navbar = () => {
         }`}
       />
 
-      {/* MOBILE MENU SIDEBAR - Full height right drawer */}
+      {/* MOBILE MENU SIDEBAR */}
       <aside
         className={`fixed right-0 top-0 z-50 flex h-full w-[280px] max-w-[85vw] flex-col bg-[#1A1A1A] shadow-2xl transition-transform duration-300 ease-out lg:hidden ${
           mobileMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -312,7 +313,7 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Get a Quote - Mobile - Links to Fleet Services */}
+        {/* Get a Quote - Mobile */}
         <div className="shrink-0 border-t border-white/10 p-3 sm:p-4">
           <NavLink
             to="/Outlet"

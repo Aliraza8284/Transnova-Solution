@@ -35,7 +35,7 @@ const COMPANY_ADDRESS =
 ========================================================= */
 
 const COLORS = {
-  navy: "#101820",
+  navy: "#000000",
   navyLight: "#182631",
   orange: "#E85D04",
   orangeDark: "#C2410C",
@@ -319,7 +319,7 @@ const Pricing = () => {
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8 lg:py-10">
 
             {/* Breadcrumb */}
-            <div className="flex items-center gap-2 text-[10px] mb-4">
+            <div className="flex items-center gap-2 text-[13px] mb-4">
               <Link
                 to="/"
                 className="hover:text-white transition-colors"

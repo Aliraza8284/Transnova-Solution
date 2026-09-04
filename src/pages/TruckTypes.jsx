@@ -509,13 +509,13 @@ const TruckTypes = () => {
                         </div>
 
                         {/* =================================================
-                            BUTTONS
+                            BUTTONS - FIXED with React Router Link
                         ================================================== */}
 
                         <div className="flex flex-col sm:flex-row gap-2 mt-1">
-                          {/* Get Quote */}
-                          <a
-                            href="/Outlet"
+                          {/* ✅ Get Quote - FIXED with Link */}
+                          <Link
+                            to="/outlet"
                             className="
                               flex
                               items-center
@@ -536,7 +536,7 @@ const TruckTypes = () => {
                           >
                             Get a Quote
                             <FaArrowRight className="text-[9px]" />
-                          </a>
+                          </Link>
 
                           {/* Call */}
                           <a
@@ -683,10 +683,10 @@ const TruckTypes = () => {
               for your specific needs and route.
             </p>
 
-            {/* CTA Buttons - Only Services */}
+            {/* ✅ CTA Buttons - FIXED with Link */}
             <div className="flex flex-col sm:flex-row gap-3 mt-7">
-              <a
-                href="/services"
+              <Link
+                to="/services"
                 className="
                   inline-flex
                   items-center
@@ -707,7 +707,7 @@ const TruckTypes = () => {
               >
                 Explore All Services
                 <FaArrowRight className="text-[11px]" />
-              </a>
+              </Link>
             </div>
           </div>
         </div>

@@ -195,6 +195,23 @@ const benefitsList = [
 ];
 
 // ==========================================
+// HELPERS
+// ==========================================
+
+// Never let a raw null/undefined reach EmailJS — always fall back to a safe
+// string, and strip curly braces from free text so it can't be mistaken for
+// a template variable ({{like_this}}) by EmailJS's own parser.
+const safeField = (formData, key, fallback = "Not provided") => {
+  const raw = formData.get(key);
+  if (raw === null || raw === undefined) return fallback;
+  const value = String(raw).trim();
+  return value === "" ? fallback : value;
+};
+
+const sanitizeFreeText = (value) =>
+  value.replace(/[{}]/g, "");
+
+// ==========================================
 // CAREERS COMPONENT
 // ==========================================
 
@@ -323,86 +340,99 @@ const Careers = () => {
   // HANDLE JOB APPLICATION SUBMIT
   // ==========================================
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-  try {
-    const formData = new FormData(e.target);
+    try {
+      const formData = new FormData(e.target);
 
-    // ==========================================
-    // EMAILJS VARIABLES - FUNCTION KE ANDAR DEFINE KAREIN
-    // ==========================================
-    const EMAILJS_SERVICE_ID = "service_sgu29ri";
-    const EMAILJS_TEMPLATE_ID = "template_9x04exk";
-    const EMAILJS_PUBLIC_KEY = "EVMb4J8IF2wYjzqpW";
+      // ==========================================
+      // EMAILJS VARIABLES
+      // ==========================================
+      const EMAILJS_SERVICE_ID = "service_8ed5838";
+      const EMAILJS_TEMPLATE_ID = "template_tnvtcff";
+      const EMAILJS_PUBLIC_KEY = "XI5NzolPi2iy-waG3";
 
-    // Fix phone number
-    let phoneNumber = formData.get("phone") || "";
-    phoneNumber = phoneNumber.replace(/\s/g, "").replace(/-/g, "").replace(/\+/g, "");
+      // Fix phone number
+      let phoneNumber = safeField(formData, "phone", "");
+      phoneNumber = phoneNumber
+        .replace(/\s/g, "")
+        .replace(/-/g, "")
+        .replace(/\+/g, "");
 
-    const emailData = {
-      to_email: "info@transnova.solutions",
-      to_name: "HR Team",
-      title: formData.get("selectedJob"),
-      name: formData.get("name"),
-      email: formData.get("email"),
-      phone: countryCode + phoneNumber,
-      city: formData.get("city"),
-      experience: formData.get("experience"),
-      language: formData.get("language"),
-      level: formData.get("level"),
-      salary: formData.get("salary") + " " + formData.get("currency"),
-      start_date: formData.get("start_date"),
-      additional_info: formData.get("additional_info") || "Not provided",
-      submitted_at: new Date().toLocaleString("en-US", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    };
+      const safeCountryCode = countryCode || "";
 
-    console.log("📤 Sending email with data:", emailData);
+      // Every value below is guaranteed to be a non-null, non-undefined
+      // string before it reaches EmailJS — this is what "One or more
+      // dynamic variables are corrupted" usually complains about.
+      const emailData = {
+        to_email: "huntjohnny.gtl@gmail.com",
+        to_name: "HR Team",
+        title: safeField(formData, "selectedJob", selectedJob || "N/A"),
+        name: safeField(formData, "name"),
+        email: safeField(formData, "email"),
+        phone: safeCountryCode + phoneNumber,
+        city: safeField(formData, "city"),
+        experience: safeField(formData, "experience"),
+        language: safeField(formData, "language"),
+        level: safeField(formData, "level"),
+        salary:
+          safeField(formData, "salary", "0") +
+          " " +
+          safeField(formData, "currency", ""),
+        start_date: safeField(formData, "start_date"),
+        additional_info: sanitizeFreeText(
+          safeField(formData, "additional_info", "Not provided")
+        ),
+        submitted_at: new Date().toLocaleString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+      };
 
-    // ==========================================
-    // SEND EMAIL VIA EMAILJS
-    // ==========================================
-    const response = await emailjs.send(
-      EMAILJS_SERVICE_ID,
-      EMAILJS_TEMPLATE_ID,
-      emailData,
-      EMAILJS_PUBLIC_KEY
-    );
+      console.log("📤 Sending email with data:", emailData);
 
-    console.log("✅ Email sent successfully:", response);
+      // ==========================================
+      // SEND EMAIL VIA EMAILJS
+      // ==========================================
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        emailData,
+        EMAILJS_PUBLIC_KEY
+      );
 
-    // Success - show toast and success popup
-    closeModal();
-    showToast("Your application was submitted! We'll contact you soon.", "success", "✅");
+      console.log("✅ Email sent successfully:", response);
 
-    setTimeout(() => {
-      setIsSuccessOpen(true);
-      document.body.style.overflow = "hidden";
-    }, 800);
+      // Success - show toast and success popup
+      closeModal();
+      showToast("Your application was submitted! We'll contact you soon.", "success", "✅");
 
-  } catch (error) {
-    console.error("❌ EmailJS Error:", error);
-    console.error("Error Text:", error?.text || "No text");
-    console.error("Error Status:", error?.status || "No status");
-    console.error("Error Details:", JSON.stringify(error, null, 2));
+      setTimeout(() => {
+        setIsSuccessOpen(true);
+        document.body.style.overflow = "hidden";
+      }, 800);
 
-    showToast(
-      "Email submission failed. Please try again or contact support.",
-      "error",
-      "❌"
-    );
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    } catch (error) {
+      console.error("❌ EmailJS Error:", error);
+      console.error("Error Text:", error?.text || "No text");
+      console.error("Error Status:", error?.status || "No status");
+      console.error("Error Details:", JSON.stringify(error, null, 2));
+
+      showToast(
+        "Email submission failed. Please try again or contact support.",
+        "error",
+        "❌"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // ==========================================
   // RENDER

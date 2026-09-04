@@ -75,12 +75,6 @@ const BTN_SECONDARY =
     "hover:border-[#FF6B35] hover:bg-[#252525] hover:scale-[1.02] active:scale-[0.97] " +
     "transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer";
 
-const BTN_PRIMARY_SM =
-    "bg-[#FF6B35] text-white font-semibold text-xs py-2.5 px-5 rounded-lg " +
-    "hover:bg-[#D95A2A] hover:scale-[1.03] active:scale-[0.96] " +
-    "transition-all duration-200 shadow-md shadow-[#FF6B35]/20 " +
-    "flex items-center justify-center gap-2 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100";
-
 
 // ==========================================
 // DRIVER & EQUIPMENT — STATIC OPTIONS
@@ -237,7 +231,7 @@ const Outlet = () => {
                 home_state: formData.get("home_state") || "Not specified",
                 agreement_date: formData.get("agreement_date") || "Not specified",
 
-                // === MC & DOT NUMBER - NEW ===
+                // === MC & DOT NUMBER - Only for MC Lease ===
                 mc_number: formData.get("mc_number") || "Not specified",
                 dot_number: formData.get("dot_number") || "Not specified",
 
@@ -624,7 +618,7 @@ Applied: ${submittedAt}
                                             <span className={`absolute top-4 right-4 w-4 h-4 rounded-full border transition-all duration-300 ${operatorType === "lease" ? "border-[#FF6B35] bg-[#FF6B35] scale-110" : "border-[#3A3A3A]"}`} />
                                             <FaTruck className="text-[#FF6B35] text-xl mb-3" />
                                             <p className="text-white font-semibold text-base mb-1">MC Lease Operator</p>
-                                            <p className="text-[#888888] text-xs leading-relaxed">I want to operate under Trans Nova  authority.</p>
+                                            <p className="text-[#888888] text-xs leading-relaxed">I want to operate under Trans Nova authority.</p>
                                         </button>
                                     </div>
 
@@ -791,43 +785,54 @@ Applied: ${submittedAt}
                                                 </div>
                                             </div>
 
-                                            {/* ===== MC & DOT NUMBER FIELDS - NEW ===== */}
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                                <div>
-                                                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                                                        MC Number<span className="text-[#FF6B35] ml-1">*</span>
-                                                    </label>
-                                                    <div className="relative">
-                                                        <FaTruck className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-                                                        <input
-                                                            type="text"
-                                                            name="mc_number"
-                                                            required
-                                                            placeholder="MC-123456"
-                                                            className={`${INPUT_CLS} pl-11`}
-                                                        />
+                                            {/* ===== MC & DOT NUMBER FIELDS - ONLY FOR MC LEASE OPERATOR ===== */}
+                                            {operatorType === "lease" && (
+                                                <div className="mt-6 animate-field" style={{ animationDelay: "120ms" }}>
+                                                    <div className="flex items-center gap-3 mb-4">
+                                                        <div className="h-px flex-1 bg-[#2A2A2A]"></div>
+                                                        <span className="text-[#777777] text-xs uppercase tracking-widest flex items-center gap-2">
+                                                            <FaShieldAlt className="text-[#FF6B35]" />
+                                                            FMCSA Credentials
+                                                        </span>
+                                                        <div className="h-px flex-1 bg-[#2A2A2A]"></div>
                                                     </div>
-                                                    <p className="text-[#666666] text-[10px] mt-1">Motor Carrier Number (issued by FMCSA)</p>
-                                                </div>
-                                                <div>
-                                                    <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
-                                                        DOT Number<span className="text-[#FF6B35] ml-1">*</span>
-                                                    </label>
-                                                    <div className="relative">
-                                                        <FaShieldAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
-                                                        <input
-                                                            type="text"
-                                                            name="dot_number"
-                                                            required
-                                                            placeholder="DOT-1234567"
-                                                            className={`${INPUT_CLS} pl-11`}
-                                                        />
-                                                    </div>
-                                                    <p className="text-[#666666] text-[10px] mt-1">USDOT Number (issued by FMCSA)</p>
-                                                </div>
-                                            </div>
-                                            {/* ===== END MC & DOT NUMBER FIELDS ===== */}
 
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                                                                MC Number<span className="text-[#FF6B35] ml-1">*</span>
+                                                            </label>
+                                                            <div className="relative">
+                                                                <FaTruck className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+                                                                <input
+                                                                    type="text"
+                                                                    name="mc_number"
+                                                                    required
+                                                                    placeholder="MC-123456"
+                                                                    className={`${INPUT_CLS} pl-11`}
+                                                                />
+                                                            </div>
+                                                            <p className="text-[#666666] text-[10px] mt-1">Motor Carrier Number (issued by FMCSA)</p>
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-semibold text-[#AAAAAA] mb-2">
+                                                                DOT Number<span className="text-[#FF6B35] ml-1">*</span>
+                                                            </label>
+                                                            <div className="relative">
+                                                                <FaShieldAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666] text-sm pointer-events-none" />
+                                                                <input
+                                                                    type="text"
+                                                                    name="dot_number"
+                                                                    required
+                                                                    placeholder="DOT-1234567"
+                                                                    className={`${INPUT_CLS} pl-11`}
+                                                                />
+                                                            </div>
+                                                            <p className="text-[#666666] text-[10px] mt-1">USDOT Number (issued by FMCSA)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
 
                                         <div className="animate-field" style={{ animationDelay: "180ms" }}>
