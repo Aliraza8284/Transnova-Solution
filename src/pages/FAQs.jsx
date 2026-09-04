@@ -11,6 +11,7 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useCopyProtection from "../Hooks/useCopyProtection";
 
 /* =========================================================
    COMPANY INFORMATION
@@ -26,6 +27,11 @@ const COMPANY_ADDRESS =
 ========================================================= */
 
 const FAQs = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
@@ -84,7 +90,16 @@ const FAQs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] text-[#151515] pt-[72px]">
+    <div 
+      className="min-h-screen bg-[#f8f9fa] text-[#151515] pt-[72px]"
+      style={{
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
+      }}
+    >
 
       {/* ================= BREADCRUMB ================= */}
       <section className="bg-white border-b border-gray-100">
@@ -353,6 +368,15 @@ const FAQs = () => {
 
         </div>
       </section>
+
+      {/* ==========================================
+          WATERMARK (Optional)
+      ========================================== */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
+      </div>
 
     </div>
   );

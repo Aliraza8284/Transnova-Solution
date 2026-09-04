@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import useCopyProtection from "../Hooks/useCopyProtection";
 import {
   FaTruck,
   FaPhoneAlt,
@@ -85,7 +86,7 @@ const truckTypes = [
     category: "Low-Profile Deck",
     badge: "Tall Cargo",
     icon: <FaRulerVertical />,
-    image: "/step.webp",
+    image: "/Alis.jpg",
     description:
       "A lower deck configuration that provides additional clearance for taller machinery and oversized cargo. Ideal for agricultural equipment and modular buildings.",
     freight: [
@@ -139,7 +140,7 @@ const truckTypes = [
     category: "Expedited Freight",
     badge: "Fast Turnaround",
     icon: <FaBolt />,
-    image: "/Hot shot.jpg",
+    image: "/All.jpg",
     description:
       "Fast transportation for urgent and partial loads where speed, flexibility and regional coverage matter. Ideal for time-critical shipments and construction materials.",
     freight: [
@@ -158,86 +159,10 @@ const truckTypes = [
 ========================================================= */
 
 const TruckTypes = () => {
-  // =========================================================
-  // COPY PROTECTION - Disable Right Click & Keyboard Shortcuts
-  // =========================================================
-
-  useEffect(() => {
-    // Disable right-click context menu
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-      return false;
-    };
-
-    // Disable keyboard shortcuts for copying
-    const handleKeyDown = (e) => {
-      // Prevent Ctrl+C, Ctrl+U, Ctrl+S
-      if (
-        e.ctrlKey &&
-        ["c", "u", "s", "p", "a"].includes(e.key.toLowerCase())
-      ) {
-        e.preventDefault();
-        return false;
-      }
-
-      // Prevent Cmd+C, Cmd+U, Cmd+S (Mac)
-      if (
-        e.metaKey &&
-        ["c", "u", "s", "p", "a"].includes(e.key.toLowerCase())
-      ) {
-        e.preventDefault();
-        return false;
-      }
-
-      // Prevent F12 (DevTools)
-      if (e.key === "F12") {
-        e.preventDefault();
-        return false;
-      }
-
-      // Prevent Print Screen
-      if (e.key === "PrintScreen") {
-        e.preventDefault();
-        return false;
-      }
-
-      return true;
-    };
-
-    // Disable drag events
-    const handleDragStart = (e) => {
-      e.preventDefault();
-      return false;
-    };
-
-    // Disable copy event
-    const handleCopy = (e) => {
-      e.preventDefault();
-      return false;
-    };
-
-    // Disable cut event
-    const handleCut = (e) => {
-      e.preventDefault();
-      return false;
-    };
-
-    // Add event listeners
-    document.addEventListener("contextmenu", handleContextMenu);
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("dragstart", handleDragStart);
-    document.addEventListener("copy", handleCopy);
-    document.addEventListener("cut", handleCut);
-
-    // Cleanup event listeners
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("dragstart", handleDragStart);
-      document.removeEventListener("copy", handleCopy);
-      document.removeEventListener("cut", handleCut);
-    };
-  }, []);
+  // ==========================================
+  // COPY PROTECTION - ONE LINE
+  // ==========================================
+  useCopyProtection();
 
   return (
     <div
@@ -787,23 +712,7 @@ const TruckTypes = () => {
         </div>
       </section>
 
-      {/* =====================================================
-          COPYRIGHT NOTICE - Hidden but helps with legal protection
-      ====================================================== */}
-
-      <div
-        className="text-center py-2 text-[8px] text-gray-300"
-        style={{
-          userSelect: "none",
-          WebkitUserSelect: "none",
-        }}
-      >
-        <span>
-          © {new Date().getFullYear()} {COMPANY_NAME}. All Rights Reserved.
-        </span>
-        <span className="mx-2">|</span>
-        <span>All content and images are protected by copyright law.</span>
-      </div>
+      
     </div>
   );
 };

@@ -105,6 +105,7 @@ Your Name`;
     { name: "Services", path: "/services" },
     { name: "Industries", path: "/industries" },
     { name: "Careers", path: "/careers" },
+    { name: "Contact Us", path: "/Contact" },
   ];
 
   // ==========================================
@@ -115,10 +116,7 @@ Your Name`;
     { name: "Commercial Auto Insurance", path: "/services" },
     { name: "Health Care Insurance", path: "/services" },
     { name: "Bookkeeping & Accounting Services", path: "/services" },
-    { name: "Logistics & Transportation", path: "/services" },
-    { name: "Telecom & Communication", path: "/services" },
-    { name: "Healthcare", path: "/services" },
-    { name: "Finance & Banking", path: "/services" },
+ 
   ];
 
   // ==========================================

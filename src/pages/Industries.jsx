@@ -11,6 +11,7 @@ import {
   FaBoxOpen,
   FaHeadset,
 } from "react-icons/fa";
+import useCopyProtection from "../Hooks/useCopyProtection";
 
 const industries = [
   {
@@ -89,6 +90,11 @@ const stats = [
 ];
 
 const Industries = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   const navigate = useNavigate();
 
   // Function to handle navigation to Contact page
@@ -97,7 +103,16 @@ const Industries = () => {
   };
 
   return (
-    <div className="w-full bg-[#fafafa] text-[#171717] overflow-hidden">
+    <div 
+      className="w-full bg-[#fafafa] text-[#171717] overflow-hidden"
+      style={{
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
+      }}
+    >
       {/* =====================================================
           HERO SECTION
       ====================================================== */}
@@ -246,6 +261,12 @@ const Industries = () => {
                   object-cover
                   object-center
                 "
+                draggable="false"
+                style={{
+                  pointerEvents: 'none',
+                  WebkitUserDrag: 'none',
+                  userSelect: 'none'
+                }}
               />
 
               {/* Left White Fade */}
@@ -351,6 +372,12 @@ const Industries = () => {
                       transition-transform
                       duration-500
                     "
+                    draggable="false"
+                    style={{
+                      pointerEvents: 'none',
+                      WebkitUserDrag: 'none',
+                      userSelect: 'none'
+                    }}
                   />
 
                   {/* Image Overlay */}
@@ -657,6 +684,15 @@ const Industries = () => {
           </div>
         </div>
       </section>
+
+      {/* ==========================================
+          WATERMARK (Optional)
+      ========================================== */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
+      </div>
     </div>
   );
 };

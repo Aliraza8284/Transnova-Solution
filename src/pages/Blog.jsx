@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import useCopyProtection from '../Hooks/useCopyProtection';
+
 import {
   FaArrowLeft,
   FaCalendarAlt,
@@ -218,8 +220,24 @@ const blogPosts = [
 ========================================================= */
 
 const BlogList = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   return (
-    <div className="min-h-screen pt-[72px]" style={{ backgroundColor: PAPER, color: INK }}>
+    <div 
+      className="min-h-screen pt-[72px] font-calibri"
+      style={{ 
+        backgroundColor: PAPER, 
+        color: INK,
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
+      }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Calibri&display=swap');
         
@@ -234,188 +252,200 @@ const BlogList = () => {
         }
       `}</style>
 
-      <div className="font-calibri">
-        {/* HERO */}
-        <section className="bg-white" style={{ borderBottom: `1px solid ${STEEL_LINE}` }}>
-          <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
-            <div className="pt-8 sm:pt-10">
-              <div className="flex items-center gap-2 text-[12px]">
-                <a href="/" className="transition-colors" style={{ color: STEEL }}>Home</a>
-                <span style={{ color: "#C9C8C1" }}>/</span>
-                <span style={{ color: SIGNAL }} className="font-medium">Blog</span>
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-end pt-12 sm:pt-16 pb-12 sm:pb-14">
-              <div>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="w-6 h-[3px]" style={{ backgroundColor: SIGNAL }} />
-                  <span className="text-[12px] font-semibold" style={{ color: STEEL }}>
-                    Notes from the road and the dispatch desk
-                  </span>
-                </div>
-
-                <h1 className="calibri-heading text-[44px] sm:text-[58px] md:text-[66px] font-bold leading-[0.98] tracking-tight">
-                  <span style={{ color: SIGNAL }}>Insights</span>
-                  <span style={{ color: INK }}> that keep</span>
-                  <br />
-                  <span style={{ color: INK }}>trucks moving.</span>
-                </h1>
-
-                <p className="text-[14.5px] sm:text-[15px] leading-7 mt-6 max-w-[520px]" style={{ color: STEEL }}>
-                  Dispatching tips, fleet management insights, and logistics
-                  knowledge — written for drivers, owner-operators and
-                  fleet owners.
-                </p>
-              </div>
-
-              <div
-                className="grid grid-cols-3 gap-px overflow-hidden rounded-[10px]"
-                style={{ backgroundColor: STEEL_LINE, border: `1px solid ${STEEL_LINE}` }}
-              >
-                {[
-                  { label: "Articles", value: `${blogPosts.length}` },
-                  { label: "Avg. read time", value: "8 min" },
-                  { label: "Topics covered", value: "3" },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-white px-4 py-5 text-center">
-                    <div className="calibri-heading text-[30px] font-bold" style={{ color: INK }}>
-                      {stat.value}
-                    </div>
-                    <div className="text-[10.5px] mt-1" style={{ color: STEEL }}>
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* HERO */}
+      <section className="bg-white" style={{ borderBottom: `1px solid ${STEEL_LINE}` }}>
+        <div className="max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8">
+          <div className="pt-8 sm:pt-10">
+            <div className="flex items-center gap-2 text-[12px]">
+              <a href="/" className="transition-colors" style={{ color: STEEL }}>Home</a>
+              <span style={{ color: "#C9C8C1" }}>/</span>
+              <span style={{ color: SIGNAL }} className="font-medium">Blog</span>
             </div>
           </div>
-        </section>
 
-        {/* BLOG GRID */}
-        <section className="py-10 sm:py-14 lg:py-16">
-          <div className="max-w-[1120px] mx-auto px-5 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
-              {blogPosts.map((post) => (
-                <article
-                  key={post.slug}
-                  className="group bg-white rounded-[14px] overflow-hidden flex flex-col transition-transform duration-300 hover:-translate-y-1"
-                  style={{ border: `1px solid ${STEEL_LINE}`, boxShadow: "0 1px 2px rgba(21,24,29,0.04)" }}
-                >
-                  {/* IMAGE */}
-                  <div className="relative h-[210px] sm:h-[220px] overflow-hidden" style={{ backgroundColor: "#EDECE7" }}>
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute left-4 top-4">
-                      <span
-                        className="inline-flex items-center px-3 py-1.5 rounded-[6px] text-[10px] font-bold"
-                        style={{ backgroundColor: "#FFFFFF", color: SIGNAL, border: `1px solid ${SIGNAL}` }}
-                      >
-                        {post.category}
-                      </span>
-                    </div>
-                    <div className="absolute left-0 bottom-0 h-[3px] w-full" style={{ backgroundColor: SIGNAL }} />
+          <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-end pt-12 sm:pt-16 pb-12 sm:pb-14">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="w-6 h-[3px]" style={{ backgroundColor: SIGNAL }} />
+                <span className="text-[12px] font-semibold" style={{ color: STEEL }}>
+                  Notes from the road and the dispatch desk
+                </span>
+              </div>
+
+              <h1 className="calibri-heading text-[44px] sm:text-[58px] md:text-[66px] font-bold leading-[0.98] tracking-tight">
+                <span style={{ color: SIGNAL }}>Insights</span>
+                <span style={{ color: INK }}> that keep</span>
+                <br />
+                <span style={{ color: INK }}>trucks moving.</span>
+              </h1>
+
+              <p className="text-[14.5px] sm:text-[15px] leading-7 mt-6 max-w-[520px]" style={{ color: STEEL }}>
+                Dispatching tips, fleet management insights, and logistics
+                knowledge — written for drivers, owner-operators and
+                fleet owners.
+              </p>
+            </div>
+
+            <div
+              className="grid grid-cols-3 gap-px overflow-hidden rounded-[10px]"
+              style={{ backgroundColor: STEEL_LINE, border: `1px solid ${STEEL_LINE}` }}
+            >
+              {[
+                { label: "Articles", value: `${blogPosts.length}` },
+                { label: "Avg. read time", value: "8 min" },
+                { label: "Topics covered", value: "3" },
+              ].map((stat) => (
+                <div key={stat.label} className="bg-white px-4 py-5 text-center">
+                  <div className="calibri-heading text-[30px] font-bold" style={{ color: INK }}>
+                    {stat.value}
                   </div>
-
-                  {/* CONTENT */}
-                  <div className="p-5 sm:p-6 flex flex-col flex-1">
-                    {/* DATE & READ TIME */}
-                    <div className="flex items-center gap-4 text-[10px] mb-3" style={{ color: "#9B9B94" }}>
-                      <span className="flex items-center gap-1.5">
-                        <FaCalendarAlt style={{ color: SIGNAL }} />
-                        {post.date}
-                      </span>
-                      <span className="flex items-center gap-1.5">
-                        <FaClock style={{ color: SIGNAL }} />
-                        {post.readTime}
-                      </span>
-                    </div>
-
-                    {/* TITLE */}
-                    <Link to={`/blog/${post.slug}`} className="block">
-                      <h2
-                        className="calibri-heading text-[21px] font-bold leading-[1.15] mb-3 transition-colors duration-300 line-clamp-3"
-                        style={{ color: INK }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = SIGNAL)}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = INK)}
-                      >
-                        {post.title}
-                      </h2>
-                    </Link>
-
-                    {/* DESCRIPTION */}
-                    <p className="text-[12.5px] leading-6 mb-5 line-clamp-3" style={{ color: STEEL }}>
-                      {post.description}
-                    </p>
-
-                    {/* READ ARTICLE */}
-                    <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${STEEL_LINE}` }}>
-                      <Link
-                        to={`/blog/${post.slug}`}
-                        className="group/link inline-flex items-center gap-2 text-[11px] font-bold transition-colors"
-                        style={{ color: SIGNAL }}
-                        onMouseEnter={(e) => (e.currentTarget.style.color = SIGNAL_DARK)}
-                        onMouseLeave={(e) => (e.currentTarget.style.color = SIGNAL)}
-                      >
-                        <span>Read article</span>
-                        <FaArrowRight className="text-[9px] group-hover/link:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
+                  <div className="text-[10.5px] mt-1" style={{ color: STEEL }}>
+                    {stat.label}
                   </div>
-                </article>
+                </div>
               ))}
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA */}
-        <section className="px-5 sm:px-6 pb-14 sm:pb-20">
-          <div
-            className="max-w-[1120px] mx-auto rounded-[14px] px-6 sm:px-10 lg:px-14 py-10 sm:py-12 relative overflow-hidden"
-            style={{ backgroundColor: INK }}
-          >
-            <div className="absolute right-0 top-0 h-full w-[6px]" style={{ backgroundColor: SIGNAL }} />
-
-            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-7">
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <FaTruck className="text-[13px]" style={{ color: SIGNAL }} />
-                  <span className="text-[11.5px] font-semibold" style={{ color: SIGNAL }}>
-                    Keep your trucks moving
-                  </span>
+      {/* BLOG GRID */}
+      <section className="py-10 sm:py-14 lg:py-16">
+        <div className="max-w-[1120px] mx-auto px-5 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+            {blogPosts.map((post) => (
+              <article
+                key={post.slug}
+                className="group bg-white rounded-[14px] overflow-hidden flex flex-col transition-transform duration-300 hover:-translate-y-1"
+                style={{ border: `1px solid ${STEEL_LINE}`, boxShadow: "0 1px 2px rgba(21,24,29,0.04)" }}
+              >
+                {/* IMAGE */}
+                <div className="relative h-[210px] sm:h-[220px] overflow-hidden" style={{ backgroundColor: "#EDECE7" }}>
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    draggable="false"
+                    style={{
+                      pointerEvents: 'none',
+                      WebkitUserDrag: 'none',
+                      userSelect: 'none'
+                    }}
+                    onContextMenu={(e) => e.preventDefault()}
+                  />
+                  <div className="absolute left-4 top-4">
+                    <span
+                      className="inline-flex items-center px-3 py-1.5 rounded-[6px] text-[10px] font-bold"
+                      style={{ backgroundColor: "#FFFFFF", color: SIGNAL, border: `1px solid ${SIGNAL}` }}
+                    >
+                      {post.category}
+                    </span>
+                  </div>
+                  <div className="absolute left-0 bottom-0 h-[3px] w-full" style={{ backgroundColor: SIGNAL }} />
                 </div>
 
-                <h2 className="calibri-heading text-[28px] sm:text-[34px] font-bold text-white leading-tight">
-                  Ready to grow your
-                  <br className="hidden sm:block" />
-                  trucking business?
-                </h2>
+                {/* CONTENT */}
+                <div className="p-5 sm:p-6 flex flex-col flex-1">
+                  {/* DATE & READ TIME */}
+                  <div className="flex items-center gap-4 text-[10px] mb-3" style={{ color: "#9B9B94" }}>
+                    <span className="flex items-center gap-1.5">
+                      <FaCalendarAlt style={{ color: SIGNAL }} />
+                      {post.date}
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <FaClock style={{ color: SIGNAL }} />
+                      {post.readTime}
+                    </span>
+                  </div>
 
-                <p className="text-[12.5px] sm:text-[13px] leading-6 mt-3 max-w-[600px]" style={{ color: "#9CA0A8" }}>
-                  Let our experienced logistics team handle dispatching,
-                  load planning and rate negotiation while you focus on
-                  keeping your trucks moving.
-                </p>
+                  {/* TITLE */}
+                  <Link to={`/blog/${post.slug}`} className="block">
+                    <h2
+                      className="calibri-heading text-[21px] font-bold leading-[1.15] mb-3 transition-colors duration-300 line-clamp-3"
+                      style={{ color: INK }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = SIGNAL)}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = INK)}
+                    >
+                      {post.title}
+                    </h2>
+                  </Link>
+
+                  {/* DESCRIPTION */}
+                  <p className="text-[12.5px] leading-6 mb-5 line-clamp-3" style={{ color: STEEL }}>
+                    {post.description}
+                  </p>
+
+                  {/* READ ARTICLE */}
+                  <div className="mt-auto pt-4" style={{ borderTop: `1px solid ${STEEL_LINE}` }}>
+                    <Link
+                      to={`/blog/${post.slug}`}
+                      className="group/link inline-flex items-center gap-2 text-[11px] font-bold transition-colors"
+                      style={{ color: SIGNAL }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = SIGNAL_DARK)}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = SIGNAL)}
+                    >
+                      <span>Read article</span>
+                      <FaArrowRight className="text-[9px] group-hover/link:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="px-5 sm:px-6 pb-14 sm:pb-20">
+        <div
+          className="max-w-[1120px] mx-auto rounded-[14px] px-6 sm:px-10 lg:px-14 py-10 sm:py-12 relative overflow-hidden"
+          style={{ backgroundColor: INK }}
+        >
+          <div className="absolute right-0 top-0 h-full w-[6px]" style={{ backgroundColor: SIGNAL }} />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-7">
+            <div>
+              <div className="flex items-center gap-2 mb-3">
+                <FaTruck className="text-[13px]" style={{ color: SIGNAL }} />
+                <span className="text-[11.5px] font-semibold" style={{ color: SIGNAL }}>
+                  Keep your trucks moving
+                </span>
               </div>
 
-              <div className="shrink-0">
-                <a
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3.5 text-[12px] font-bold text-white transition-colors duration-150"
-                  style={{ backgroundColor: SIGNAL }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = SIGNAL_DARK)}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = SIGNAL)}
-                >
-                  Talk to us
-                  <FaArrowRight className="text-[10px]" />
-                </a>
-              </div>
+              <h2 className="calibri-heading text-[28px] sm:text-[34px] font-bold text-white leading-tight">
+                Ready to grow your
+                <br className="hidden sm:block" />
+                trucking business?
+              </h2>
+
+              <p className="text-[12.5px] sm:text-[13px] leading-6 mt-3 max-w-[600px]" style={{ color: "#9CA0A8" }}>
+                Let our experienced logistics team handle dispatching,
+                load planning and rate negotiation while you focus on
+                keeping your trucks moving.
+              </p>
+            </div>
+
+            <div className="shrink-0">
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 rounded-[8px] px-6 py-3.5 text-[12px] font-bold text-white transition-colors duration-150"
+                style={{ backgroundColor: SIGNAL }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = SIGNAL_DARK)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = SIGNAL)}
+              >
+                Talk to us
+                <FaArrowRight className="text-[10px]" />
+              </a>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* WATERMARK */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
       </div>
     </div>
   );
@@ -426,6 +456,11 @@ const BlogList = () => {
 ========================================================= */
 
 const BlogArticle = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   const { slug } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -461,7 +496,16 @@ const BlogArticle = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF9F7] pt-[100px] flex items-center justify-center">
+      <div 
+        className="min-h-screen bg-[#FAF9F7] pt-[100px] flex items-center justify-center"
+        style={{
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
+          MozUserSelect: 'none',
+          msUserSelect: 'none',
+          WebkitTouchCallout: 'none'
+        }}
+      >
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#FBE7DB] border-t-[#D9480F] rounded-full animate-spin mx-auto mb-5" />
           <p className="text-[#5B5F66]">Loading article...</p>
@@ -472,7 +516,16 @@ const BlogArticle = () => {
 
   if (error || !article) {
     return (
-      <div className="min-h-screen bg-[#FAF9F7] pt-[100px] flex items-center justify-center px-5">
+      <div 
+        className="min-h-screen bg-[#FAF9F7] pt-[100px] flex items-center justify-center px-5"
+        style={{
+          userSelect: 'none',
+          WebkitUserSelect: 'none',
+          MozUserSelect: 'none',
+          msUserSelect: 'none',
+          WebkitTouchCallout: 'none'
+        }}
+      >
         <div className="text-center max-w-lg">
           <div className="w-16 h-16 rounded-full bg-[#FBE7DB] text-[#D9480F] flex items-center justify-center mx-auto mb-5">
             <FaTruck className="text-2xl" />
@@ -494,7 +547,16 @@ const BlogArticle = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF9F7] pt-[72px]">
+    <div 
+      className="min-h-screen bg-[#FAF9F7] pt-[72px] font-calibri"
+      style={{
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
+      }}
+    >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Calibri&display=swap');
         
@@ -534,86 +596,102 @@ const BlogArticle = () => {
         .article-content strong { color: #15181D; font-weight: 700; }
       `}</style>
 
-      <div className="font-calibri">
-        {/* BACK TO BLOG */}
-        <section className="bg-white border-b border-[#E2E1DC]">
-          <div className="max-w-[1120px] mx-auto px-5 sm:px-6 lg:px-8 py-5">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-[#5B5F66] hover:text-[#D9480F] transition">
-              <FaArrowLeft />
-              Back to Blog
-            </Link>
-          </div>
-        </section>
+      {/* BACK TO BLOG */}
+      <section className="bg-white border-b border-[#E2E1DC]">
+        <div className="max-w-[1120px] mx-auto px-5 sm:px-6 lg:px-8 py-5">
+          <Link to="/blog" className="inline-flex items-center gap-2 text-sm text-[#5B5F66] hover:text-[#D9480F] transition">
+            <FaArrowLeft />
+            Back to Blog
+          </Link>
+        </div>
+      </section>
 
-        {/* ARTICLE HEADER */}
-        <section className="bg-white">
-          <div className="max-w-[950px] mx-auto px-5 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
-            <div className="mb-5">
-              <span className="inline-flex items-center px-3 py-1.5 rounded-md bg-[#FBE7DB] text-[#D9480F] text-xs font-bold">
-                {article.category}
-              </span>
-            </div>
-            <h1 className="calibri-heading text-[42px] sm:text-[55px] lg:text-[64px] font-bold leading-[1] text-[#15181D]">
-              {article.title}
-            </h1>
-            <div className="flex flex-wrap items-center gap-5 mt-7 text-xs text-[#5B5F66]">
-              <span className="flex items-center gap-2">
-                <FaCalendarAlt className="text-[#D9480F]" />
-                {article.date}
-              </span>
-              <span className="flex items-center gap-2">
-                <FaClock className="text-[#D9480F]" />
-                {article.readTime}
-              </span>
-            </div>
+      {/* ARTICLE HEADER */}
+      <section className="bg-white">
+        <div className="max-w-[950px] mx-auto px-5 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-10">
+          <div className="mb-5">
+            <span className="inline-flex items-center px-3 py-1.5 rounded-md bg-[#FBE7DB] text-[#D9480F] text-xs font-bold">
+              {article.category}
+            </span>
           </div>
-        </section>
-
-        {/* IMAGE */}
-        <section className="px-5 sm:px-6">
-          <div className="max-w-[1120px] mx-auto">
-            <div className="rounded-2xl overflow-hidden h-[260px] sm:h-[400px] lg:h-[520px]">
-              <img src={article.image} alt={article.title} className="w-full h-full object-cover" />
-            </div>
+          <h1 className="calibri-heading text-[42px] sm:text-[55px] lg:text-[64px] font-bold leading-[1] text-[#15181D]">
+            {article.title}
+          </h1>
+          <div className="flex flex-wrap items-center gap-5 mt-7 text-xs text-[#5B5F66]">
+            <span className="flex items-center gap-2">
+              <FaCalendarAlt className="text-[#D9480F]" />
+              {article.date}
+            </span>
+            <span className="flex items-center gap-2">
+              <FaClock className="text-[#D9480F]" />
+              {article.readTime}
+            </span>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CONTENT */}
-        <section className="py-12 sm:py-16">
-          <div className="max-w-[820px] mx-auto px-5 sm:px-6">
-            <article
-              className="article-content text-[15px] sm:text-[16px] leading-8 text-[#5B5F66]"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+      {/* IMAGE */}
+      <section className="px-5 sm:px-6">
+        <div className="max-w-[1120px] mx-auto">
+          <div className="rounded-2xl overflow-hidden h-[260px] sm:h-[400px] lg:h-[520px]">
+            <img 
+              src={article.image} 
+              alt={article.title} 
+              className="w-full h-full object-cover"
+              draggable="false"
+              style={{
+                pointerEvents: 'none',
+                WebkitUserDrag: 'none',
+                userSelect: 'none'
+              }}
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CTA */}
-        <section className="px-5 sm:px-6 pb-16">
-          <div className="max-w-[820px] mx-auto">
-            <div className="bg-[#15181D] rounded-2xl px-6 sm:px-10 py-9 relative overflow-hidden">
-              <div className="absolute right-0 top-0 w-1.5 h-full bg-[#D9480F]" />
-              <div className="relative">
-                <div className="flex items-center gap-2 mb-3">
-                  <FaTruck className="text-[#D9480F]" />
-                  <span className="text-xs font-bold text-[#D9480F]">TRANS NOVA SOLUTIONS</span>
-                </div>
-                <h2 className="calibri-heading text-3xl sm:text-4xl text-white font-bold">
-                  Ready to keep your trucks moving?
-                </h2>
-                <p className="text-sm text-[#9CA0A8] mt-3 mb-6 max-w-xl">
-                  Talk to our dispatch team about your trucking operation and available services.
-                </p>
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 bg-[#D9480F] hover:bg-[#B33D0C] text-white px-6 py-3 rounded-lg font-bold text-sm transition"
-                >
-                  Talk to us
-                </Link>
+      {/* CONTENT */}
+      <section className="py-12 sm:py-16">
+        <div className="max-w-[820px] mx-auto px-5 sm:px-6">
+          <article
+            className="article-content text-[15px] sm:text-[16px] leading-8 text-[#5B5F66]"
+            dangerouslySetInnerHTML={{ __html: article.content }}
+          />
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="px-5 sm:px-6 pb-16">
+        <div className="max-w-[820px] mx-auto">
+          <div className="bg-[#15181D] rounded-2xl px-6 sm:px-10 py-9 relative overflow-hidden">
+            <div className="absolute right-0 top-0 w-1.5 h-full bg-[#D9480F]" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <FaTruck className="text-[#D9480F]" />
+                <span className="text-xs font-bold text-[#D9480F]">TRANS NOVA SOLUTIONS</span>
               </div>
+              <h2 className="calibri-heading text-3xl sm:text-4xl text-white font-bold">
+                Ready to keep your trucks moving?
+              </h2>
+              <p className="text-sm text-[#9CA0A8] mt-3 mb-6 max-w-xl">
+                Talk to our dispatch team about your trucking operation and available services.
+              </p>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 bg-[#D9480F] hover:bg-[#B33D0C] text-white px-6 py-3 rounded-lg font-bold text-sm transition"
+              >
+                Talk to us
+              </Link>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* WATERMARK */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
       </div>
     </div>
   );

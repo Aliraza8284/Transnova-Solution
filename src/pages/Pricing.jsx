@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
+import useCopyProtection from "../Hooks/useCopyProtection";
 import {
   FaTruck,
   FaPhoneAlt,
@@ -557,6 +558,11 @@ const SectionHeading = ({
 ========================================================= */
 
 const Pricing = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   const [authorityAge, setAuthorityAge] = useState("6-plus");
   const [trailerType, setTrailerType] = useState("dry-van");
   const [operationType, setOperationType] = useState("otr");
@@ -629,6 +635,11 @@ const Pricing = () => {
       style={{
         backgroundColor: PAPER,
         color: INK,
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
       }}
     >
       <style>{`
@@ -716,6 +727,8 @@ const Pricing = () => {
             maxHeight: "340px",
           }}
           loading="lazy"
+          draggable="false"
+          onContextMenu={(e) => e.preventDefault()}
         />
         
         {/* Optional: Overlay Badge */}
@@ -1305,6 +1318,15 @@ const Pricing = () => {
     </div>
   </div>
 </section>
+      </div>
+
+      {/* ==========================================
+          WATERMARK (Optional)
+      ========================================== */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
       </div>
     </div>
   );

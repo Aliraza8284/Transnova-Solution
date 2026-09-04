@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   FaTruck,
@@ -8,10 +8,27 @@ import {
   FaCheck,
   FaArrowRight
 } from 'react-icons/fa';
+import useCopyProtection from "../../Hooks/useCopyProtection"; // <-- YEH IMPORT
+
+const COMPANY_NAME = "Trans Nova Solutions";
 
 const ServicesSection = () => {
+  // ==========================================
+  // COPY PROTECTION - HOOK CALL
+  // ==========================================
+  useCopyProtection();
+
   return (
-    <section className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <section 
+      className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8"
+      style={{
+        userSelect: "none",
+        WebkitUserSelect: "none",
+        MozUserSelect: "none",
+        msUserSelect: "none",
+        WebkitTouchCallout: "none",
+      }}
+    >
       {/* ===== HEADER ===== */}
       <div className="w-full text-center mb-10 sm:mb-12">
         <div className="flex items-center justify-center gap-4 mb-4">
@@ -83,13 +100,69 @@ const ServicesSection = () => {
             </Link>
           </div>
 
-          {/* Image - 50% (Right) */}
-          <div className="w-full md:w-1/2 aspect-[16/10] md:aspect-auto">
+          {/* Image - 50% (Right) - WITH PROTECTION & WATERMARK */}
+          <div 
+            className="w-full md:w-1/2 aspect-[16/10] md:aspect-auto relative overflow-hidden image-protected"
+            style={{
+              pointerEvents: "none",
+              WebkitUserDrag: "none",
+            }}
+          >
             <img
               src="/img (4).jpg"
               alt="Trucking and Logistics"
               className="w-full h-full object-cover"
+              draggable="false"
+              style={{
+                pointerEvents: "none",
+                WebkitUserDrag: "none",
+                userSelect: "none",
+                WebkitUserSelect: "none",
+              }}
+              onError={(e) => {
+                e.target.style.display = "none";
+                const parent = e.target.parentElement;
+                const fallback = document.createElement("div");
+                fallback.className = "w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm font-semibold";
+                fallback.textContent = "Trucking & Logistics";
+                parent.appendChild(fallback);
+              }}
             />
+
+            {/* Watermark Overlay - Diagonal */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <span
+                className="text-white/5 text-4xl font-bold tracking-widest rotate-[-25deg] select-none pointer-events-none"
+                style={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  pointerEvents: "none",
+                }}
+              >
+                {COMPANY_NAME}
+              </span>
+            </div>
+
+            {/* Bottom Watermark Text */}
+            <div
+              className="absolute bottom-3 right-4 pointer-events-none z-10"
+              style={{
+                userSelect: "none",
+                WebkitUserSelect: "none",
+              }}
+            >
+              <span
+                className="text-white/20 text-[8px] font-bold tracking-wider"
+                style={{
+                  textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+                }}
+              >
+                © {COMPANY_NAME}
+              </span>
+            </div>
+
+            {/* Image Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </div>
         </div>
 
@@ -100,12 +173,68 @@ const ServicesSection = () => {
 
           {/* --- Commercial Auto Insurance --- */}
           <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
-            <div className="w-full h-48 sm:h-56 overflow-hidden">
+            <div 
+              className="w-full h-48 sm:h-56 overflow-hidden relative image-protected"
+              style={{
+                pointerEvents: "none",
+                WebkitUserDrag: "none",
+              }}
+            >
               <img
                 src="/img (1).jpg"
                 alt="Commercial Auto Insurance"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                draggable="false"
+                style={{
+                  pointerEvents: "none",
+                  WebkitUserDrag: "none",
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                }}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  const parent = e.target.parentElement;
+                  const fallback = document.createElement("div");
+                  fallback.className = "w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm font-semibold";
+                  fallback.textContent = "Commercial Auto Insurance";
+                  parent.appendChild(fallback);
+                }}
               />
+
+              {/* Watermark Overlay - Diagonal */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span
+                  className="text-white/5 text-3xl font-bold tracking-widest rotate-[-25deg] select-none pointer-events-none"
+                  style={{
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {COMPANY_NAME}
+                </span>
+              </div>
+
+              {/* Bottom Watermark Text */}
+              <div
+                className="absolute bottom-3 right-4 pointer-events-none z-10"
+                style={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                }}
+              >
+                <span
+                  className="text-white/20 text-[8px] font-bold tracking-wider"
+                  style={{
+                    textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+                  }}
+                >
+                  © {COMPANY_NAME}
+                </span>
+              </div>
+
+              {/* Image Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             </div>
 
             <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
@@ -137,12 +266,68 @@ const ServicesSection = () => {
 
           {/* --- Health Care Insurance --- */}
           <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
-            <div className="w-full h-48 sm:h-56 overflow-hidden">
+            <div 
+              className="w-full h-48 sm:h-56 overflow-hidden relative image-protected"
+              style={{
+                pointerEvents: "none",
+                WebkitUserDrag: "none",
+              }}
+            >
               <img
                 src="/img (2).jpg"
                 alt="Health Care Insurance"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                draggable="false"
+                style={{
+                  pointerEvents: "none",
+                  WebkitUserDrag: "none",
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                }}
+                onError={(e) => {
+                  e.target.style.display = "none";
+                  const parent = e.target.parentElement;
+                  const fallback = document.createElement("div");
+                  fallback.className = "w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm font-semibold";
+                  fallback.textContent = "Health Care Insurance";
+                  parent.appendChild(fallback);
+                }}
               />
+
+              {/* Watermark Overlay - Diagonal */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <span
+                  className="text-white/5 text-3xl font-bold tracking-widest rotate-[-25deg] select-none pointer-events-none"
+                  style={{
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {COMPANY_NAME}
+                </span>
+              </div>
+
+              {/* Bottom Watermark Text */}
+              <div
+                className="absolute bottom-3 right-4 pointer-events-none z-10"
+                style={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                }}
+              >
+                <span
+                  className="text-white/20 text-[8px] font-bold tracking-wider"
+                  style={{
+                    textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+                  }}
+                >
+                  © {COMPANY_NAME}
+                </span>
+              </div>
+
+              {/* Image Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             </div>
 
             <div className="w-full bg-white p-4 sm:p-5 flex flex-col justify-center flex-1">
@@ -177,13 +362,69 @@ const ServicesSection = () => {
         {/* 4. BOOKKEEPING & ACCOUNTING */}
         {/* ============================== */}
         <div className="w-full rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row-reverse">
-          {/* Image */}
-          <div className="w-full md:w-[35%] lg:w-[30%] aspect-[16/10] md:aspect-auto">
+          {/* Image - WITH PROTECTION & WATERMARK */}
+          <div 
+            className="w-full md:w-[35%] lg:w-[30%] aspect-[16/10] md:aspect-auto relative overflow-hidden image-protected"
+            style={{
+              pointerEvents: "none",
+              WebkitUserDrag: "none",
+            }}
+          >
             <img
               src="/img (3).jpg"
               alt="Bookkeeping and Accounting Services"
               className="w-full h-full object-cover"
+              draggable="false"
+              style={{
+                pointerEvents: "none",
+                WebkitUserDrag: "none",
+                userSelect: "none",
+                WebkitUserSelect: "none",
+              }}
+              onError={(e) => {
+                e.target.style.display = "none";
+                const parent = e.target.parentElement;
+                const fallback = document.createElement("div");
+                fallback.className = "w-full h-full flex items-center justify-center bg-gray-100 text-gray-400 text-sm font-semibold";
+                fallback.textContent = "Bookkeeping & Accounting";
+                parent.appendChild(fallback);
+              }}
             />
+
+            {/* Watermark Overlay - Diagonal */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <span
+                className="text-white/5 text-3xl font-bold tracking-widest rotate-[-25deg] select-none pointer-events-none"
+                style={{
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  pointerEvents: "none",
+                }}
+              >
+                {COMPANY_NAME}
+              </span>
+            </div>
+
+            {/* Bottom Watermark Text */}
+            <div
+              className="absolute bottom-3 right-4 pointer-events-none z-10"
+              style={{
+                userSelect: "none",
+                WebkitUserSelect: "none",
+              }}
+            >
+              <span
+                className="text-white/20 text-[8px] font-bold tracking-wider"
+                style={{
+                  textShadow: "0 1px 4px rgba(0,0,0,0.5)",
+                }}
+              >
+                © {COMPANY_NAME}
+              </span>
+            </div>
+
+            {/* Image Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </div>
 
           {/* Content */}

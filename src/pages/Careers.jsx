@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import useCopyProtection from '../Hooks/useCopyProtection'; // ✅ Capital H
 
 import {
   FaBriefcase,
@@ -198,6 +199,7 @@ const benefitsList = [
 // ==========================================
 
 const Careers = () => {
+  
   // ==========================================
   // STATES
   // ==========================================

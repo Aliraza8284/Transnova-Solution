@@ -5,6 +5,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import useCopyProtection from "../Hooks/useCopyProtection";
 
 import {
   FaEnvelope,
@@ -157,6 +158,11 @@ const ToastStack = ({ toasts, onDismiss }) => {
 // ==========================================
 
 const Contact = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   // ==========================================
   // FORM STATE
   // ==========================================
@@ -329,10 +335,7 @@ Your Name`;
         commercial_auto: "Commercial Auto Insurance",
         healthcare_insurance: "Health Care Insurance",
         bookkeeping: "Bookkeeping & Accounting Services",
-        logistics: "Logistics & Transportation",
-        telecom: "Telecom & Communication",
-        healthcare: "Healthcare",
-        finance: "Finance & Banking",
+        
       };
 
       const selectedService =
@@ -525,7 +528,7 @@ Your Name`;
   ];
 
   // ==========================================
-  // SOCIAL MEDIA
+  // SOCIAL MEDIA WITH BRAND COLORS
   // ==========================================
 
   const socialMedia = [
@@ -533,22 +536,31 @@ Your Name`;
       icon: FaFacebookF,
       link: "https://www.facebook.com/profile.php?id=61593530214768",
       label: "Facebook",
+      brandColor: "hover:bg-[#1877F2] hover:border-[#1877F2]"
     },
-    { icon: FaTwitter, link: "https://x.com/transnovasol?s=11", label: "Twitter" },
+    {
+      icon: FaTwitter,
+      link: "https://x.com/transnovasol?s=11",
+      label: "Twitter",
+      brandColor: "hover:bg-[#000000] hover:border-[#000000]"
+    },
     {
       icon: FaInstagram,
       link: "https://www.instagram.com/transnova.solutions",
       label: "Instagram",
+      brandColor: "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF] hover:border-[#DD2A7B]"
     },
     {
       icon: FaLinkedin,
       link: "https://www.linkedin.com/company/transnova-solutions",
       label: "LinkedIn",
+      brandColor: "hover:bg-[#0A66C2] hover:border-[#0A66C2]"
     },
     {
       icon: FaYoutube,
       link: "https://www.youtube.com/@transnovasolutions",
       label: "YouTube",
+      brandColor: "hover:bg-[#FF0000] hover:border-[#FF0000]"
     },
   ];
 
@@ -557,7 +569,16 @@ Your Name`;
   // ==========================================
 
   return (
-    <div className="bg-[#FAF9F6] min-h-screen font-manrope">
+    <div 
+      className="bg-[#FAF9F6] min-h-screen font-manrope"
+      style={{
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
+      }}
+    >
       <LocalStyles />
       <ToastStack toasts={toasts} onDismiss={dismissToast} />
 
@@ -615,46 +636,26 @@ Your Name`;
               ))}
             </div>
 
-            {/* Social Media */}
-           <div>
-  <p className="font-semibold text-[11px] uppercase text-white/40 tracking-wider mb-3">
-    Follow Us
-  </p>
-  <div className="flex gap-2.5 flex-wrap">
-    {socialMedia.map((item, index) => {
-      // Define brand colors for each platform
-      const brandColors = {
-        facebook: "hover:bg-[#1877F2] hover:border-[#1877F2]",
-        instagram: "hover:bg-gradient-to-tr hover:from-[#F58529] hover:via-[#DD2A7B] hover:to-[#8134AF] hover:border-[#DD2A7B]",
-        whatsapp: "hover:bg-[#25D366] hover:border-[#25D366]",
-        linkedin: "hover:bg-[#0A66C2] hover:border-[#0A66C2]",
-        twitter: "hover:bg-[#000000] hover:border-[#000000]",
-        youtube: "hover:bg-[#FF0000] hover:border-[#FF0000]",
-        tiktok: "hover:bg-[#000000] hover:border-[#000000]",
-        snapchat: "hover:bg-[#FFFC00] hover:border-[#FFFC00] hover:text-black",
-        pinterest: "hover:bg-[#E60023] hover:border-[#E60023]",
-        reddit: "hover:bg-[#FF4500] hover:border-[#FF4500]",
-        github: "hover:bg-[#181717] hover:border-[#181717]",
-      };
-
-      // Get the brand color class based on item label or fallback to orange
-      const brandClass = brandColors[item.label?.toLowerCase()] || "hover:bg-[#FF6B35] hover:border-[#FF6B35]";
-
-      return (
-        <a
-          key={index}
-          href={item.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={item.label}
-          className={`w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 text-white/70 flex items-center justify-center ${brandClass} hover:text-white transition-colors cursor-pointer`}
-        >
-          <item.icon className="text-[13px]" />
-        </a>
-      );
-    })}
-  </div>
-</div>
+            {/* Social Media with Brand Colors */}
+            <div>
+              <p className="font-semibold text-[11px] uppercase text-white/40 tracking-wider mb-3">
+                Follow Us
+              </p>
+              <div className="flex gap-2.5 flex-wrap">
+                {socialMedia.map((item, index) => (
+                  <a
+                    key={index}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.label}
+                    className={`w-9 h-9 rounded-full bg-white/[0.06] border border-white/10 text-white/70 flex items-center justify-center ${item.brandColor} hover:text-white transition-colors cursor-pointer`}
+                  >
+                    <item.icon className="text-[13px]" />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* RIGHT — Form */}
@@ -733,10 +734,7 @@ Your Name`;
                   <option value="commercial_auto">🚗 Commercial Auto Insurance</option>
                   <option value="healthcare_insurance">🏥 Health Care Insurance</option>
                   <option value="bookkeeping">📊 Bookkeeping & Accounting Services</option>
-                  <option value="logistics">📦 Logistics & Transportation</option>
-                  <option value="telecom">📡 Telecom & Communication</option>
-                  <option value="healthcare">❤️ Healthcare</option>
-                  <option value="finance">🏦 Finance & Banking</option>
+                 
                 </select>
 
                 <textarea
@@ -905,6 +903,15 @@ Your Name`;
           ))}
         </div>
       </section>
+
+      {/* ==========================================
+          WATERMARK (Optional)
+      ========================================== */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
+      </div>
     </div>
   );
 };

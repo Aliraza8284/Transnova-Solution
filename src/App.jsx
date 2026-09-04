@@ -26,7 +26,7 @@ import Services from "./pages/Services";
 import Industries from "./pages/Industries";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
-import Blog from "./pages/Blog";  // ← Blog component (contains both list and article)
+import Blog from "./pages/Blog";
 import CaseStudies from "./pages/CaseStudies";
 import FAQs from "./pages/FAQs";
 import TruckTypes from "./pages/TruckTypes";
@@ -86,7 +86,7 @@ export default function App() {
 
           {/* BLOG - Both list and single article */}
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<Blog />} />  {/* ← IMPORTANT: Add this line */}
+          <Route path="/blog/:slug" element={<Blog />} />
 
           {/* CASE STUDIES */}
           <Route path="/case-studies" element={<CaseStudies />} />

@@ -9,12 +9,18 @@ import {
   FaBoxes,
   FaMapMarkedAlt,
 } from "react-icons/fa";
+import useCopyProtection from "../Hooks/useCopyProtection";
 
 import AboutStrip from "../components/home/AboutStrip";
 import ServicesSection from "../components/home/ServicesSection";
 import ContactSection from "../components/home/ContactSection";
 
 const Home = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   return (
     <>
       {/* ==========================================
@@ -174,7 +180,7 @@ const Home = () => {
         }
 
         /* ==========================================
-           ALL HERO TEXT - #E1D9D1 COLOR
+           ALL HERO TEXT - #E1D9D1 COLOR (PC)
         ========================================== */
 
         .hero-text-container h1,
@@ -220,7 +226,7 @@ const Home = () => {
         }
 
         /* ==========================================
-           EXPLORE SERVICES BUTTON
+           EXPLORE SERVICES BUTTON (PC)
         ========================================== */
 
         .hero-btn-outline {
@@ -256,7 +262,7 @@ const Home = () => {
         }
 
         /* ==========================================
-           MOBILE - NO BLUR, FULL IMAGE
+           MOBILE - NO BLUR, FULL IMAGE, BLACK TEXT
         ========================================== */
 
         @media (max-width: 640px) {
@@ -293,28 +299,62 @@ const Home = () => {
 
           /* Mobile overlay - lighter */
           .hero-overlay {
-            background: rgba(0,0,0,0.5) !important;
+            background: rgba(0,0,0,0.3) !important;
           }
 
-          /* Text shadow for mobile readability */
+          /* ==========================================
+             MOBILE - TEXT COLOR CHANGED TO BLACK
+          ========================================== */
+
           .hero-text-container h1,
           .hero-text-container h2,
           .hero-text-container p,
           .hero-text-container .stat-label {
-            text-shadow: 0 2px 30px rgba(0,0,0,0.9) !important;
+            color: #0A0A0A !important;
+            text-shadow: 0 2px 30px rgba(255,255,255,0.6) !important;
           }
 
           .hero-text-container h1 span,
           .hero-text-container h2 span {
-            text-shadow: 0 2px 30px rgba(0,0,0,0.9) !important;
+            color: #e85c2d !important;
+            text-shadow: 0 2px 30px rgba(255,255,255,0.6) !important;
           }
 
           .hero-text-container .welcome-badge {
-            text-shadow: 0 2px 30px rgba(0,0,0,0.9) !important;
+            color: #e85c2d !important;
+            text-shadow: 0 2px 30px rgba(255,255,255,0.6) !important;
           }
 
+          .hero-text-container .stat-number {
+            color: #e85c2d !important;
+          }
+
+          .hero-text-container .stat-icon {
+            color: #e85c2d !important;
+          }
+
+          /* Buttons on mobile */
           .hero-btn {
             color: #E1D9D1 !important;
+          }
+
+          /* ==========================================
+             FIX: EXPLORE SERVICES BUTTON - BLACK TEXT
+          ========================================== */
+          .hero-btn-outline {
+            color: #0A0A0A !important;
+            border-color: #0A0A0A/40 !important;
+            background: rgba(255,255,255,0.8) !important;
+          }
+
+          .hero-btn-outline svg {
+            color: #0A0A0A !important;
+          }
+
+          /* Stats border on mobile */
+          .stat-item.border {
+            border-color: #0A0A0A/20 !important;
+            background: rgba(255,255,255,0.7) !important;
           }
         }
 
@@ -809,7 +849,7 @@ const Home = () => {
               </Link>
 
               {/* ==========================================
-                  EXPLORE SERVICES
+                  EXPLORE SERVICES - FIXED FOR MOBILE
               ========================================== */}
 
               <Link
@@ -824,7 +864,7 @@ const Home = () => {
                   rounded-[4px]
                   border
                   border-[#E1D9D1]/40
-                  bg-transparent
+                  bg-black
                   px-4
                   md:px-6
                   py-2
@@ -872,6 +912,16 @@ const Home = () => {
       ========================================== */}
 
       <ContactSection />
+
+      {/* ==========================================
+          WATERMARK (Optional)
+      ========================================== */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
+      </div>
+
     </>
   );
 };

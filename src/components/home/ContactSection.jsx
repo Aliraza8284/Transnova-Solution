@@ -229,7 +229,7 @@ const ContactSection = () => {
 
                     <span className="relative z-10 flex items-center gap-1.5">
                       <FaUsers className="text-[10px]" />
-                      Join Our Team
+                      Get a Quote
                       <FaArrowRight className="text-[10px] transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
 

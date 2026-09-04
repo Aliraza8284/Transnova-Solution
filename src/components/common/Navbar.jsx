@@ -22,6 +22,11 @@ const menuItems = [
     path: "/",
     icon: Home,
   },
+   {
+    label: "𝑨𝒃𝒐𝒖𝒕 𝑼𝒔",
+    path: "/about",
+    icon: Info,
+  },
   {
     label: "𝑺𝒆𝒓𝒗𝒊𝒄𝒆𝒔",
     path: "/services",
@@ -47,11 +52,7 @@ const menuItems = [
     path: "/careers",
     icon: Briefcase,
   },
-  {
-    label: "𝑨𝒃𝒐𝒖𝒕 𝑼𝒔",
-    path: "/about",
-    icon: Info,
-  },
+ 
   {
     label: "𝑩𝒍𝒐𝒈",
     path: "/blog",

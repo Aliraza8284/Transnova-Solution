@@ -1,4 +1,5 @@
 import React from "react";
+import useCopyProtection from "../Hooks/useCopyProtection";
 import {
   FaTruck,
   FaShieldAlt,
@@ -10,8 +11,22 @@ import {
 import { Link } from "react-router-dom";
 
 const Services = () => {
+  // ==========================================
+  // COPY PROTECTION
+  // ==========================================
+  useCopyProtection();
+
   return (
-    <section className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
+    <section 
+      className="w-full bg-white py-12 sm:py-16 px-4 sm:px-6 lg:px-8"
+      style={{
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        MozUserSelect: 'none',
+        msUserSelect: 'none',
+        WebkitTouchCallout: 'none'
+      }}
+    >
       {/* ===== HEADER ===== */}
       <div className="w-full text-center mb-10 sm:mb-12">
         <div className="flex items-center justify-center gap-4 mb-4">
@@ -45,6 +60,13 @@ const Services = () => {
               src="/img (4).jpg"
               alt="Trucking and Logistics"
               className="w-full h-full object-cover"
+              draggable="false"
+              style={{
+                pointerEvents: 'none',
+                WebkitUserDrag: 'none',
+                userSelect: 'none'
+              }}
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
 
@@ -103,6 +125,13 @@ const Services = () => {
                 src="/img (1).jpg"
                 alt="Commercial Auto Insurance"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                draggable="false"
+                style={{
+                  pointerEvents: 'none',
+                  WebkitUserDrag: 'none',
+                  userSelect: 'none'
+                }}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </div>
 
@@ -124,7 +153,7 @@ const Services = () => {
 
               {/* Read More Button */}
               <Link
-                to="/careers"
+                to="/Contact"
                 className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group mt-auto"
               >
                 Read More
@@ -140,6 +169,13 @@ const Services = () => {
                 src="/img (2).jpg"
                 alt="Health Care Insurance"
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                draggable="false"
+                style={{
+                  pointerEvents: 'none',
+                  WebkitUserDrag: 'none',
+                  userSelect: 'none'
+                }}
+                onContextMenu={(e) => e.preventDefault()}
               />
             </div>
 
@@ -161,7 +197,7 @@ const Services = () => {
 
               {/* Read More Button */}
               <Link
-                to="/careers"
+                to="/Contact"
                 className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group mt-auto"
               >
                 Read More
@@ -180,6 +216,13 @@ const Services = () => {
               src="/img (3).jpg"
               alt="Bookkeeping and Accounting Services"
               className="w-full h-full object-cover"
+              draggable="false"
+              style={{
+                pointerEvents: 'none',
+                WebkitUserDrag: 'none',
+                userSelect: 'none'
+              }}
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
 
@@ -226,7 +269,7 @@ const Services = () => {
         {/* Read More Button for Bookkeeping (outside the card) */}
         <div className="flex justify-end mt-2">
           <Link
-            to="/careers"
+            to="/Contact"
             className="inline-flex items-center gap-2 text-[#FF5A1F] font-semibold text-sm hover:gap-3 transition-all duration-300 group"
           >
             Read More
@@ -234,6 +277,15 @@ const Services = () => {
           </Link>
         </div>
 
+      </div>
+
+      {/* ==========================================
+          WATERMARK (Optional)
+      ========================================== */}
+      <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+        <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+          © Trans Nova Solutions
+        </span>
       </div>
     </section>
   );

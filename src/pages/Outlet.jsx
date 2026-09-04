@@ -5,6 +5,7 @@
 // ==========================================
 
 import React, { useState } from "react";
+import useCopyProtection from "../Hooks/useCopyProtection";
 
 import {
     FaTimes,
@@ -119,6 +120,10 @@ const accessoriesList = [
 // ==========================================
 
 const Outlet = () => {
+    // ==========================================
+    // COPY PROTECTION
+    // ==========================================
+    useCopyProtection();
 
     const [isDriverModalOpen, setIsDriverModalOpen] = useState(false);
     const [driverStep, setDriverStep] = useState(1);
@@ -324,7 +329,16 @@ Applied: ${submittedAt}
     // ==========================================
 
     return (
-        <div className="bg-[#FAF9F6] min-h-screen font-manrope pb-16 overflow-x-hidden">
+        <div 
+            className="bg-[#FAF9F6] min-h-screen font-manrope pb-16 overflow-x-hidden"
+            style={{
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                MozUserSelect: 'none',
+                msUserSelect: 'none',
+                WebkitTouchCallout: 'none'
+            }}
+        >
 
             {/* TOAST */}
             {toast.show && (
@@ -377,6 +391,12 @@ Applied: ${submittedAt}
                             src="/truck.png"
                             alt="Truck on the road"
                             className="w-full h-56 lg:h-64 object-cover rounded-2xl shadow-lg"
+                            draggable="false"
+                            style={{
+                                pointerEvents: 'none',
+                                WebkitUserDrag: 'none',
+                                userSelect: 'none'
+                            }}
                         />
                     </div>
                 </div>
@@ -906,6 +926,13 @@ Applied: ${submittedAt}
                     </div>
                 </div>
             )}
+
+            {/* WATERMARK */}
+            <div className="fixed bottom-4 right-4 pointer-events-none z-50 opacity-5">
+                <span className="text-[#0A0A0A] text-xs font-bold tracking-widest select-none">
+                    © Trans Nova Solutions
+                </span>
+            </div>
 
             {/* CUSTOM CSS */}
             <style>{`
