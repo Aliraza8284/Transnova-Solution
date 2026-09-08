@@ -231,7 +231,7 @@ const Outlet = () => {
                 home_state: formData.get("home_state") || "Not specified",
                 agreement_date: formData.get("agreement_date") || "Not specified",
 
-                // === MC & DOT NUMBER - Only for MC Lease ===
+                // === MC & DOT NUMBER - Only for Owner Operator ===
                 mc_number: formData.get("mc_number") || "Not specified",
                 dot_number: formData.get("dot_number") || "Not specified",
 
@@ -785,8 +785,13 @@ Applied: ${submittedAt}
                                                 </div>
                                             </div>
 
-                                            {/* ===== MC & DOT NUMBER FIELDS - ONLY FOR MC LEASE OPERATOR ===== */}
-                                            {operatorType === "lease" && (
+                                            {/* ============================================================
+                                                MC & DOT NUMBER FIELDS - ONLY FOR OWNER OPERATOR
+                                                ✅ FIXED: Sirf Owner Operator ke liye visible
+                                                ============================================================ */}
+
+                                            {/* ===== MC & DOT NUMBER FIELDS - ONLY FOR OWNER OPERATOR ===== */}
+                                            {operatorType === "owner" && (
                                                 <div className="mt-6 animate-field" style={{ animationDelay: "120ms" }}>
                                                     <div className="flex items-center gap-3 mb-4">
                                                         <div className="h-px flex-1 bg-[#2A2A2A]"></div>

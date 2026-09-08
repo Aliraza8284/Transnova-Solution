@@ -723,7 +723,7 @@ const Home = () => {
                 <FaTruck className="stat-icon" />
 
                 <span className="stat-number">
-                  50+
+                  1000+
                 </span>
 
                 <span className="stat-label">
